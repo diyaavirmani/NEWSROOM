@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE DISPATCH</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <div>
+        <p class="label">THE DISPATCH</p>
+        <p class="tagline">AI-powered reporting, newsroom-grade clarity.</p>
+      </div>
+      <button id="digestButton" class="button secondary">Morning Digest</button>
+    </header>
+
+    <section class="hero-panel">
+      <div>
+        <h1>Publish faster with verified AI journalism.</h1>
+        <p>Type a topic and generate a full article from the newsroom pipeline.</p>
+      </div>
+      <div class="search-row">
+        <input id="topicInput" type="text" placeholder="India elections 2026" />
+        <button id="generateButton" class="button primary">Generate</button>
+      </div>
+      <div class="filters">
+        <button class="tag active" data-sector="All">All</button>
+        <button class="tag" data-sector="AI">AI</button>
+        <button class="tag" data-sector="Economy">Economy</button>
+        <button class="tag" data-sector="Geopolitics">Geopolitics</button>
+        <button class="tag" data-sector="Web3">Web3</button>
+      </div>
+      <div id="status" class="status"></div>
+      <div id="spinner" class="spinner hidden"></div>
+    </section>
+
+    <section id="feed" class="card-grid"></section>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
