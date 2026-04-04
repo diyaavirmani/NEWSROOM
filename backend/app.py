@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from apscheduler.schedulers.background import BackgroundScheduler
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -24,7 +25,20 @@ except ImportError:
     from trending import get_trending_topics
     from writer import answer_question, write_article, write_digest
 
-app = FastAPI()
+scheduler = BackgroundScheduler()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    if not scheduler.running:
+        scheduler.add_job(auto_publish, 'interval', hours=6, id='auto_publish_job', replace_existing=True)
+        scheduler.start()
+    yield
+    # Shutdown
+    if scheduler.running:
+        scheduler.shutdown()
+
+app = FastAPI(lifespan=lifespan)
 BASE_DIR = Path(__file__).resolve().parent.parent
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "frontend")), name="static")
 app.add_middleware(
@@ -36,8 +50,6 @@ app.add_middleware(
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 ARTICLES_PATH = BASE_DIR / 'articles.json'
-
-scheduler = BackgroundScheduler()
 
 
 class GenerateRequest(BaseModel):
@@ -139,19 +151,6 @@ def auto_publish():
             print(f'Auto publish failed for {topic}:', exc)
 
     print(f'Auto publish completed: {published} articles published.')
-
-
-@app.on_event('startup')
-def startup_event():
-    if not scheduler.running:
-        scheduler.add_job(auto_publish, 'interval', hours=6, id='auto_publish_job', replace_existing=True)
-        scheduler.start()
-
-
-@app.on_event('shutdown')
-def shutdown_event():
-    if scheduler.running:
-        scheduler.shutdown()
 
 
 @app.get('/')
