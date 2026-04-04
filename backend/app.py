@@ -11,10 +11,10 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from searcher import search_web
-from fact_extractor import extract_facts
-from trending import get_trending_topics
-from writer import answer_question, write_article, write_digest
+from .searcher import search_web
+from .fact_extractor import extract_facts
+from .trending import get_trending_topics
+from .writer import answer_question, write_article, write_digest
 
 app = FastAPI()
 BASE_DIR = Path(__file__).resolve().parent.parent
