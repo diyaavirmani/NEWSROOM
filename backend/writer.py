@@ -4,7 +4,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-client = groq.Groq(api_key=os.environ.get("GROQ_API_KEY"))
+client = groq.Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
+)
 
 SYSTEM_PROMPT = """
 You are a senior journalist at The Economist.

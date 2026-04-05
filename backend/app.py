@@ -26,7 +26,10 @@ except ImportError:
     from writer import write_article, write_digest
 
 import groq as GroqClient
-groq_client = GroqClient.Groq(api_key=os.environ.get("GROQ_API_KEY"))
+groq_client = GroqClient.Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
+)
 
 scheduler = BackgroundScheduler()
 
