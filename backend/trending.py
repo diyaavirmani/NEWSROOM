@@ -4,16 +4,17 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
-NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY')
+NEWS_API_KEY = os.environ.get('NEWS_API_KEY') or os.environ.get('NEWSAPI_KEY')
 NEWSAPI_URL = 'https://newsapi.org/v2/top-headlines'
 
 
 def get_trending_topics(country='in'):
-    if not NEWSAPI_KEY:
-        raise ValueError('NEWSAPI_KEY is required to fetch trending topics')
+    if not NEWS_API_KEY:
+        print('NEWS_API_KEY is missing. Returning empty trending topics.')
+        return []
     params = {
         'country': country,
-        'apiKey': NEWSAPI_KEY,
+        'apiKey': NEWS_API_KEY,
         'pageSize': 10,
     }
     response = requests.get(NEWSAPI_URL, params=params, timeout=20)
@@ -36,11 +37,12 @@ def get_trending_topics(country='in'):
             break
 
 def get_trending_topics_with_images(country='in'):
-    if not NEWSAPI_KEY:
-        raise ValueError('NEWSAPI_KEY is required to fetch trending topics')
+    if not NEWS_API_KEY:
+        print('NEWS_API_KEY is missing. Returning empty trending topics.')
+        return []
     params = {
         'country': country,
-        'apiKey': NEWSAPI_KEY,
+        'apiKey': NEWS_API_KEY,
         'pageSize': 10,
     }
     response = requests.get(NEWSAPI_URL, params=params, timeout=20)

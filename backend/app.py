@@ -38,7 +38,10 @@ async def lifespan(app: FastAPI):
     # On startup: generate articles if none exist
     if len(load_articles()) == 0:
         print("No articles found. Running auto_publish()...")
-        auto_publish()  # Generates 5 articles immediately
+        try:
+            auto_publish()  # Generates 5 articles immediately
+        except Exception as e:
+            print(f"Startup auto_publish failed (will retry automatically later): {e}")
 
     # Schedule: run every 1 hour
     scheduler = BackgroundScheduler()
