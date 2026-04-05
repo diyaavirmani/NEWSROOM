@@ -308,14 +308,7 @@ main{min-width:0;}
 </head>
 <body>
 
-<!-- TOP STRIP -->
-<div class="top-strip">
-  <div class="ts-links">
-    <a href="#">India</a><a href="#">World</a><a href="#">Economy</a>
-    <a href="#">Technology</a><a href="#">Science</a><a href="#">Opinion</a>
-  </div>
-  <span id="topDate" style="font-size:10px;"></span>
-</div>
+
 
 <!-- MASTHEAD -->
 <div class="masthead">
@@ -526,7 +519,7 @@ main{min-width:0;}
 
 <script>
 // ── CONFIG ────────────────────────────────────────────────
-const API = 'https://dispatch-newsroom.onrender.com';
+const API = '';
 let articles = [];
 let filter = 'all';
 let current = null;
@@ -591,7 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function setDates() {
   const n = new Date();
-  document.getElementById('topDate').textContent = n.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   document.getElementById('mastheadDate').textContent = n.toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'2-digit'});
   document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' Veritas';
 }
@@ -643,8 +635,8 @@ function renderTopNews(f) {
     <div class="tnews">
       <div class="lead-col" onclick="openArt('${lead.id}')">
         ${lead.image_url
-          ? `<img src="${lead.image_url}" class="lead-img" alt="${lead.headline}"
-             onerror="this.outerHTML='<div class=\"lph\"><span class=\"lph-label\">${(lead.sector||'Report').toUpperCase()}</span></div>'">`
+          ? `<img src="${lead.image_url}" class="lead-img" alt="${(lead.headline||'').replace(/"/g, '&quot;')}"
+             onerror="this.outerHTML='<div class=&quot;lph&quot;><span class=&quot;lph-label&quot;>${(lead.sector||'Report').toUpperCase()}</span></div>'">`
           : `<div class="lph"><span class="lph-label">${(lead.sector||'Report').toUpperCase()}</span></div>`
         }
         <div class="lsec">${(lead.sector||'Report').toUpperCase()}</div>
