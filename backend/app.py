@@ -17,13 +17,16 @@ try:
     from .searcher import search_web
     from .fact_extractor import extract_facts
     from .trending import get_trending_topics, get_trending_topics_with_images
-    from .writer import answer_question, write_article, write_digest
+    from .writer import write_article, write_digest
 except ImportError:
     # When run directly: python app.py
     from searcher import search_web
     from fact_extractor import extract_facts
     from trending import get_trending_topics, get_trending_topics_with_images
-    from writer import answer_question, write_article, write_digest
+    from writer import write_article, write_digest
+
+import groq as GroqClient
+groq_client = GroqClient.Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 scheduler = BackgroundScheduler()
 
@@ -189,26 +192,30 @@ async def generate(request: GenerateRequest):
     return article_record
 
 
-@app.post('/qa')
-async def qa(request: QARequest):
-    article = get_article(request.article_id)
+@app.post("/qa")
+async def qa_endpoint(request: QARequest):
+    articles = load_articles()
+    article = next(
+        (a for a in articles if str(a["id"]) == str(request.article_id)),
+        None
+    )
     if not article:
-        raise HTTPException(status_code=404, detail='Article not found')
+        raise HTTPException(status_code=404, detail="Article not found")
 
-    article_text = ' '.join([
-        article.get('headline', ''),
-        article.get('dek', ''),
-        article.get('body', ''),
-    ]).strip()
-    if not article_text:
-        raise HTTPException(status_code=400, detail='Article text is unavailable')
+    prompt = f"""
+    Article: {article["headline"]}
+    {article["body"]}
 
-    answer = answer_question(article_text, request.question)
-    return {
-        'article_id': request.article_id,
-        'question': request.question,
-        'answer': answer,
-    }
+    Question: {request.question}
+
+    Answer in 2-3 sentences. Be specific to the article."""
+
+    response = groq_client.chat.completions.create(
+        model="llama-3.1-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=300
+    )
+    return {"answer": response.choices[0].message.content}
 
 
 @app.get('/digest')

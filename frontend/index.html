@@ -873,15 +873,14 @@ async function askWithArticleContext(container, question, articleBody) {
   container.appendChild(loadEl);
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer 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'
       },
       body: JSON.stringify({
-        model: 'groq-llama-3.1-70b',
-        max_tokens: 1000,
+        model: 'meta-llama/llama-3.1-70b-instruct',
         messages: [{
           role: 'user',
           content: `You are a journalist answering reader questions.\nArticle:\n${articleBody}\nReader question: ${question}\nAnswer in 2-3 sentences. Be specific.`
@@ -890,7 +889,7 @@ async function askWithArticleContext(container, question, articleBody) {
     });
     const data = await response.json();
     loadEl.remove();
-    addMsg(container, data?.content?.[0]?.text || 'No answer returned.', 'ai');
+    addMsg(container, data?.choices?.[0]?.message?.content || 'No answer returned.', 'ai');
   } catch {
     loadEl.textContent = 'Could not reach AI. Try again.';
   }
@@ -917,6 +916,13 @@ async function askSide() {
   if(!q) return;
   const c=document.getElementById('qaMsgs');
   addMsg(c,q,'u'); document.getElementById('qaInp').value='';
+
+  if (current && String(current.id).startsWith('d')) {
+    await askWithArticleContext(c, q, current.body);
+    c.scrollTop=c.scrollHeight;
+    return;
+  }
+
   try {
     const r=await fetch(`${API}/qa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,article_id:current?.id||null})});
     const d=await r.json(); addMsg(c,d.answer,'ai');
