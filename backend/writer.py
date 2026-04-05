@@ -97,16 +97,31 @@ def _parse_article_output(text: str):
     }
 
 
-def write_article(fact_graph, topic):
-    system_prompt = (
-        'You are a professional Reuters-style journalist. Write only factual content. ' 
-        'Do not invent quotes, do not speculate, and do not hallucinate. ' 
-        'Produce a headline, a dek (subheadline), a byline, and a body with 3-5 paragraphs. ' 
-        'The headline should be 10 words max. The dek should be 1-2 sentences. ' 
-        'The lede must answer who, what, when, and where. ' 
-        'The closing sentence should describe what happens next. ' 
-        'Use concise, objective language and treat the fact graph as the only source of truth. '
-    )
+def write_article(fact_graph, topic, image_url=None):
+    SYSTEM_PROMPT = """
+You are a senior journalist at The Economist.
+Write with clarity, neutrality, and depth.
+Every sentence must earn its place.
+Structure every article:
+1. HEADLINE: 10-12 words. Core fact. No clickbait.
+2. DEK: 1-2 sentences. Context + why it matters.
+3. BODY (450-600 words):
+ - Lede: Who, what, when, where in 3-4 sentences
+ - Facts: Specific numbers, dates, percentages
+ - Context: Why this situation exists
+ - Analysis: What experts or data say
+ - What next: Forward-looking final paragraph
+Rules:
+- Use ONLY verified facts provided. Do not invent.
+- Include specific numbers where available.
+- Neutral tone. No opinion unless attributed.
+- Return ONLY valid JSON (no markdown fences):
+ {"headline":"...","dek":"...","body":"...",
+ "sector":"Technology|Economy|India|World|AI|Science|Web3",
+ "confidence":0.0-1.0}
+"""
+
+    system_prompt = SYSTEM_PROMPT.strip()
 
     user_prompt = (
         'Use the structured fact graph below to write a single journalism-quality article. ' 
@@ -118,6 +133,8 @@ def write_article(fact_graph, topic):
 
     raw_article = _run_gemini(system_prompt + '\n\n' + user_prompt, max_output_tokens=900)
     article = _parse_article_output(raw_article)
+    article['image_url'] = image_url
+    return article
     article['topic'] = topic
     article['generated_at'] = datetime.utcnow().isoformat() + 'Z'
     return article

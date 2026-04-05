@@ -35,4 +35,35 @@ def get_trending_topics(country='in'):
         if len(titles) >= 10:
             break
 
-    return titles
+def get_trending_topics_with_images(country='in'):
+    if not NEWSAPI_KEY:
+        raise ValueError('NEWSAPI_KEY is required to fetch trending topics')
+    params = {
+        'country': country,
+        'apiKey': NEWSAPI_KEY,
+        'pageSize': 10,
+    }
+    response = requests.get(NEWSAPI_URL, params=params, timeout=20)
+    response.raise_for_status()
+    data = response.json()
+
+    topics = []
+    seen = set()
+    for article in data.get('articles', []):
+        title = article.get('title', '')
+        if not title or '[removed]' in title.lower():
+            continue
+        cleaned = re.sub(r'\s+', ' ', title).strip()
+        key = cleaned.lower()
+        if not cleaned or key in seen:
+            continue
+        seen.add(key)
+        topics.append({
+            "topic": cleaned,
+            "image_url": article.get('urlToImage'),
+            "source": article.get('source', {}).get('name', '')
+        })
+        if len(topics) >= 10:
+            break
+
+    return topics

@@ -16,26 +16,27 @@ try:
     # When run as module: python -m backend.app
     from .searcher import search_web
     from .fact_extractor import extract_facts
-    from .trending import get_trending_topics
+    from .trending import get_trending_topics, get_trending_topics_with_images
     from .writer import answer_question, write_article, write_digest
 except ImportError:
     # When run directly: python app.py
     from searcher import search_web
     from fact_extractor import extract_facts
-    from trending import get_trending_topics
+    from trending import get_trending_topics, get_trending_topics_with_images
     from writer import answer_question, write_article, write_digest
 
 scheduler = BackgroundScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup pe: agar articles.json empty hai toh auto-generate karo
+    # On startup: generate articles if none exist
     if len(load_articles()) == 0:
-        auto_publish()           # 5 trending articles generate karo
-    
-    # Har 6 ghante auto-publish
+        print("No articles found. Running auto_publish()...")
+        auto_publish()  # Generates 5 articles immediately
+
+    # Schedule: run every 1 hour
     scheduler = BackgroundScheduler()
-    scheduler.add_job(auto_publish, 'interval', hours=6)
+    scheduler.add_job(auto_publish, "interval", hours=1)
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -122,42 +123,18 @@ def get_todays_articles():
 
 
 def auto_publish():
-    try:
-        topics = get_trending_topics()
-    except Exception as exc:
-        print('Auto publish skipped: unable to fetch trending topics:', exc)
-        return
-
-    published = 0
-    for topic in topics[:5]:
+    topics = get_trending_topics_with_images()
+    for item in topics[:5]:
         try:
-            search_results = search_web(topic)
-            fact_graph = extract_facts(search_results, topic)
-            if fact_graph.get('confidence', 0) < 0.4:
-                continue              # confidence kam hai → article mat banao
-            article = write_article(fact_graph, topic)
-            article_record = {
-                'id': str(uuid.uuid4()),
-                'topic': topic,
-                'headline': article.get('headline'),
-                'dek': article.get('dek'),
-                'byline': article.get('byline'),
-                'body': article.get('body'),
-                'sources': fact_graph.get('sources', []),
-                'sector': infer_sector(topic),
-                'confidence': round(float(fact_graph.get('confidence', 0.0)), 2),
-                'sources_count': fact_graph.get('sources_count', len(fact_graph.get('sources', []))),
-                'verified_claims': fact_graph.get('verified_claims', 0),
-                'fact_count': fact_graph.get('fact_count', 0),
-                'timestamp': datetime.now(timezone.utc).isoformat(),
-                'fact_graph': fact_graph,
-            }
-            save_article(article_record)
-            published += 1
-        except Exception as exc:
-            print(f'Failed: {topic} — {exc}')
-
-    print(f'Auto publish completed: {published} articles published.')
+            results = search_web(item["topic"])
+            facts = extract_facts(results, item["topic"])
+            if facts["confidence"] < 0.4:
+                continue  # Skip low-confidence topics
+            article = write_article(facts, item["topic"], item.get("image_url"))
+            save_article(article)
+            print(f"Published: {article['headline']}")
+        except Exception as e:
+            print(f"Failed {item['topic']}: {e}")
 
 
 @app.get('/')
