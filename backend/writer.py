@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = groq.Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
+    api_key=os.environ.get("GROQ_API_KEY", "dummy_key_until_configured"),
     base_url="https://openrouter.ai/api/v1"
 )
 

@@ -27,7 +27,7 @@ except ImportError:
 
 import groq as GroqClient
 groq_client = GroqClient.Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
+    api_key=os.environ.get("GROQ_API_KEY", "dummy_key_until_configured"),
     base_url="https://openrouter.ai/api/v1"
 )
 
