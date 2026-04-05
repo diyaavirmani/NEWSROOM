@@ -583,9 +583,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setDates() {
-  const n = new Date();
-  document.getElementById('mastheadDate').textContent = n.toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'2-digit'});
-  document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' Veritas';
+  function updateTime() {
+    const n = new Date();
+    const dateStr = n.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
+    const timeStr = n.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+    document.getElementById('mastheadDate').textContent = `${dateStr} · ${timeStr}`;
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+  document.getElementById('footerDate').textContent = '© ' + new Date().getFullYear() + ' Veritas';
 }
 
 // ── LOAD FEED ─────────────────────────────────────────────
