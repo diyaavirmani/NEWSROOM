@@ -29,14 +29,16 @@ scheduler = BackgroundScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    if not scheduler.running:
-        scheduler.add_job(auto_publish, 'interval', hours=6, id='auto_publish_job', replace_existing=True)
-        scheduler.start()
+    # Startup pe: agar articles.json empty hai toh auto-generate karo
+    if len(load_articles()) == 0:
+        auto_publish()           # 5 trending articles generate karo
+    
+    # Har 6 ghante auto-publish
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(auto_publish, 'interval', hours=6)
+    scheduler.start()
     yield
-    # Shutdown
-    if scheduler.running:
-        scheduler.shutdown()
+    scheduler.shutdown()
 
 app = FastAPI(lifespan=lifespan)
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,7 +129,7 @@ def auto_publish():
         return
 
     published = 0
-    for topic in topics[:3]:
+    for topic in topics[:5]:
         try:
             search_results = search_web(topic)
             fact_graph = extract_facts(search_results, topic)
