@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Pulse Gazette</title>
+<title>Veritas — News, grounded in truth.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -60,19 +60,18 @@ button{cursor:pointer;font-family:var(--sans);}
 .s-btn{font-size:12px;padding:6px 10px;background:var(--ink);color:#fff;border:none;transition:background .15s;}
 .s-btn:hover{background:var(--red);}
 
-/* ══ COMMISSION BAND ════════════ */
-.comm-band{background:var(--cream);border-bottom:1px solid var(--border);padding:12px 24px;}
-.comm-lbl{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:7px;}
-.comm-row{display:flex;gap:0;max-width:680px;}
-.comm-inp{flex:1;font-family:var(--body);font-style:italic;font-size:13px;padding:9px 13px;border:1.5px solid var(--border);border-right:none;background:var(--w);color:var(--ink);outline:none;}
-.comm-inp::placeholder{color:var(--ink4);}
-.comm-inp:focus{border-color:var(--ink3);}
-.comm-btn{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.5px;padding:9px 20px;background:var(--ink);color:#fff;border:none;transition:background .15s;}
-.comm-btn:hover{background:var(--red);}
-.comm-chips{margin-top:7px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
-.chip-lbl{font-size:10px;color:var(--ink4);}
-.chip{font-size:10px;padding:3px 8px;border:1px solid var(--border);background:var(--w);color:var(--ink3);cursor:pointer;transition:all .15s;}
-.chip:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+/* ══ NAV COMMISSION ═════════════ */
+.nav-commission { display:flex; gap:0; margin-left:auto; }
+.nc-inp {
+  font-family:var(--body); font-style:italic; font-size:12px;
+  padding:5px 12px; border:1px solid var(--border); border-right:none;
+  background:var(--bg); color:var(--ink); outline:none; width:240px;
+}
+.nc-btn {
+  padding:5px 12px; background:var(--red); color:#fff;
+  border:none; font-size:14px; transition:background .15s;
+}
+.nc-btn:hover { background:var(--red2); }
 
 /* ══ DIGEST ═════════════════════ */
 .dstrip{display:none;background:var(--ink);padding:18px 24px;border-bottom:2px solid var(--red);}
@@ -321,12 +320,12 @@ main{min-width:0;}
 <!-- MASTHEAD -->
 <div class="masthead">
   <div class="mast-info">
-    <strong>The Pulse Gazette</strong>
+    <strong>Veritas</strong>
     <span id="mastheadDate"></span>
   </div>
   <div class="mast-center">
-    <div class="mast-name">The Pulse Gazette</div>
-    <div class="mast-tag">Independent reporting. No editorial delay.</div>
+    <div class="mast-name">Veritas</div>
+    <div class="mast-tag">News, grounded in truth.</div>
   </div>
   <div class="mast-actions">
     <button class="btn-sm" onclick="toggleDigest()">Morning Digest</button>
@@ -349,30 +348,17 @@ main{min-width:0;}
     <button class="ntab" onclick="filterFeed('science',this)">Science</button>
     <button class="ntab" onclick="filterFeed('web3',this)">Web3</button>
   </nav>
+  <div class="nav-commission">
+    <input class="nc-inp" id="commInp" placeholder="Commission a report on any topic…" onkeydown="if(event.key==='Enter')generate()">
+    <button class="nc-btn" onclick="generate()">→</button>
+  </div>
   <div class="nav-right">
     <input class="s-inp" id="sInp" placeholder="Search stories…" onkeydown="if(event.key==='Enter')doSearch()">
     <button class="s-btn" onclick="doSearch()">→</button>
   </div>
 </div>
 
-<!-- COMMISSION BAND -->
-<div class="comm-band">
-  <div class="comm-lbl">Commission a Report</div>
-  <div class="comm-row">
-    <input class="comm-inp" id="commInp" type="text"
-      placeholder="Type any topic — our AI bureau will research, verify, and write a full article…"
-      onkeydown="if(event.key==='Enter')generate()">
-    <button class="comm-btn" onclick="generate()">Generate →</button>
-  </div>
-  <div class="comm-chips">
-    <span class="chip-lbl">Try:</span>
-    <button class="chip" onclick="sc('India AI policy 2026')">India AI policy</button>
-    <button class="chip" onclick="sc('RBI rate decision April 2026')">RBI rates</button>
-    <button class="chip" onclick="sc('OpenAI GPT-5 2026')">OpenAI news</button>
-    <button class="chip" onclick="sc('Monad blockchain mainnet')">Monad mainnet</button>
-    <button class="chip" onclick="sc('India Pakistan diplomatic 2026')">India–Pakistan</button>
-  </div>
-</div>
+
 
 <!-- DIGEST -->
 <div class="dstrip" id="dstrip">
@@ -387,7 +373,7 @@ main{min-width:0;}
 <div class="page">
 <main id="main">
 
-  <div class="sh">Top News <span class="sh-more">See all →</span></div>
+  
   <div id="topNewsWrap"></div>
 
   <!-- Skeleton on load -->
@@ -477,12 +463,12 @@ main{min-width:0;}
 <div class="bticker">
   <div class="btrack" id="btrack">
     <span class="blabel">Live</span>
-    <span class="btick"><em>The Pulse Gazette</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
+    <span class="btick"><em>Veritas</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
     <span class="btick"><em>Q&A</em> Ask follow-up questions on any published article.</span>
     <span class="btick"><em>Creator's Corner</em> Trending social topics, reported with journalistic depth.</span>
     <span class="btick"><em>Digest</em> Morning briefing updates automatically every day.</span>
     <span class="blabel">Live</span>
-    <span class="btick"><em>The Pulse Gazette</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
+    <span class="btick"><em>Veritas</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
     <span class="btick"><em>Q&A</em> Ask follow-up questions on any published article.</span>
     <span class="btick"><em>Creator's Corner</em> Trending social topics, reported with journalistic depth.</span>
     <span class="btick"><em>Digest</em> Morning briefing updates automatically every day.</span>
@@ -491,7 +477,7 @@ main{min-width:0;}
 
 <!-- FOOTER -->
 <div class="footer">
-  <strong>The Pulse Gazette</strong>
+  <strong>Veritas</strong>
   <span id="footerDate"></span>
   <span>Independent · Verified · Published</span>
 </div>
@@ -500,7 +486,7 @@ main{min-width:0;}
 <div class="mbg" id="mbg" onclick="closeBg(event)">
   <div class="modal">
     <div class="mbar">
-      <span class="mbar-l">The Pulse Gazette · Full Report</span>
+      <span class="mbar-l">Veritas · Full Report</span>
       <button class="mclose" onclick="closeModal()">✕ Close</button>
     </div>
     <div class="mcontent">
@@ -540,7 +526,7 @@ main{min-width:0;}
 
 <script>
 // ── CONFIG ────────────────────────────────────────────────
-const API = 'http://localhost:5000';
+const API = 'https://dispatch-newsroom.onrender.com';
 let articles = [];
 let filter = 'all';
 let current = null;
@@ -607,7 +593,7 @@ function setDates() {
   const n = new Date();
   document.getElementById('topDate').textContent = n.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   document.getElementById('mastheadDate').textContent = n.toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'2-digit'});
-  document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' The Pulse Gazette';
+  document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' Veritas';
 }
 
 // ── LOAD FEED ─────────────────────────────────────────────
@@ -730,7 +716,6 @@ function renderClusters(arts) {
     const lead = items[0]; const rest = items.slice(1,4);
     const div = document.createElement('div');
     div.innerHTML = `
-      <div class="sh" style="margin-top:4px;">${sec} <span class="sh-more">More ${sec} →</span></div>
       <div class="cluster">
         <div class="cl-body">
           <div class="cl-left">
