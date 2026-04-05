@@ -133,6 +133,8 @@ def auto_publish():
         try:
             search_results = search_web(topic)
             fact_graph = extract_facts(search_results, topic)
+            if fact_graph.get('confidence', 0) < 0.4:
+                continue              # confidence kam hai → article mat banao
             article = write_article(fact_graph, topic)
             article_record = {
                 'id': str(uuid.uuid4()),
@@ -144,13 +146,16 @@ def auto_publish():
                 'sources': fact_graph.get('sources', []),
                 'sector': infer_sector(topic),
                 'confidence': round(float(fact_graph.get('confidence', 0.0)), 2),
+                'sources_count': fact_graph.get('sources_count', len(fact_graph.get('sources', []))),
+                'verified_claims': fact_graph.get('verified_claims', 0),
+                'fact_count': fact_graph.get('fact_count', 0),
+                'timestamp': datetime.now(timezone.utc).isoformat(),
                 'fact_graph': fact_graph,
-                'published_at': datetime.now(timezone.utc).isoformat(),
             }
             save_article(article_record)
             published += 1
         except Exception as exc:
-            print(f'Auto publish failed for {topic}:', exc)
+            print(f'Failed: {topic} — {exc}')
 
     print(f'Auto publish completed: {published} articles published.')
 
@@ -197,8 +202,11 @@ async def generate(request: GenerateRequest):
         'sources': fact_graph.get('sources', []),
         'sector': infer_sector(topic),
         'confidence': round(float(fact_graph.get('confidence', 0.0)), 2),
+        'sources_count': fact_graph.get('sources_count', len(fact_graph.get('sources', []))),
+        'verified_claims': fact_graph.get('verified_claims', 0),
+        'fact_count': fact_graph.get('fact_count', 0),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'fact_graph': fact_graph,
-        'published_at': datetime.now(timezone.utc).isoformat(),
     }
     save_article(article_record)
     return article_record
