@@ -1618,12 +1618,7 @@
 
 <body>
 
-  <!-- TOP STRIP -->
-  <div class="ts">
-    <div><a href="#">India</a><a href="#">World</a><a href="#">Economy</a><a href="#">Technology</a><a
-        href="#">Science</a><a href="#">Web3</a></div>
-    <span id="tsDate" style="font-size:10px;"></span>
-  </div>
+  <!-- TOP STRIP REMOVED -->
 
   <!-- MASTHEAD -->
   <div class="mh">
@@ -1955,8 +1950,8 @@
 
     function setDates() {
       const n = new Date();
-      document.getElementById('tsDate').textContent = n.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      document.getElementById('mhDate').textContent = n.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
+      
+      document.getElementById('mhDate').textContent = n.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' }) + '  ' + n.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
       document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' Veritas';
     }
 
