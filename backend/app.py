@@ -310,13 +310,13 @@ If given an article context, base your answer on it.
 Be informative and journalistic in tone."""
 
     try:
-        import groq
-        client = groq.Groq(
+        from openai import OpenAI
+        client = OpenAI(
             api_key=os.environ.get('GROQ_API_KEY', 'dummy_key'),
             base_url="https://openrouter.ai/api/v1"
         )
         response = client.chat.completions.create(
-            model='meta-llama/llama-3.1-70b-instruct',
+            model='meta-llama/llama-3.3-70b-instruct:free',
             messages=[{'role': 'user', 'content': prompt}],
             max_tokens=300
         )
@@ -324,7 +324,7 @@ Be informative and journalistic in tone."""
         return {'answer': answer}
 
     except ImportError:
-        raise HTTPException(status_code=503, detail='Groq not installed. Add groq to requirements.txt.')
+        raise HTTPException(status_code=503, detail='openai not installed. Add openai to requirements.txt.')
     except Exception as e:
         raise HTTPException(status_code=503, detail=f'Q&A unavailable: {str(e)}')
 
@@ -342,8 +342,8 @@ async def generate_digest():
     top = articles[:5]
 
     try:
-        import groq
-        client = groq.Groq(
+        from openai import OpenAI
+        client = OpenAI(
             api_key=os.environ.get('GROQ_API_KEY', 'dummy_key'),
             base_url="https://openrouter.ai/api/v1"
         )
@@ -352,7 +352,7 @@ async def generate_digest():
             summaries_prompt += f"- {a.get('headline', '')}: {a.get('dek', '')}\n"
 
         response = client.chat.completions.create(
-            model='meta-llama/llama-3.1-70b-instruct',
+            model='meta-llama/llama-3.3-70b-instruct:free',
             messages=[{'role': 'user', 'content': summaries_prompt}],
             max_tokens=400
         )

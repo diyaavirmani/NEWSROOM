@@ -2238,37 +2238,31 @@
       addMsg(c, q, 'u');
       document.getElementById('mqInp').value = '';
 
-      // For demo articles or offline backend → use Claude API directly
-      if (!BACKEND_LIVE.value || (current && String(current.id).startsWith('d'))) {
-        await askClientSide(c, q, current?.body || '');
-        return;
-      }
-      try {
-        const r = await fetch(`${API}/qa`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q, article_id: current?.id }) });
-        const d = await r.json();
-        addMsg(c, d.answer, 'ai');
-      } catch { await askClientSide(c, q, current?.body || ''); }
-    }
-
-    async function askClientSide(container, question, articleBody) {
       const loadEl = document.createElement('div');
       loadEl.className = 'mqm';
       loadEl.textContent = 'Thinking…';
-      container.appendChild(loadEl);
+      c.appendChild(loadEl);
+
       try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
+        const r = await fetch(`${API}/qa`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514', max_tokens: 600,
-            messages: [{ role: 'user', content: `You are a journalist answering a reader question.\n\nArticle:\n${articleBody}\n\nQuestion: ${question}\n\nAnswer in 2-3 clear sentences based on the article.` }]
-          })
+          body: JSON.stringify({ question: q, article_id: current?.id || null }),
+          signal: AbortSignal.timeout(30000)
         });
-        const data = await response.json();
+        if (!r.ok) throw new Error(`Server error ${r.status}`);
+        const d = await r.json();
         loadEl.remove();
-        addMsg(container, data.content[0].text, 'ai');
-      } catch {
-        loadEl.textContent = 'Start the backend server to enable live Q&A.';
+        if (d.answer) {
+          addMsg(c, d.answer, 'ai');
+        } else if (d.detail) {
+          addMsg(c, 'Error: ' + d.detail, 'ai');
+        } else {
+          addMsg(c, 'No answer returned.', 'ai');
+        }
+      } catch (err) {
+        loadEl.remove();
+        addMsg(c, 'Q&A unavailable — backend may be starting up. Try again in a moment.', 'ai');
       }
     }
 
@@ -2278,11 +2272,31 @@
       const c = document.getElementById('sqMsgs');
       addMsg(c, q, 'u');
       document.getElementById('sqInp').value = '';
+
+      const loadEl = document.createElement('div');
+      loadEl.className = 'mqm';
+      loadEl.textContent = 'Thinking…';
+      c.appendChild(loadEl);
+
       try {
-        const r = await fetch(`${API}/qa`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q, article_id: current?.id || null }) });
+        const r = await fetch(`${API}/qa`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q, article_id: current?.id || null }),
+          signal: AbortSignal.timeout(30000)
+        });
+        if (!r.ok) throw new Error(`Server error ${r.status}`);
         const d = await r.json();
-        addMsg(c, d.answer, 'ai');
-      } catch { await askClientSide(c, q, current?.body || ''); }
+        loadEl.remove();
+        if (d.answer) {
+          addMsg(c, d.answer, 'ai');
+        } else {
+          addMsg(c, 'No answer returned.', 'ai');
+        }
+      } catch (err) {
+        loadEl.remove();
+        addMsg(c, 'Q&A unavailable — backend may be starting up. Try again in a moment.', 'ai');
+      }
       c.scrollTop = c.scrollHeight;
     }
 
