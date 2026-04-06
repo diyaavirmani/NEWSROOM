@@ -4,10 +4,19 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(
-    api_key=os.environ.get("GROQ_API_KEY", "dummy_key_until_configured"),
-    base_url="https://openrouter.ai/api/v1"
-)
+load_dotenv()
+
+def get_client():
+    key = os.environ.get('OPENROUTER_API_KEY') or os.environ.get('GROQ_API_KEY', 'dummy_key_until_configured')
+    return OpenAI(
+        api_key=key,
+        base_url="https://openrouter.ai/api/v1",
+        default_headers={
+            "HTTP-Referer": "https://newsroom-dlwe.onrender.com",
+            "X-Title": "Veritas Newsroom"
+        }
+    )
+
 
 SYSTEM_PROMPT = """
 You are a senior journalist at The Economist.
@@ -23,6 +32,7 @@ Sources: {fact_graph.get("sources_count", 0)}
 Confidence: {fact_graph.get("confidence", 0.8)}
 Write the full article."""
 
+    client = get_client()
     response = client.chat.completions.create(
         model="meta-llama/llama-3.3-70b-instruct:free",
         messages=[
@@ -69,6 +79,7 @@ def write_digest(articles):
             prompt_lines.append(f'- {article.get("headline", "Untitled")}: {summary}')
     prompt = '\\n'.join(prompt_lines)
     
+    client = get_client()
     response = client.chat.completions.create(
         model="meta-llama/llama-3.3-70b-instruct:free",
         messages=[{"role": "user", "content": prompt}],
