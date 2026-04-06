@@ -2245,19 +2245,22 @@
           body: JSON.stringify({ question: q, article_id: current?.id || null }),
           signal: AbortSignal.timeout(30000)
         });
-        if (!r.ok) throw new Error(`Server error ${r.status}`);
-        const d = await r.json();
+        const d = await r.json().catch(() => ({}));
         loadEl.remove();
+
+        if (!r.ok) {
+          addMsg(c, d.detail || `Server error ${r.status}`, 'ai');
+          return;
+        }
+
         if (d.answer) {
           addMsg(c, d.answer, 'ai');
-        } else if (d.detail) {
-          addMsg(c, 'Error: ' + d.detail, 'ai');
         } else {
           addMsg(c, 'No answer returned.', 'ai');
         }
       } catch (err) {
         loadEl.remove();
-        addMsg(c, 'Q&A unavailable — backend may be starting up. Try again in a moment.', 'ai');
+        addMsg(c, 'Q&A unavailable — verify backend is running.', 'ai');
       }
     }
 
@@ -2280,9 +2283,14 @@
           body: JSON.stringify({ question: q, article_id: current?.id || null }),
           signal: AbortSignal.timeout(30000)
         });
-        if (!r.ok) throw new Error(`Server error ${r.status}`);
-        const d = await r.json();
+        const d = await r.json().catch(() => ({}));
         loadEl.remove();
+
+        if (!r.ok) {
+          addMsg(c, d.detail || `Server error ${r.status}`, 'ai');
+          return;
+        }
+
         if (d.answer) {
           addMsg(c, d.answer, 'ai');
         } else {
@@ -2290,7 +2298,7 @@
         }
       } catch (err) {
         loadEl.remove();
-        addMsg(c, 'Q&A unavailable — backend may be starting up. Try again in a moment.', 'ai');
+        addMsg(c, 'Q&A unavailable — verify backend is running.', 'ai');
       }
       c.scrollTop = c.scrollHeight;
     }
