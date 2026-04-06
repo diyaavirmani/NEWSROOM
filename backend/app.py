@@ -233,9 +233,11 @@ async def qa(req: QARequest):
     if not q: raise HTTPException(400,'question required')
 
     # Try OPENROUTER_API_KEY first, then GROQ_API_KEY
-    key = os.environ.get('OPENROUTER_API_KEY') or os.environ.get('GROQ_API_KEY','')
-    if not key:
-        raise HTTPException(503,'No API key configured. Set OPENROUTER_API_KEY on Render.')
+    or_key = os.environ.get('OPENROUTER_API_KEY')
+    gq_key = os.environ.get('GROQ_API_KEY')
+    
+    if not or_key and not gq_key:
+        raise HTTPException(503,'No API key configured. Set OPENROUTER_API_KEY or GROQ_API_KEY on Render.')
 
     context = ""
     if req.article_id:
@@ -248,16 +250,25 @@ Answer in 2-3 sentences. Be specific and journalistic."""
 
     try:
         from openai import OpenAI
-        client = OpenAI(
-            api_key=key,
-            base_url="https://openrouter.ai/api/v1",
-            default_headers={
-                "HTTP-Referer": "https://newsroom-dlwe.onrender.com",
-                "X-Title": "Veritas Newsroom"
-            }
-        )
+        if or_key and or_key.strip():
+            client = OpenAI(
+                api_key=or_key,
+                base_url="https://openrouter.ai/api/v1",
+                default_headers={
+                    "HTTP-Referer": "https://newsroom-dlwe.onrender.com",
+                    "X-Title": "Veritas Newsroom"
+                }
+            )
+            model_name = 'meta-llama/llama-3.3-70b-instruct:free'
+        else:
+            client = OpenAI(
+                api_key=gq_key,
+                base_url="https://api.groq.com/openai/v1"
+            )
+            model_name = 'llama-3.3-70b-versatile'
+            
         r = client.chat.completions.create(
-            model='meta-llama/llama-3.3-70b-instruct:free',
+            model=model_name,
             messages=[{'role':'user','content':prompt}],
             max_tokens=300
         )
@@ -277,19 +288,30 @@ async def digest():
     if not arts:
         return {'items':[{'text':'Bureau warming up. Articles will appear shortly.'}]}
     top = arts[:5]
-    key = os.environ.get('OPENROUTER_API_KEY') or os.environ.get('GROQ_API_KEY','')
-    if key:
+    or_key = os.environ.get('OPENROUTER_API_KEY')
+    gq_key = os.environ.get('GROQ_API_KEY')
+    
+    if or_key or gq_key:
         try:
             from openai import OpenAI
-            client = OpenAI(
-                api_key=key,
-                base_url="https://openrouter.ai/api/v1",
-                default_headers={"HTTP-Referer":"https://newsroom-dlwe.onrender.com","X-Title":"Veritas Newsroom"}
-            )
+            if or_key and or_key.strip():
+                client = OpenAI(
+                    api_key=or_key,
+                    base_url="https://openrouter.ai/api/v1",
+                    default_headers={"HTTP-Referer":"https://newsroom-dlwe.onrender.com","X-Title":"Veritas Newsroom"}
+                )
+                model_name = 'meta-llama/llama-3.3-70b-instruct:free'
+            else:
+                client = OpenAI(
+                    api_key=gq_key,
+                    base_url="https://api.groq.com/openai/v1"
+                )
+                model_name = 'llama-3.3-70b-versatile'
+                
             p = "Summarise each in one punchy sentence max 20 words. JSON array of strings only:\n\n"
             for a in top: p += f"- {a.get('headline','')}: {a.get('dek','')}\n"
             r = client.chat.completions.create(
-                model='meta-llama/llama-3.3-70b-instruct:free',
+                model=model_name,
                 messages=[{'role':'user','content':p}], max_tokens=400)
             raw = r.choices[0].message.content.strip().replace('```json','').replace('```','')
             summaries = json.loads(raw)

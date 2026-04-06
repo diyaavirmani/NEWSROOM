@@ -7,15 +7,29 @@ load_dotenv()
 load_dotenv()
 
 def get_client():
-    key = os.environ.get('OPENROUTER_API_KEY') or os.environ.get('GROQ_API_KEY', 'dummy_key_until_configured')
-    return OpenAI(
-        api_key=key,
-        base_url="https://openrouter.ai/api/v1",
-        default_headers={
-            "HTTP-Referer": "https://newsroom-dlwe.onrender.com",
-            "X-Title": "Veritas Newsroom"
-        }
-    )
+    or_key = os.environ.get('OPENROUTER_API_KEY')
+    gq_key = os.environ.get('GROQ_API_KEY')
+    
+    if or_key and or_key.strip():
+        return OpenAI(
+            api_key=or_key,
+            base_url="https://openrouter.ai/api/v1",
+            default_headers={
+                "HTTP-Referer": "https://newsroom-dlwe.onrender.com",
+                "X-Title": "Veritas Newsroom"
+            }
+        ), "meta-llama/llama-3.3-70b-instruct:free"
+    elif gq_key and gq_key.strip():
+        return OpenAI(
+            api_key=gq_key,
+            base_url="https://api.groq.com/openai/v1"
+        ), "llama-3.3-70b-versatile"
+    else:
+        # Dummy fallback
+        return OpenAI(
+            api_key="dummy_key",
+            base_url="https://openrouter.ai/api/v1"
+        ), "meta-llama/llama-3.3-70b-instruct:free"
 
 
 SYSTEM_PROMPT = """
@@ -32,9 +46,9 @@ Sources: {fact_graph.get("sources_count", 0)}
 Confidence: {fact_graph.get("confidence", 0.8)}
 Write the full article."""
 
-    client = get_client()
+    client, model_name = get_client()
     response = client.chat.completions.create(
-        model="meta-llama/llama-3.3-70b-instruct:free",
+        model=model_name,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt}
@@ -79,9 +93,9 @@ def write_digest(articles):
             prompt_lines.append(f'- {article.get("headline", "Untitled")}: {summary}')
     prompt = '\\n'.join(prompt_lines)
     
-    client = get_client()
+    client, model_name = get_client()
     response = client.chat.completions.create(
-        model="meta-llama/llama-3.3-70b-instruct:free",
+        model=model_name,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=400,
         temperature=0.3

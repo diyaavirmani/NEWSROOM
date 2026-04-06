@@ -9,425 +9,413 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --w:#ffffff;--bg:#f4f2ed;--ink:#1a1a1a;--ink2:#2e2e2e;--ink3:#5a5a5a;--ink4:#888;
-  --red:#b5121b;--red2:#8c0e15;--green:#1a6b3a;
-  --border:#dedad1;--border2:#eae7de;--cream:#fdf9f2;
-  --teal:#1a5f4a;--teal-bg:#edf7f3;
+  --w:#ffffff;
+  --bg:#fbfbf9;
+  --ink:#1a1a1a;
+  --ink2:#2e2e2e;
+  --ink3:#5a5a5a;
+  --ink4:#888;
+  --red:#be131a;
+  --red2:#9c0d12;
+  --border:#e8e8e8;
+  --border2:#f0f0f0;
   --disp:'Playfair Display',Georgia,serif;
   --body:'Merriweather',Georgia,serif;
   --sans:'Source Sans 3',system-ui,sans-serif;
 }
-html{font-size:14px;}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;overflow-x:hidden;}
+html{font-size:14px; background: #e0e0e0;}
+body{
+  background: var(--w); 
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  min-height: 100vh;
+}
 a{text-decoration:none;color:inherit;}
 button{cursor:pointer;font-family:var(--sans);}
 
-/* ── MARQUEE TOP ── */
-.marquee-top{
-  background:var(--w);color:#1a1a1a;border-bottom:1px solid #ccc;
-  font-family:var(--sans);font-size:11px;font-weight:600;
-  padding:6px 0;overflow:hidden;white-space:nowrap;
+/* ── MASTHEAD ── */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  background: var(--w);
+  border-bottom: 1px solid var(--border);
 }
-.marquee-inner{
-  display:inline-flex;gap:0;
-  animation:marquee 40s linear infinite;
+.mh-left, .mh-right { flex: 1; }
+.mh-right { display: flex; justify-content: flex-end; }
+.mh-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.mh-title {
+  font-family: var(--disp);
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 8px;
 }
-.marquee-inner:hover{animation-play-state:paused;}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.m-sep{color:#ccc;margin:0 16px;}
-.m-label{background:#ed1c24;color:#fff;padding:1px 8px;margin-right:10px;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
-
-/* ── MASTHEAD (Economic Times Style) ── */
-.mh{background:var(--w);border-bottom:3px solid #000;padding:16px 24px 12px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
-.mh-c{display:flex;align-items:center;gap:16px;}
-.mh-logo {
-    background: #ed1c24;
-    color: white;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--disp);
-    font-size: 38px;
-    font-weight: 700;
-    line-height: 1;
+.mh-subtitle {
+  font-family: var(--body);
+  font-size: 15px;
+  font-style: italic;
+  color: #777;
+  letter-spacing: 0.5px;
 }
-.mh-name-wrapper {
-   display: flex;
-   flex-direction: column;
+.v-small {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink2);
+  margin-bottom: 4px;
 }
-.mh-name{font-family:var(--disp);font-size:46px;font-weight:900;letter-spacing:0px;line-height:0.95;color:var(--ink); text-transform: uppercase;}
-.mh-name span {font-size: 58px;}
-.mh-tag{font-family:var(--sans);font-size:11px;color:#777;margin-top:2px; display: flex; align-items: center; gap: 6px;}
-.mh-tag strong { color: #000; font-weight: 700; }
-
-.mh-acts{display:flex;flex-direction:column;align-items:flex-end; gap:8px;}
-.mh-acts-top { display: flex; align-items: center; gap: 10px;}
-.btn-w{font-family:var(--sans);font-size:11px;font-weight:600;padding:5px 12px;border:1px solid #000;background:#fff;color:#000;transition:all .2s ease-in-out;}
-.btn-w:hover{background:#000;color:#fff; transform: translateY(-1px);}
-.btn-link { font-family:var(--sans); font-size:12px; color: #333; text-decoration: none; cursor:pointer;}
-.btn-link:hover { color: #ed1c24; text-decoration: underline;}
-.promo-text { color: #ed1c24; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2px; animation: pulseRed 2s infinite;}
-@keyframes pulseRed { 0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;} }
-
-/* ── LOADING ── */
-.lbar{height:2px;overflow:hidden;background:#fff;}
-.lfill{height:100%;width:30%;background:#ed1c24;display:none;animation:ls 1s ease infinite;}
-.lbar.on .lfill{display:block;}
-@keyframes ls{0%{transform:translateX(-100%)}100%{transform:translateX(420%)}}
-
-/* ── NOTICE ── */
-.notice{display:none;background:var(--cream);border-bottom:1px solid var(--border);padding:8px 24px;font-family:var(--sans);font-size:12px;color:var(--ink3);align-items:center;gap:10px;}
-.notice.show{display:flex; animation: slideDown 0.3s ease;}
-@keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
-.notice .sp{width:13px;height:13px;border:2px solid var(--border);border-top-color:#ed1c24;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.notice .err{color:#ed1c24;font-weight:600;}
+.d-small {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink4);
+}
+.md-btn {
+  background: var(--w);
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+.md-btn:hover { background: #f5f5f5; }
 
 /* ── NAV ── */
-.nav{background:var(--w);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:stretch;justify-content:space-between;box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
-.ntabs{display:flex;overflow-x:auto;scrollbar-width:none;}
-.ntabs::-webkit-scrollbar{display:none;}
-.ntab{font-family:var(--sans);font-size:12px;font-weight:700;padding:12px 14px;border:none;border-bottom:3px solid transparent;background:none;color:#555;transition:all .3s ease;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px;}
-.ntab:hover{color:#ed1c24;}
-.ntab.on{color:#ed1c24;border-bottom-color:#ed1c24;}
-.nav-r{display:flex;align-items:center;gap:0;padding:8px 0;}
-.nc-inp{font-family:var(--body);font-style:italic;font-size:12px;padding:7px 12px;border:1px solid #ccc;border-right:none;background:#fafafa;color:var(--ink);outline:none;width:200px;transition:all .3s ease;}
-.nc-inp:focus{border-color:#333; width:220px; background:#fff;}
-.nc-btn{padding:7px 14px;background:#333;color:#fff;border:none;font-size:14px;font-weight:700;transition:background .2s;}
-.nc-btn:hover{background:#ed1c24;}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  border-bottom: 2px solid #555;
+  background: var(--w);
+}
+.nav-links { display: flex; border-bottom: none; }
+.nav-item {
+  padding: 16px 18px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  border: none;
+  background: none;
+  position: relative;
+  transition: color 0.2s;
+}
+.nav-item:hover { color: var(--red); }
+.nav-item.active { color: var(--red); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red);
+}
 
-/* ── DIGEST ── */
-.dstrip{display:none;background:var(--ink);padding:16px 24px;border-bottom:2px solid var(--red);animation:fadeIn 0.4s ease;}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.dstrip.on{display:block;}
-.dstrip-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.dtitle{font-family:var(--disp);font-size:16px;font-weight:700;font-style:italic;color:#fff;}
-.dclose{font-family:var(--sans);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;background:none;border:1px solid #444;color:#888;cursor:pointer; transition:all 0.2s;}
-.dclose:hover{background:#ed1c24;color:#fff;}
-.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 20px;}
-.ditem{display:flex;gap:10px;padding-top:10px;border-top:1px solid #252525; animation:slideUp 0.4s ease backwards;}
-@keyframes slideUp { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
-.dnum{font-family:var(--disp);font-size:20px;font-weight:900;color:#333;min-width:20px;line-height:1;}
-.dtext{font-family:var(--body);font-size:11.5px;line-height:1.6;color:#aaa;}
+.nav-search { display: flex; align-items: center; margin: 8px 0; }
+.nav-search input {
+  padding: 9px 14px;
+  border: 1px solid #ccc;
+  border-right: none;
+  background: #fafafa;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 13px;
+  width: 280px;
+  outline: none;
+  color: var(--ink);
+}
+.nav-search input:focus { border-color: #999; background: #fff; }
+.nav-search button {
+  padding: 9px 20px;
+  background: #a31118;
+  color: #fff;
+  border: none;
+  border: 1px solid #a31118;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+.nav-search button:hover { background: #820e13; }
 
-/* ── PAGE LAYOUT ── */
-.page{max-width:1280px;margin:0 auto;padding:20px 24px 40px;display:grid;grid-template-columns:1fr 280px;gap:24px;}
-main{min-width:0; animation: fadeIn 0.5s ease;}
+/* ── MAIN LAYOUT ── */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 30px;
+  padding: 30px 40px 60px;
+  background: var(--bg);
+}
+main { min-width: 0; }
 
-/* ── SECTION HEADER ── */
-.sh{font-family:var(--sans);font-size:13px;font-weight:700;color:#ed1c24;text-transform:uppercase;letter-spacing:.5px;padding-bottom:8px;border-bottom:2px solid var(--border);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-.sh-m{font-size:10px;font-weight:600;color:var(--ink4);cursor:pointer;text-transform:none;letter-spacing:0;transition:color .2s;}
-.sh-m:hover{color:#ed1c24;}
+/* ── CONTENT HEADER ── */
+.sh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--red);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.sh-r {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink4);
+  cursor: pointer;
+}
+.sh-r:hover { color: var(--red); }
 
-/* ── DISPLAY CARDS WITH HOVER ANIMATIONS ── */
-.tnews, .cluster, .sbox { box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: box-shadow 0.3s ease; }
-.tnews:hover, .cluster:hover, .sbox:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+/* ── HERO & SUB ARTICLES ── */
+.top-news-area {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
 
-/* ── TOP NEWS — 3 col ── */
-.tnews{display:grid;grid-template-columns:2fr 1fr 1fr;background:var(--w);border:1px solid var(--border);margin-bottom:20px;}
-.lc{border-right:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;overflow:hidden;}
-.lc:hover .lhl{color:#ed1c24;}
-.lc:hover .l-img {transform: scale(1.02);}
-.l-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:saturate(.85)contrast(1.05); transition:transform 0.5s ease;}
-.l-ph{width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,#ddd,#c8c5bc);display:flex;align-items:center;justify-content:center;}
-.l-ph span{font-family:var(--sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#aaa;}
-.l-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;}
-.lsec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ed1c24;margin-bottom:6px;}
-.lhl{font-family:var(--disp);font-size:clamp(16px,2vw,22px);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;transition:color .2s;}
-.ldek{font-family:var(--body);font-size:12px;line-height:1.65;color:var(--ink3);font-style:italic;margin-bottom:12px;flex:1;}
-.lmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto;}
-.cb{display:inline-flex;align-items:center;gap:2px;font-family:var(--sans);font-size:9px;font-weight:700;padding:3px 6px; border-radius:2px;}
-.cb-h{background:#e4f5ec;color:#1a6b3a;}.cb-m{background:#fff8e6;color:#8a6a00;}.cb-l{background:#fdecea;color:#ed1c24;}
-.lby{font-family:var(--sans);font-size:10px;color:var(--ink4);}
+/* ── HERO CARD ── */
+.hero-card { cursor: pointer; }
+.hero-card:hover .h-hl { color: var(--red); }
+.hero-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  margin-bottom: 16px;
+  transition: filter 0.3s;
+}
+.hero-card:hover .hero-img { filter: saturate(1.1) contrast(1.05); }
+.h-sec {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.h-hl {
+  font-family: var(--disp);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+.h-dek {
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink3);
+  margin-bottom: 14px;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--ink4);
+}
+.badge {
+  background: #edf7f3;
+  color: #1a6b3a;
+  padding: 3px 6px;
+  font-weight: 700;
+  font-size: 10px;
+}
 
-.mc{border-right:1px solid var(--border);padding:14px;}
-.rc{padding:14px;}
-.ci{padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--border2);cursor:pointer;}
-.ci:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.ci:hover .ci-hl{color:#ed1c24;}
-.ci-sec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ed1c24;margin-bottom:4px;}
-.ci-hl{font-family:var(--disp);font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);transition:color .2s;margin-bottom:5px;}
-.ci-meta{font-family:var(--sans);font-size:9px;color:var(--ink4);display:flex;align-items:center;gap:6px;}
-
-/* ── SECOND ROW: thumb cards ── */
-.thumb-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
-.tc{background:var(--w);cursor:pointer;border:1px solid var(--border);transition:all .3s ease; overflow:hidden;}
-.tc:hover{box-shadow: 0 4px 10px rgba(0,0,0,0.06); transform:translateY(-2px);}
-.tc:hover .tc-img {transform:scale(1.03);}
-.tc-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:saturate(.85)contrast(1.04); transition: transform 0.5s ease;}
-.tc-ph{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#e0ddd5,#ccc9c0);display:flex;align-items:center;justify-content:center;}
-.tc-ph span{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#aaa;font-family:var(--sans);}
-.tc-body{padding:12px;}
-.tc-sec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ed1c24;margin-bottom:4px;}
-.tc-hl{font-family:var(--disp);font-size:13px;font-weight:700;line-height:1.27;color:var(--ink); transition:color 0.2s;}
-.tc:hover .tc-hl { color: #ed1c24; }
-.tc-meta{font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:6px;display:flex;gap:6px;align-items:center;}
-
-/* ── CLUSTER (story group) ── */
-.cluster{border:1px solid var(--border);background:var(--w);margin-bottom:20px;}
-.cl-head{background:#fef9e8;padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.cl-title{font-family:var(--disp);font-size:14px;font-weight:700;color:#ed1c24;}
-.cl-body{padding:14px;display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:14px;}
-.cl-l{border-right:1px solid var(--border2);padding-right:14px;}
-.cl-m{border-right:1px solid var(--border2);padding-right:14px;overflow:hidden; cursor:pointer;}
-.cl-m:hover .cl-mimg {transform:scale(1.02); filter:saturate(1);}
-.cl-mimg{width:100%;height:140px;object-fit:cover;filter:saturate(.85);display:block;margin-bottom:8px; transition:all 0.5s ease;}
-.cl-mph{width:100%;height:140px;background:linear-gradient(135deg,#e0ddd5,#ccc9c0);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
-.clr{padding:8px 0;border-bottom:1px solid var(--border2);cursor:pointer;}
-.clr:last-child{border-bottom:none;}
-.clr:hover .clr-hl{color:#ed1c24;}
-.clr-hl{font-family:var(--body);font-size:11.5px;line-height:1.5;color:var(--ink2); transition:color 0.2s;}
-.clr-by{font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
-
-/* ── CREATOR'S CORNER ── */
-.cc{background:var(--teal-bg);border:1px solid #b8dbd2;margin-bottom:20px;}
-.cc-h{background:var(--teal);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;}
-.cc-ht{font-family:var(--disp);font-size:15px;font-weight:700;color:#fff;}
-.cc-hs{font-family:var(--sans);font-size:10px;color:#7fc4ab;margin-top:2px;}
-.cc-ref{font-family:var(--sans);font-size:10px;padding:4px 10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#fff;cursor:pointer;transition:all .2s; border-radius:2px;}
-.cc-ref:hover{background:rgba(255,255,255,.25); transform:scale(1.05);}
-.cc-body{padding:16px;}
-.cc-intro{font-family:var(--body);font-style:italic;font-size:12px;color:#2a6b56;margin-bottom:12px;line-height:1.6;}
-.cc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.cc-card{background:var(--w);border:1px solid #cde8dc;padding:12px;cursor:pointer;transition:all .2s;}
-.cc-card:hover{background:#d4f0e7;border-color:#8fc4b2; transform:translateY(-2px); box-shadow:0 3px 6px rgba(0,0,0,0.05);}
-.cc-rank{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin-bottom:4px;}
-.cc-topic{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
-.cc-stats{font-family:var(--sans);font-size:9.5px;color:#4a8a76;}
-.cc-btn{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:5px 8px;background:var(--teal);color:#fff;border:none;margin-top:8px;display:block;width:100%;transition:background .2s;}
-.cc-card:hover .cc-btn {background:#ed1c24;}
-.cc-meta{font-family:var(--sans);font-size:9px;color:#5a8e7b;margin-top:12px;}
-
-/* ── SKELETON WITH SMOOTH PULSE ── */
-.sk{background:linear-gradient(90deg, #e0ddd5 25%, #ece9e1 50%, #e0ddd5 75%); background-size:200% 100%; animation:ska 1.8s infinite linear;}
-@keyframes ska{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+/* ── SUB ARTICLES GRID ── */
+.sub-articles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.sub-card {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.sub-card:last-child { border-bottom: none; }
+.sub-card:hover .s-hl { color: var(--red); }
+.s-sec {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.s-hl {
+  font-family: var(--disp);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
 
 /* ── SIDEBAR ── */
-.sidebar{display:flex;flex-direction:column;gap:18px;}
-.sbox{background:var(--w);border:1px solid var(--border);}
-.sbox-h{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);font-family:var(--sans);font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;display:flex;justify-content:space-between;align-items:center;}
-.sbox-h span{font-weight:400;color:var(--ink4);text-transform:none;letter-spacing:0;}
-.sbox-b{padding:14px;}
-.lat-item{padding:10px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .2s;}
-.lat-item:last-child{border-bottom:none;}
-.lat-item:hover{background:#fafafa;}
-.lat-ago{font-family:var(--sans);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#ed1c24;margin-bottom:3px;}
-.lat-hl{font-family:var(--body);font-size:11.5px;line-height:1.45;color:var(--ink2); transition:color 0.2s;}
-.lat-item:hover .lat-hl {color:#ed1c24;}
+.sidebar {
+  border-left: 1px solid #ddd;
+  padding-left: 30px;
+}
+.sb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 16px;
+}
+.sb-header span { color: var(--ink4); font-weight: 400; font-size: 11px; }
 
-/* QA Chat Widget */
-.qa-hint{font-family:var(--body);font-style:italic;font-size:11.5px;color:var(--ink3);line-height:1.55;margin-bottom:10px;}
-.qa-msgs{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;max-height:180px;overflow-y:auto; scroll-behavior:smooth;}
-.qm{font-family:var(--sans);font-size:11.5px;line-height:1.45;padding:6px 9px;border-left:2px solid var(--border2);color:var(--ink2);background:var(--bg); animation: fadeIn 0.3s ease;}
-.qm.u{border-left-color:#ed1c24;background:#fdf5f5;font-style:italic;color:var(--ink3);}
-.qa-row{display:flex;}
-.qa-inp{flex:1;font-family:var(--body);font-style:italic;font-size:12px;padding:7px 10px;border:1px solid var(--border);border-right:none;background:var(--w);color:var(--ink);outline:none; transition:border 0.2s;}
-.qa-inp:focus{border-color:#333;}
-.qa-go{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:7px 12px;background:var(--ink);color:#fff;border:none;transition:background .2s;}
-.qa-go:hover{background:#ed1c24;}
-
-.tr-item{display:flex;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .2s;}
-.tr-item:last-child{border-bottom:none;}
-.tr-item:hover{background:#fafafa;}
-.tr-item:hover .tr-text {color:#ed1c24;}
-.tr-num{font-family:var(--disp);font-size:16px;font-weight:900;color:#ddd;min-width:20px;line-height:1.1;}
-.tr-text{font-family:var(--sans);font-size:12.5px;font-weight:600;line-height:1.4;color:var(--ink2); transition:color 0.2s;}
-.tr-text span{display:block;font-weight:400;font-size:10px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
+.lat-list { display: flex; flex-direction: column; gap: 16px; }
+.lat-card { cursor: pointer; border-bottom: 1px solid var(--border); padding-bottom: 16px;}
+.lat-card:last-child { border-bottom: none; }
+.lat-card:hover .lat-hl { color: var(--red); }
+.lat-tag {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.lat-hl {
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink2);
+  transition: color 0.2s;
+  margin-bottom: 6px;
+}
+.lat-date {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.lat-pdate { font-family:var(--sans); font-size:11px; color:#aaa; margin-left:6px; }
 
 /* ── MODAL ── */
 .mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.76);z-index:999;overflow-y:auto;padding:24px 14px;}
 .mbg.on{display:flex;align-items:flex-start;justify-content:center;}
-.modal{background:var(--w);max-width:740px;width:100%;border-top:4px solid #ed1c24;animation:mIn .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.modal{background:var(--w);max-width:740px;width:100%;border-top:4px solid var(--red);animation:mIn .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
 @keyframes mIn{from{opacity:0;transform:translateY(20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-.mbar{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--bg);}
+.mbar{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;border-bottom:1px solid var(--border);background:#fafafa;}
 .mbar-l{font-family:var(--sans);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);font-weight:700;}
 .mclose{font-family:var(--sans);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;background:none;border:1px solid #ccc;color:#333;cursor:pointer;transition:all .2s;}
-.mclose:hover{background:#ed1c24;color:#fff;border-color:#ed1c24;}
-.mcontent{padding:26px 32px;}
-.mtag{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ed1c24;margin-bottom:10px;}
-.mhl{font-family:var(--disp);font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:12px;}
-.mdek{font-family:var(--body);font-size:14px;font-style:italic;line-height:1.7;color:var(--ink3);border-left:3px solid #ed1c24;padding-left:14px;margin-bottom:16px;}
-.m-img{width:100%;max-height:350px;object-fit:cover;display:block;margin-bottom:16px;filter:saturate(.9)contrast(1.05);}
-.mby{font-family:var(--sans);font-size:11px;color:var(--ink3);display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.mclose:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.mcontent{padding:30px 40px;}
+.mtag{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.mhl{font-family:var(--disp);font-size:36px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:16px;}
+.mdek{font-family:var(--body);font-size:15px;font-style:italic;line-height:1.7;color:var(--ink3);border-left:3px solid var(--red);padding-left:16px;margin-bottom:20px;}
+.m-img{width:100%;max-height:400px;object-fit:cover;display:block;margin-bottom:20px;}
+.mby{font-family:var(--sans);font-size:12px;color:var(--ink4);display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:24px;}
 .mby strong{color:var(--ink);}
-.mbody{font-family:var(--body);font-size:15px;line-height:1.9;color:#333;max-width:65ch;}
-.mbody p{margin-bottom:16px;}
-.mbody p:first-child::first-letter{font-family:var(--disp);font-size:55px;font-weight:900;float:left;line-height:.8;margin-right:6px;margin-top:8px;color:var(--ink);}
+.mbody{font-family:var(--body);font-size:16px;line-height:1.8;color:#222;}
+.mbody p{margin-bottom:18px;}
+.mbody p:first-child::first-letter{font-family:var(--disp);font-size:60px;font-weight:900;float:left;line-height:.8;margin-right:8px;margin-top:8px;}
 
-/* ── FOOTER ── */
-.footer{background:var(--ink);color:#555;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;font-family:var(--sans);font-size:11px;flex-wrap:wrap;gap:8px;}
-.footer strong{color:#888;}
+/* QA Chat Widget */
+.qa-hint{font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);line-height:1.55;margin-bottom:12px;margin-top:40px;}
+.qa-msgs{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.qm{font-family:var(--sans);font-size:13px;line-height:1.5;padding:8px 12px;border-left:2px solid var(--border);color:var(--ink2);background:#fafafa;}
+.qm.u{border-left-color:var(--red);background:#fff5f5;font-style:italic;}
+.qa-row{display:flex;}
+.qa-inp{flex:1;font-family:var(--body);font-style:italic;font-size:13px;padding:10px 14px;border:1px solid var(--border);border-right:none;background:var(--w);outline:none;}
+.qa-inp:focus{border-color:#333;}
+.qa-go{font-weight:700;padding:10px 16px;background:var(--ink);color:#fff;border:none;transition:background .2s;}
+.qa-go:hover{background:var(--red);}
 
-/* ── RESPONSIVE ── */
-@media(max-width:1000px){
-  .page{grid-template-columns:1fr;}
-  .tnews,.cl-body{grid-template-columns:1fr;}
-  .lc,.mc{border-right:none;border-bottom:1px solid var(--border);}
-  .cl-l,.cl-m{border-right:none;border-bottom:1px solid var(--border2);padding-right:0;padding-bottom:12px;}
-  .thumb-row{grid-template-columns:1fr 1fr;}
-  .cc-grid{grid-template-columns:1fr 1fr;}
-}
-@media(max-width:600px){
-  .mh{flex-direction:column;gap:12px;align-items:flex-start;}
-  .mh-acts{align-items:flex-start;}
-  .thumb-row{grid-template-columns:1fr;}
-  .cc-grid{grid-template-columns:1fr;}
-  .page,.nav{padding-left:16px;padding-right:16px;}
-  .mcontent{padding:20px;}
-}
+/* Loading Bar */
+.lbar{height:2px;background:#f0f0f0;overflow:hidden;}
+.lfill{height:100%;width:30%;background:var(--red);display:none;animation:ls 1.2s ease infinite;}
+.lbar.on .lfill{display:block;}
+@keyframes ls{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+
+/* Notice */
+.notice{display:none;background:#fbf9eb;border-bottom:1px solid #e8e4d1;padding:10px 40px;font-size:13px;color:#5c5636;align-items:center;gap:12px;}
+.notice.show{display:flex;}
+.ns{width:14px;height:14px;border:2px solid #e8e4d1;border-top-color:var(--red);border-radius:50%;animation:sp .8s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
-<!-- ── MARQUEE TOP ── -->
-<div class="marquee-top">
-  <div class="marquee-inner" id="marqueeInner">
-    <span class="m-label">Live</span>
-    <span>Veritas AI Newsroom — Researched, Verified, Published</span>
-    <span class="m-sep">◆</span>
-    <span>Q&A — Ask follow-up questions on any story</span>
-    <span class="m-sep">◆</span>
-    <span>Creator's Corner — Trending topics → serious reporting</span>
-    <span class="m-sep">◆</span>
-    <span>Morning Digest — Daily briefing auto-generated</span>
-    <span class="m-sep">◆</span>
-    <span class="m-label">Live</span>
-    <span>Veritas AI Newsroom — Researched, Verified, Published</span>
-    <span class="m-sep">◆</span>
-    <span>Q&A — Ask follow-up questions on any story</span>
-    <span class="m-sep">◆</span>
+<div class="masthead">
+  <div class="mh-left">
+    <div class="v-small">Veritas</div>
+    <div class="d-small" id="mhDate">06 Apr 2026 10:04 pm</div>
+  </div>
+  <div class="mh-center">
+    <div class="mh-title">Veritas</div>
+    <div class="mh-subtitle">News, grounded in truth.</div>
+  </div>
+  <div class="mh-right">
+    <button class="md-btn" onclick="toggleDigest()">Morning Digest</button>
   </div>
 </div>
 
-<!-- ── MASTHEAD (Economic Times Style) ── -->
-<div class="mh">
-  <div class="mh-c">
-    <div class="mh-logo">ET</div>
-    <div class="mh-name-wrapper">
-      <div class="mh-name"><span>T</span>he <span>E</span>conomic <span>T</span>imes</div>
-      <div class="mh-tag">English Edition &#9662; | <span id="mhDate"></span> | <strong>Today's ePaper</strong></div>
-    </div>
+<div class="nav">
+  <div class="nav-links">
+    <button class="nav-item active" onclick="ff('all',this)">Top News</button>
+    <button class="nav-item" onclick="ff('india',this)">India</button>
+    <button class="nav-item" onclick="ff('world',this)">World</button>
+    <button class="nav-item" onclick="ff('economy',this)">Economy</button>
+    <button class="nav-item" onclick="ff('technology',this)">Technology</button>
+    <button class="nav-item" onclick="ff('ai',this)">AI</button>
+    <button class="nav-item" onclick="ff('science',this)">Science</button>
+    <button class="nav-item" onclick="ff('web3',this)">Web3</button>
   </div>
-  <div class="mh-acts">
-    <div class="mh-acts-top">
-      <button class="btn-w">My Watchlist</button>
-      <button class="btn-w" onclick="toggleDigest()">Morning Digest</button>
-      <a href="#" class="btn-link">Sign In</a>
-    </div>
-    <div class="promo-text">Avail Free Trial of ETPrime</div>
+  <div class="nav-search">
+    <input type="text" id="ncInp" placeholder="Commission a report on any topic..." onkeydown="if(event.key==='Enter')gen()">
+    <button onclick="gen()">→</button>
   </div>
 </div>
 
 <div class="lbar" id="lbar"><div class="lfill"></div></div>
-<div class="notice" id="notice"><span class="sp" id="nSp"></span><span id="nTx">Writing article…</span></div>
+<div class="notice" id="notice"><span class="ns" id="nSp"></span><span id="nTx">Researching…</span></div>
 
-<!-- ── NAV ── -->
-<div class="nav">
-  <nav class="ntabs">
-    <button class="ntab on" onclick="ff('all',this)">Top News</button>
-    <button class="ntab" onclick="ff('india',this)">India</button>
-    <button class="ntab" onclick="ff('world',this)">World</button>
-    <button class="ntab" onclick="ff('economy',this)">Economy</button>
-    <button class="ntab" onclick="ff('technology',this)">Technology</button>
-    <button class="ntab" onclick="ff('ai',this)">AI</button>
-    <button class="ntab" onclick="ff('science',this)">Science</button>
-    <button class="ntab" onclick="ff('web3',this)">Web3</button>
-  </nav>
-  <div class="nav-r">
-    <input class="nc-inp" id="ncInp" placeholder="Commission a report…" onkeydown="if(event.key==='Enter')gen()">
-    <button class="nc-btn" onclick="gen()">→</button>
-  </div>
-</div>
-
-<!-- ── DIGEST ── -->
-<div class="dstrip" id="dstrip">
-  <div class="dstrip-top"><div class="dtitle">Morning Briefing</div><button class="dclose" onclick="toggleDigest()">✕ Close</button></div>
-  <div class="dgrid" id="dgrid"><div class="dtext" style="grid-column:1/-1;text-align:center;padding:6px;font-size:11.5px;color:#888;letter-spacing:1px;">Compiling…</div></div>
-</div>
-
-<!-- ── PAGE ── -->
 <div class="page">
-<main id="main">
-  <div class="sh">Top News <span class="sh-m" onclick="loadFeed()">Refresh →</span></div>
-  <div id="topWrap"></div>
-
-  <!-- Skeleton -->
-  <div id="skelWrap">
-    <div class="tnews">
-      <div class="lc" style="border-right:1px solid var(--border);">
-        <div class="sk" style="width:100%;aspect-ratio:3/2;"></div>
-        <div style="padding:14px 16px;">
-          <div class="sk" style="height:10px;width:50px;margin-bottom:8px;"></div>
-          <div class="sk" style="height:18px;width:90%;margin-bottom:6px;"></div>
-          <div class="sk" style="height:18px;width:75%;margin-bottom:10px;"></div>
-          <div class="sk" style="height:12px;width:100%;margin-bottom:5px;"></div>
-          <div class="sk" style="height:12px;width:80%;"></div>
-        </div>
-      </div>
-      <div class="mc" style="border-right:1px solid var(--border);">
-        <div class="sk" style="height:10px;width:45px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:15px;width:94%;margin-bottom:6px;"></div>
-        <div class="sk" style="height:15px;width:72%;margin-bottom:18px;"></div>
-        <div class="sk" style="height:10px;width:45px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:15px;width:86%;margin-bottom:6px;"></div>
-        <div class="sk" style="height:15px;width:68%;"></div>
-      </div>
-      <div class="rc">
-        <div class="sk" style="height:10px;width:45px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:15px;width:90%;margin-bottom:6px;"></div>
-        <div class="sk" style="height:15px;width:68%;margin-bottom:18px;"></div>
-        <div class="sk" style="height:10px;width:45px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:15px;width:82%;margin-bottom:6px;"></div>
-        <div class="sk" style="height:15px;width:64%;"></div>
-      </div>
+  <main>
+    <div class="sh">
+      <span>Top News</span>
+      <span class="sh-r" onclick="loadFeed()">Refresh →</span>
     </div>
-  </div>
-
-  <div id="row2Wrap"></div>
-
-  <!-- Creator's Corner -->
-  <div class="cc">
-    <div class="cc-h">
-      <div><div class="cc-ht">Creator's Corner</div><div class="cc-hs">Trending in India — reported with depth</div></div>
-      <button class="cc-ref" onclick="loadTrends()">↻ Refresh</button>
+    
+    <div id="topNewsArea" class="top-news-area">
+       <!-- Hero and Sub Articles placed here -->
     </div>
-    <div class="cc-body">
-      <p class="cc-intro">Topics surging in India right now. Click any to generate a fully sourced article.</p>
-      <div class="cc-grid" id="ccGrid"><div style="grid-column:1/-1;font-family:var(--sans);font-size:12px;color:#5a8e7b;padding:12px;text-align:center;letter-spacing:1px; animation:ska 1.8s infinite;">Loading trends…</div></div>
-      <div class="cc-meta" id="ccMeta"></div>
+  </main>
+  
+  <aside class="sidebar">
+    <div class="sb-header">
+      Latest Reports <span id="artCount">0 articles</span>
     </div>
-  </div>
-
-  <div id="clustersWrap"></div>
-</main>
-
-<!-- ── SIDEBAR ── -->
-<aside class="sidebar">
-  <div class="sbox">
-    <div class="sbox-h">Latest Reports <span id="artCount">—</span></div>
-    <div id="latBox"><div style="padding:16px;font-family:var(--sans);font-size:12px;color:var(--ink4);font-style:italic;">Loading…</div></div>
-  </div>
-  <div class="sbox">
-    <div class="sbox-h">Ask About a Story</div>
-    <div class="sbox-b">
-      <p class="qa-hint">Open any article first, then ask a follow-up question here.</p>
-      <div class="qa-msgs" id="sqMsgs"></div>
-      <div class="qa-row">
-        <input class="qa-inp" id="sqInp" placeholder="Your question…" onkeydown="if(event.key==='Enter')askSide()">
-        <button class="qa-go" onclick="askSide()">Ask</button>
-      </div>
+    <div class="lat-list" id="latList">
+      <!-- Latest items loaded here -->
     </div>
-  </div>
-</aside>
-</div>
-
-<!-- ── FOOTER ── -->
-<div class="footer">
-  <strong>The Economic Times</strong>
-  <span id="footerDate"></span>
-  <span>Independent · Verified · Published</span>
+  </aside>
 </div>
 
 <!-- ── MODAL ── -->
@@ -439,16 +427,14 @@ main{min-width:0; animation: fadeIn 0.5s ease;}
       <div class="mhl" id="mhl"></div>
       <img class="m-img" id="mImg" src="" alt="" style="display:none;" onerror="this.style.display='none'">
       <div class="mdek" id="mdek" style="display:none;"></div>
-      <div class="mby"><strong>Veritas AI Bureau</strong><span id="mdate"></span><span id="mread"></span><span id="mconf"></span></div>
+      <div class="mby"><strong>Veritas AI Bureau</strong><span id="mdate"></span><span id="mconf"></span></div>
       <div class="mbody" id="mbody"></div>
       
-      <div class="mqa">
-        <div class="mqa-h">Ask About This Story</div>
-        <div class="mqa-msgs" id="mqMsgs"></div>
-        <div class="mqa-row">
-          <input class="qa-inp" style="flex:1;" id="mqInp" placeholder="Why does this matter? What happens next?" onkeydown="if(event.key==='Enter')askModal()">
-          <button class="qa-go" onclick="askModal()">Ask →</button>
-        </div>
+      <div class="qa-hint">Ask a follow-up question below, directly to our AI Journalist covering this piece.</div>
+      <div class="qa-msgs" id="mqMsgs"></div>
+      <div class="qa-row">
+        <input class="qa-inp" id="mqInp" placeholder="Why does this matter? What happens next?" onkeydown="if(event.key==='Enter')askModal()">
+        <button class="qa-go" onclick="askModal()">Ask →</button>
       </div>
     </div>
   </div>
@@ -460,94 +446,83 @@ const API = (window.location.hostname==='localhost'||window.location.hostname===
   : 'https://newsroom-dlwe.onrender.com';
 
 let articles=[], filt='all', current=null;
+
 document.addEventListener('DOMContentLoaded',()=>{
-  setDates(); loadFeed(); loadTrends(); setInterval(loadFeed, 15*60*1000);
+  setDates(); 
+  loadFeed(); 
+  setInterval(loadFeed, 60*1000);
 });
 
 function setDates(){
   const n=new Date();
-  document.getElementById('mhDate').textContent=n.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-  document.getElementById('footerDate').textContent='© '+n.getFullYear()+' The Economic Times';
-}
-
-async function loadFeed(){
-  try{
-    const r=await fetch(`${API}/articles`,{signal:AbortSignal.timeout(8000)});
-    if(!r.ok) throw new Error();
-    const d=await r.json();
-    if(d.articles&&d.articles.length>0){articles=d.articles;}
-  }catch{ setTimeout(loadFeed,10000); }
-  rmSkel(); renderAll();
-}
-function rmSkel(){const s=document.getElementById('skelWrap');if(s)s.remove();}
-
-function renderAll(){
-  const f=filt==='all'?articles:articles.filter(a=>(a.sector||'').toLowerCase().includes(filt));
-  document.getElementById('topWrap').innerHTML='';
-  document.getElementById('row2Wrap').innerHTML='';
-  document.getElementById('clustersWrap').innerHTML='';
-  if(!f.length){return;}
-  renderTop(f);
-  if(f.length>=5) renderThumbRow(f.slice(1,5));
-  updateSidebar(f);
-  document.getElementById('artCount').textContent=f.length+' articles';
-}
-
-function renderTop(f){
-  const lead=f[0], mids=f.slice(1,3), rights=f.slice(3,5);
-  const cb=badge(lead.confidence);
-  const imgH=lead.image_url
-    ?`<img class="l-img" src="${lead.image_url}" alt="${x(lead.headline)}">`
-    :`<div class="l-ph"><span>${x(lead.sector||'Report').toUpperCase()}</span></div>`;
-  document.getElementById('topWrap').innerHTML=`
-  <div class="tnews">
-    <div class="lc" onclick="openArt('${lead.id}')">
-      ${imgH}
-      <div class="l-body">
-        <div class="lsec">${x(lead.sector||'Report').toUpperCase()}</div>
-        <div class="lhl">${x(lead.headline||'Untitled')}</div>
-        <div class="ldek">${x((lead.dek||'').slice(0,160))}${(lead.dek||'').length>160?'…':''}</div>
-        <div class="lmeta"><span class="cb ${cb.c}">${cb.p}%</span><span class="lby">${lead.sources_count||0} sources · ${dt(lead.timestamp)}</span></div>
-      </div>
-    </div>
-    <div class="mc">${mids.map(ci).join('')||''}</div>
-    <div class="rc">${rights.map(ci).join('')||''}</div>
-  </div>`;
-}
-function ci(a){
-  const cb=badge(a.confidence);
-  return`<div class="ci" onclick="openArt('${a.id}')">
-    <div class="ci-sec">${x(a.sector||'Report').toUpperCase()}</div>
-    <div class="ci-hl">${x(a.headline||'Untitled')}</div>
-    <div class="ci-meta"><span class="cb ${cb.c}" style="font-size:8px;">${cb.p}%</span><span>${dt(a.timestamp)}</span></div>
-  </div>`;
-}
-
-function renderThumbRow(arts){
-  document.getElementById('row2Wrap').innerHTML=`<div class="thumb-row">${arts.map(a=>{
-    const imgH=a.image_url?`<img class="tc-img" src="${a.image_url}" alt="">`:`<div class="tc-ph"><span>${x(a.sector||'').toUpperCase()}</span></div>`;
-    const cb=badge(a.confidence);
-    return`<div class="tc" onclick="openArt('${a.id}')">${imgH}
-      <div class="tc-body">
-        <div class="tc-sec">${x(a.sector||'Report').toUpperCase()}</div>
-        <div class="tc-hl">${x(a.headline||'Untitled')}</div>
-        <div class="tc-meta"><span class="cb ${cb.c}" style="font-size:8px;">${cb.p}%</span><span>${dt(a.timestamp)}</span></div>
-      </div>
-    </div>`;}).join('')}</div>`;
-}
-
-function updateSidebar(arts){
-  document.getElementById('latBox').innerHTML=arts.slice(0,6).map((a,i)=>`
-  <div class="lat-item" onclick="openArt('${a.id}')">
-    <div class="lat-ago">${i===0?'Latest':dt(a.timestamp)}</div>
-    <div class="lat-hl">${x(a.headline||'Untitled')}</div>
-  </div>`).join('');
+  document.getElementById('mhDate').textContent=n.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})+' '+n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
 }
 
 function showN(msg,err=false){
   const n=document.getElementById('notice'),sp=document.getElementById('nSp'),tx=document.getElementById('nTx');
-  n.classList.add('show');sp.style.display=err?'none':'block';tx.className=err?'err':'';tx.textContent=msg;}
+  n.classList.add('show');sp.style.display=err?'none':'block';tx.style.color=err?'#be131a':'#5c5636';tx.textContent=msg;
+}
 function hideN(){document.getElementById('notice').classList.remove('show');}
+
+async function loadFeed(){
+  try{
+    const r=await fetch(`${API}/articles`,{signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      const d=await r.json();
+      if(d.articles&&d.articles.length>0) articles=d.articles;
+    }
+  }catch(e){console.log('Error',e);}
+  renderAll();
+}
+
+function renderAll(){
+  const f=filt==='all'?articles:articles.filter(a=>(a.sector||'').toLowerCase().includes(filt));
+  const tna = document.getElementById('topNewsArea');
+  const lat = document.getElementById('latList');
+  document.getElementById('artCount').textContent=f.length+' articles';
+  
+  if(!f.length){
+    tna.innerHTML='<p>No articles found.</p>';
+    lat.innerHTML='';
+    return;
+  }
+  
+  // Hero (First article)
+  const lead = f[0];
+  const subs = f.slice(1,7);
+  
+  let subHtml = '';
+  if(subs.length > 0){
+    subHtml = `<div class="sub-articles">
+      ${subs.map(a => `
+        <div class="sub-card" onclick="openArt('${a.id}')">
+           <div class="s-sec">${x(a.sector||'Report')}</div>
+           <div class="s-hl">${x(a.headline)}</div>
+           <div class="meta"><span class="badge">${badge(a.confidence)}%</span><span>${dt(a.timestamp)}</span></div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+  
+  tna.innerHTML = `
+    <div class="hero-card" onclick="openArt('${lead.id}')">
+      ${lead.image_url ? `<img src="${lead.image_url}" class="hero-img">` : ``}
+      <div class="h-sec">${x(lead.sector||'Report')}</div>
+      <div class="h-hl">${x(lead.headline)}</div>
+      <div class="h-dek">${x((lead.dek||lead.body||'').slice(0, 160))}...</div>
+      <div class="meta"><span class="badge">${badge(lead.confidence)}%</span><span>${dt(lead.timestamp)}</span></div>
+    </div>
+    ${subHtml}
+  `;
+  
+  // Sidebar (Latest)
+  lat.innerHTML = f.map((a, i) => `
+    <div class="lat-card" onclick="openArt('${a.id}')">
+      <div class="lat-tag">${i===0?'LATEST':dtFull(a.timestamp)}</div>
+      <div class="lat-hl">${x(a.headline)}</div>
+    </div>
+  `).join('');
+}
 
 async function gen(){
   const t=document.getElementById('ncInp').value.trim();
@@ -556,23 +531,39 @@ async function gen(){
   showN(`Researching "${t.slice(0,40)}"…`);
   try{
     const r=await fetch(`${API}/generate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic:t})});
-    const a=await r.json(); articles.unshift(a); document.getElementById('ncInp').value=''; renderAll(); hideN();
-  }catch(e){showN('Error generating article',true); setTimeout(hideN,3000);}
+    const a=await r.json(); 
+    articles.unshift(a); 
+    document.getElementById('ncInp').value=''; 
+    renderAll(); 
+    hideN();
+  }catch(e){
+    showN('Error generating article',true); 
+    setTimeout(hideN,3000);
+  }
   document.getElementById('lbar').classList.remove('on');
 }
 
 function openArt(id){
   const a=articles.find(z=>String(z.id)===String(id)); if(!a)return; current=a;
-  document.getElementById('mtag').textContent=(a.sector||'Report').toUpperCase()+' · THE ECONOMIC TIMES';
+  document.getElementById('mtag').textContent=(a.sector||'Report').toUpperCase()+' · VERITAS';
   document.getElementById('mhl').textContent=a.headline||'—';
-  const dk=document.getElementById('mdek'); if(a.dek){dk.textContent=a.dek;dk.style.display='block';}else{dk.style.display='none';}
-  const mi=document.getElementById('mImg'); if(a.image_url){mi.src=a.image_url;mi.style.display='block';}else{mi.style.display='none';}
-  document.getElementById('mdate').textContent=dt(a.timestamp);
+  
+  const dk=document.getElementById('mdek'); 
+  if(a.dek){dk.textContent=a.dek; dk.style.display='block';} else{dk.style.display='none';}
+  
+  const mi=document.getElementById('mImg'); 
+  if(a.image_url){mi.src=a.image_url; mi.style.display='block';} else{mi.style.display='none';}
+  
+  document.getElementById('mdate').textContent=dtFull(a.timestamp);
+  
   const paras=(a.body||'Loading...').split('\n').filter(p=>p.trim());
   document.getElementById('mbody').innerHTML=paras.map(p=>`<p>${p}</p>`).join('');
   document.getElementById('mqMsgs').innerHTML='';
-  document.getElementById('mbg').classList.add('on'); document.body.style.overflow='hidden';
+  
+  document.getElementById('mbg').classList.add('on');
+  document.body.style.overflow='hidden';
 }
+
 function closeModal(){document.getElementById('mbg').classList.remove('on');document.body.style.overflow='';}
 function closeBg(e){if(e.target===document.getElementById('mbg'))closeModal();}
 
@@ -585,40 +576,31 @@ async function askModal(){
     const d=await r.json(); ld.remove(); addMsg(c,r.ok?(d.answer||'No answer.'):(d.detail||`Error`),'ai');
   }catch{ld.remove();addMsg(c,'Offline.','ai');}
 }
-async function askSide(){
-  const q=document.getElementById('sqInp').value.trim(); if(!q)return;
-  const c=document.getElementById('sqMsgs'); addMsg(c,q,'u'); document.getElementById('sqInp').value='';
-  const ld=document.createElement('div');ld.className='qm';ld.textContent='Thinking…';c.appendChild(ld);
-  try{
-    const r=await fetch(`${API}/qa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,article_id:current?.id||null})});
-    const d=await r.json(); ld.remove(); addMsg(c,r.ok?(d.answer||'No answer.'):(d.detail||`Error`),'ai');
-  }catch{ld.remove();addMsg(c,'Offline.','ai');} c.scrollTop=c.scrollHeight;
-}
-function addMsg(c,t,type){const d=document.createElement('div');d.className=type==='u'?'qm u':'qm';d.textContent=t;c.appendChild(d);c.scrollTop=c.scrollHeight;}
 
-async function toggleDigest(){
-  const s=document.getElementById('dstrip'); if(s.classList.contains('on')){s.classList.remove('on');return;}
-  s.classList.add('on'); document.getElementById('dgrid').innerHTML='<div class="dtext" style="grid-column:1/-1;text-align:center;">Compiling…</div>';
-  try{const r=await fetch(`${API}/digest`,{method:'POST'});const d=await r.json();
-  document.getElementById('dgrid').innerHTML=(d.items||[]).map((it,i)=>`<div class="ditem"><div class="dnum">0${i+1}</div><div class="dtext">${x(it.text)}</div></div>`).join('');
-  }catch{}
+function addMsg(c,t,type){
+  const d=document.createElement('div');
+  d.className=type==='u'?'qm u':'qm';
+  d.textContent=t;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
 }
 
-async function loadTrends(){
-  try{
-    const r=await fetch(`${API}/trends`); const d=await r.json();
-    document.getElementById('ccGrid').innerHTML=(d.trends||[]).map((t,i)=>`
-    <div class="cc-card" onclick="document.getElementById('ncInp').value='${x(t.topic)}';gen()">
-      <div class="cc-rank">#${i+1} Trending</div>
-      <div class="cc-topic">${x(t.topic)}</div>
-      <button class="cc-btn">Report This →</button>
-    </div>`).join('');
-  }catch{}
+function ff(s,b){
+  filt=s;
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderAll();
 }
-function ff(s,b){filt=s;document.querySelectorAll('.ntab').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderAll();}
-function badge(c){const p=Math.round((c||0)*100);if(p>=80)return{c:'cb-h',p};if(p>=60)return{c:'cb-m',p};return{c:'cb-l',p};}
-function dt(ts){return ts?new Date(ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}):'Today';}
+
+function badge(c){return Math.round((c||0.85)*100);}
+function dt(ts){return ts?new Date(ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'Today';}
+function dtFull(ts){
+  if(!ts)return 'Today';
+  const d=new Date(ts);
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+}
 function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
 </script>
 </body>
 </html>
