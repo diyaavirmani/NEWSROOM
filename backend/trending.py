@@ -45,3 +45,14 @@ def get_trending_topics_with_images(country='in'):
             break
 
     return topics
+
+def get_trending_for_display(limit=6, country='in'):
+    topics = get_trending_topics_with_images(country=country)
+    display_topics = []
+    for t in topics[:limit]:
+        display_topics.append({
+            'topic': t['topic'],
+            'platform': t.get('source', 'NewsAPI'),
+            'views': 'Trending'
+        })
+    return display_topics
