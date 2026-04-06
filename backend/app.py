@@ -30,14 +30,14 @@ load_dotenv()
 # does NOT crash the whole server.
 
 try:
-    from searcher import search_web
+    from .searcher import search_web
     print("[app.py] searcher.py loaded OK")
 except ImportError as e:
     print(f"[app.py] WARNING: searcher.py not found: {e}")
     def search_web(topic): return []
 
 try:
-    from fact_extractor import extract_facts
+    from .fact_extractor import extract_facts
     print("[app.py] fact_extractor.py loaded OK")
 except ImportError as e:
     print(f"[app.py] WARNING: fact_extractor.py not found: {e}")
@@ -46,7 +46,7 @@ except ImportError as e:
                 'confidence': 0.75, 'verified_claims': 0, 'entities': [topic]}
 
 try:
-    from writer import write_article
+    from .writer import write_article
     print("[app.py] writer.py loaded OK")
 except ImportError as e:
     print(f"[app.py] WARNING: writer.py not found: {e}")
@@ -61,7 +61,7 @@ except ImportError as e:
         }
 
 try:
-    from trending import get_trending_for_display, get_trending_topics
+    from .trending import get_trending_for_display, get_trending_topics
     print("[app.py] trending.py loaded OK")
 except ImportError as e:
     print(f"[app.py] WARNING: trending.py not found: {e}")
