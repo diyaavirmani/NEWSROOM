@@ -24,7 +24,7 @@ Confidence: {fact_graph.get("confidence", 0.8)}
 Write the full article."""
 
     response = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
+        model="meta-llama/llama-3.1-70b-instruct",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt}
@@ -70,7 +70,7 @@ def write_digest(articles):
     prompt = '\\n'.join(prompt_lines)
     
     response = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
+        model="meta-llama/llama-3.1-70b-instruct",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=400,
         temperature=0.3

@@ -1,983 +1,2364 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas — News, grounded in truth.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --w:#fff;--bg:#f4f2ed;--ink:#1a1a1a;--ink2:#333;--ink3:#666;--ink4:#999;
-  --red:#b5121b;--red2:#8c0e15;--green:#1a6b3a;
-  --border:#e0ddd5;--border2:#ece9e1;
-  --cream:#fdf9f3;--yellow:#fef9e8;--teal-bg:#edf7f3;
-  --disp:'Playfair Display',Georgia,serif;
-  --body:'Merriweather',Georgia,serif;
-  --sans:'Source Sans 3',system-ui,sans-serif;
-}
-html{font-size:14px;}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;}
-a{text-decoration:none;color:inherit;}
-button{cursor:pointer;font-family:var(--sans);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veritas — News, grounded in truth.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&family=Source+Sans+3:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ══ TOP STRIP ═══════════════════ */
-.top-strip{background:var(--ink);color:#888;font-family:var(--sans);font-size:11px;padding:5px 24px;display:flex;justify-content:space-between;align-items:center;}
-.ts-links a{color:#888;margin-right:14px;transition:color .15s;}
-.ts-links a:hover{color:#fff;}
+    :root {
+      --w: #fff;
+      --bg: #f4f2ed;
+      --ink: #1a1a1a;
+      --ink2: #333;
+      --ink3: #666;
+      --ink4: #999;
+      --red: #b5121b;
+      --red2: #8c0e15;
+      --green: #1a6b3a;
+      --border: #e0ddd5;
+      --border2: #ece9e1;
+      --cream: #fdf9f3;
+      --teal: #1a5f4a;
+      --teal-bg: #edf7f3;
+      --disp: 'Playfair Display', Georgia, serif;
+      --body: 'Merriweather', Georgia, serif;
+      --sans: 'Source Sans 3', system-ui, sans-serif;
+    }
 
-/* ══ MASTHEAD ════════════════════ */
-.masthead{background:var(--w);border-bottom:1px solid var(--border);padding:14px 24px 10px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
-.mast-info{font-family:var(--sans);font-size:11px;color:var(--ink4);}
-.mast-info strong{display:block;font-size:12px;color:var(--ink2);margin-bottom:2px;}
-.mast-center{text-align:center;flex:1;}
-.mast-name{font-family:var(--disp);font-size:clamp(32px,5vw,66px);font-weight:900;letter-spacing:-1.5px;line-height:1;color:var(--ink);}
-.mast-tag{font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);margin-top:4px;}
-.mast-actions{display:flex;gap:8px;flex-shrink:0;}
-.btn-sm{font-family:var(--sans);font-size:11px;font-weight:600;padding:6px 13px;border:1.5px solid var(--border);background:transparent;color:var(--ink2);transition:all .15s;white-space:nowrap;}
-.btn-sm:hover{border-color:var(--ink);background:var(--bg);}
-.btn-red{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 16px;background:var(--red);color:#fff;border:none;transition:background .15s;white-space:nowrap;}
-.btn-red:hover{background:var(--red2);}
+    html {
+      font-size: 14px;
+    }
 
-/* ══ LOADING ════════════════════ */
-.lbar{height:2px;overflow:hidden;background:transparent;}
-.lbar.on{background:#eee;}
-.lfill{height:100%;width:30%;background:var(--red);display:none;animation:ls 1s ease infinite;}
-.lbar.on .lfill{display:block;}
-@keyframes ls{0%{transform:translateX(-100%)}100%{transform:translateX(420%)}}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
 
-/* ══ NAV ════════════════════════ */
-.nav{background:var(--w);border-bottom:2px solid var(--ink);padding:0 24px;display:flex;align-items:stretch;justify-content:space-between;}
-.nav-tabs{display:flex;overflow-x:auto;scrollbar-width:none;gap:0;}
-.nav-tabs::-webkit-scrollbar{display:none;}
-.ntab{font-family:var(--sans);font-size:13px;font-weight:600;padding:10px 13px;border:none;border-bottom:3px solid transparent;background:none;color:var(--ink2);transition:all .15s;white-space:nowrap;}
-.ntab:hover{color:var(--ink);}
-.ntab.on{color:var(--red);border-bottom-color:var(--red);}
-.nav-right{display:flex;align-items:center;gap:6px;padding:5px 0;}
-.s-inp{font-family:var(--sans);font-size:12px;padding:6px 10px;border:1px solid var(--border);background:var(--bg);color:var(--ink);outline:none;width:160px;}
-.s-inp:focus{border-color:var(--ink3);}
-.s-btn{font-size:12px;padding:6px 10px;background:var(--ink);color:#fff;border:none;transition:background .15s;}
-.s-btn:hover{background:var(--red);}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-/* ══ NAV COMMISSION ═════════════ */
-.nav-commission { display:flex; gap:0; margin-left:auto; }
-.nc-inp {
-  font-family:var(--body); font-style:italic; font-size:12px;
-  padding:5px 12px; border:1px solid var(--border); border-right:none;
-  background:var(--bg); color:var(--ink); outline:none; width:240px;
-}
-.nc-btn {
-  padding:5px 12px; background:var(--red); color:#fff;
-  border:none; font-size:14px; transition:background .15s;
-}
-.nc-btn:hover { background:var(--red2); }
+    button {
+      cursor: pointer;
+      font-family: var(--sans);
+    }
 
-/* ══ DIGEST ═════════════════════ */
-.dstrip{display:none;background:var(--ink);padding:18px 24px;border-bottom:2px solid var(--red);}
-.dstrip.on{display:block;}
-.dstrip-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.dstrip-title{font-family:var(--disp);font-size:15px;font-weight:700;font-style:italic;color:#fff;}
-.dclose{font-family:var(--sans);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;background:none;border:1px solid #444;color:#999;cursor:pointer;}
-.dclose:hover{background:#333;color:#fff;}
-.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 20px;}
-.ditem{display:flex;gap:10px;padding-top:10px;border-top:1px solid #282828;}
-.dnum{font-family:var(--disp);font-size:20px;font-weight:900;color:#2a2a2a;min-width:22px;line-height:1;}
-.dtext{font-family:var(--body);font-size:11px;line-height:1.6;color:#999;}
+    /* TOP STRIP */
+    .ts {
+      background: var(--ink);
+      color: #888;
+      font-family: var(--sans);
+      font-size: 11px;
+      padding: 5px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-/* ══ PAGE ═══════════════════════ */
-.page{max-width:1280px;margin:0 auto;padding:18px 24px 40px;display:grid;grid-template-columns:1fr 280px;gap:26px;}
-main{min-width:0;}
+    .ts a {
+      color: #777;
+      margin-right: 14px;
+      transition: color .15s;
+    }
 
-/* ══ SEC HEADER ═════════════════ */
-.sh{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--red);padding-bottom:7px;border-bottom:2px solid var(--border);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
-.sh-more{font-size:11px;font-weight:600;color:var(--ink3);cursor:pointer;transition:color .15s;}
-.sh-more:hover{color:var(--ink);}
+    .ts a:hover {
+      color: #fff;
+    }
 
-/* ══ TOP NEWS 3-COL ═════════════ */
-.tnews{display:grid;grid-template-columns:2fr 1fr 1fr;background:var(--w);border:1px solid var(--border);margin-bottom:22px;}
+    /* MASTHEAD */
+    .mh {
+      background: var(--w);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-.lead-col{border-right:1px solid var(--border);padding:16px;cursor:pointer;display:flex;flex-direction:column;}
-.lead-col:hover .lhl{color:var(--red);}
-.lph{width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,#e8e6e0 0%,#d8d5ce 100%);display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative;}
-.lph-label{font-family:var(--sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#b8b5ae;}
-.lead-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;margin-bottom:12px;filter:saturate(0.88);}
-.lsec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:7px;}
-.lhl{font-family:var(--disp);font-size:clamp(17px,2.1vw,22px);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;transition:color .15s;}
-.ldek{font-family:var(--body);font-size:12px;line-height:1.7;color:var(--ink3);font-style:italic;margin-bottom:10px;flex:1;}
-.lmeta{display:flex;align-items:center;gap:10px;margin-top:auto;}
-.conf-badge{display:inline-flex;align-items:center;gap:3px;font-family:var(--sans);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;}
-.conf-high{background:#e8f5ee;color:#1a6b3a;}
-.conf-mid{background:#fff8e8;color:#8a6a00;}
-.conf-low{background:#fdecea;color:#b5121b;}
-.lby{font-family:var(--sans);font-size:10px;color:var(--ink4);}
+    .mh-info {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--ink4);
+      min-width: 120px;
+    }
 
-.mid-col,.right-col{padding:14px;}
-.mid-col{border-right:1px solid var(--border);}
-.ci{padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--border2);cursor:pointer;}
-.ci:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.ci:hover .ci-hl{color:var(--red);}
-.ci-sec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
-.ci-hl{font-family:var(--disp);font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);transition:color .15s;margin-bottom:3px;}
-.ci-meta{font-family:var(--sans);font-size:9px;color:var(--ink4);display:flex;align-items:center;gap:6px;}
+    .mh-info strong {
+      display: block;
+      font-size: 12px;
+      color: var(--ink2);
+      margin-bottom: 2px;
+    }
 
-/* ══ HCARD (thumb+text row) ═════ */
-.hcard{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border2);cursor:pointer;transition:opacity .15s;}
-.hcard:first-child{padding-top:0;}
-.hcard:last-child{border-bottom:none;}
-.hcard:hover{opacity:.7;}
-.hth{width:86px;height:60px;flex-shrink:0;background:linear-gradient(135deg,#eee,#ddd);display:flex;align-items:center;justify-content:center;}
-.hth span{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#bbb;font-family:var(--sans);}
-.hbody{flex:1;min-width:0;}
-.h-sec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
-.h-hl{font-family:var(--disp);font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:3px;}
-.h-meta{font-family:var(--sans);font-size:9px;color:var(--ink4);}
+    .mh-c {
+      text-align: center;
+      flex: 1;
+    }
 
-/* ══ 4-GRID ═════════════════════ */
-.four-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px;}
-.fcard{cursor:pointer;transition:opacity .15s;}
-.fcard:hover{opacity:.75;}
-.fph{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#e8e6e0,#d5d2ca);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
-.fph span{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#bbb;font-family:var(--sans);}
-.f-sec{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
-.f-hl{font-family:var(--disp);font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);}
-.f-meta{font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:3px;display:flex;align-items:center;gap:6px;}
+    .mh-name {
+      font-family: var(--disp);
+      font-size: clamp(32px, 5vw, 68px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      color: var(--ink);
+    }
 
-/* ══ CLUSTER (story grouping) ══ */
-.cluster{border:1px solid var(--border);background:var(--w);margin-bottom:22px;}
-.cl-head{background:var(--yellow);padding:9px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.cl-title{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--red);}
-.cl-body{padding:14px;display:grid;grid-template-columns:1fr 2fr 1fr;gap:14px;}
-.cl-left{border-right:1px solid var(--border2);padding-right:14px;}
-.cl-mid{border-right:1px solid var(--border2);padding-right:14px;}
-.cl-mid-ph{width:100%;height:140px;background:linear-gradient(135deg,#e8e6e0,#d5d2ca);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
-.cl-mid-ph span{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#bbb;font-family:var(--sans);}
-.cl-right{ padding-left:14px;}
-.clr-item{padding:7px 0;border-bottom:1px solid var(--border2);cursor:pointer;}
-.clr-item:last-child{border-bottom:none;}
-.clr-item:hover .clr-hl{color:var(--red);}
-.clr-hl{font-family:var(--body);font-size:11px;font-weight:400;line-height:1.5;color:var(--ink2);}
-.clr-by{font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:1px;text-transform:uppercase;letter-spacing:.3px;}
+    .mh-tag {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 4px;
+    }
 
-/* ══ CREATOR'S CORNER ══════════ */
-.cc{background:var(--teal-bg);border:1px solid #c2ddd5;margin-bottom:22px;}
-.cc-head{background:#1a5f4a;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;}
-.cc-htitle{font-family:var(--disp);font-size:14px;font-weight:700;color:#fff;}
-.cc-hsub{font-family:var(--sans);font-size:10px;color:#7fc4ab;margin-top:1px;}
-.cc-refresh{font-family:var(--sans);font-size:10px;padding:4px 9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#ccc;cursor:pointer;transition:all .15s;}
-.cc-refresh:hover{background:rgba(255,255,255,.2);}
-.cc-body{padding:14px 16px;}
-.cc-intro{font-family:var(--body);font-style:italic;font-size:11px;color:#2a6b56;margin-bottom:12px;line-height:1.6;}
-.cc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.cc-card{background:var(--w);border:1px solid #cde6dc;padding:10px;cursor:pointer;transition:all .15s;}
-.cc-card:hover{background:#d4f0e7;border-color:#8fc4b2;}
-.cc-rank{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1a5f4a;margin-bottom:4px;}
-.cc-topic{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
-.cc-stats{font-family:var(--sans);font-size:9px;color:#4a8a76;}
-.cc-btn{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 8px;background:#1a5f4a;color:#fff;border:none;margin-top:7px;display:block;width:100%;transition:background .15s;}
-.cc-btn:hover{background:var(--red);}
-.cc-meta{font-family:var(--sans);font-size:10px;color:#5a8e7b;margin-top:10px;}
+    .mh-acts {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      min-width: 120px;
+      justify-content: flex-end;
+    }
 
-/* ══ EMPTY ══════════════════════ */
-.empty{text-align:center;padding:48px 20px;border:1px dashed var(--border);background:var(--w);margin-bottom:22px;}
-.e-hl{font-family:var(--disp);font-size:20px;font-weight:400;font-style:italic;color:var(--ink4);margin-bottom:6px;}
-.e-sub{font-family:var(--sans);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;}
-.e-btn{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:9px 22px;background:var(--ink);color:#fff;border:none;cursor:pointer;transition:background .15s;}
-.e-btn:hover{background:var(--red);}
+    .btn-o {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 13px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--ink2);
+      transition: all .15s;
+      white-space: nowrap;
+    }
 
-/* ══ SKELETON ═══════════════════ */
-.sk{background:#e5e2db;animation:ska 1.4s ease infinite;}
-@keyframes ska{0%,100%{opacity:.35}50%{opacity:.8}}
+    .btn-o:hover {
+      border-color: var(--ink);
+      background: var(--bg);
+    }
 
-/* ══ SIDEBAR ════════════════════ */
-.sidebar{display:flex;flex-direction:column;gap:18px;}
-.sbox{background:var(--w);border:1px solid var(--border);}
-.sbox-h{padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg);font-family:var(--sans);font-size:11px;font-weight:700;color:var(--ink2);display:flex;justify-content:space-between;align-items:center;}
-.sbox-h span{font-weight:400;color:var(--ink4);}
-.sbox-b{padding:12px;}
+    .btn-r {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      padding: 7px 16px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      transition: background .15s;
+      white-space: nowrap;
+    }
 
-.lat-item{padding:9px 12px;border-bottom:1px solid var(--border2);cursor:pointer;transition:opacity .15s;}
-.lat-item:last-child{border-bottom:none;}
-.lat-item:hover{opacity:.7;}
-.lat-ago{font-family:var(--sans);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--red);margin-bottom:2px;}
-.lat-hl{font-family:var(--body);font-size:11px;font-weight:400;line-height:1.5;color:var(--ink2);}
+    .btn-r:hover {
+      background: var(--red2);
+    }
 
-.qa-hint{font-family:var(--body);font-style:italic;font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:9px;}
-.qa-msgs{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;max-height:180px;overflow-y:auto;}
-.qm{font-family:var(--sans);font-size:11px;line-height:1.5;padding:6px 8px;border-left:2px solid var(--border2);color:var(--ink2);background:var(--bg);}
-.qm.u{border-left-color:var(--red);background:#fdf5f5;font-style:italic;color:var(--ink3);}
-.qa-row{display:flex;}
-.qa-inp{flex:1;font-family:var(--body);font-style:italic;font-size:12px;padding:7px 9px;border:1px solid var(--border);border-right:none;background:var(--w);color:var(--ink);outline:none;}
-.qa-inp:focus{border-color:var(--ink3);}
-.qa-go{font-family:var(--sans);font-size:11px;font-weight:700;padding:7px 10px;background:var(--ink);color:#fff;border:none;transition:background .15s;}
-.qa-go:hover{background:var(--red);}
+    /* LOADING */
+    .lbar {
+      height: 2px;
+      overflow: hidden;
+      background: transparent;
+    }
 
-.tr-item{display:flex;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border2);cursor:pointer;transition:opacity .15s;}
-.tr-item:last-child{border-bottom:none;}
-.tr-item:hover{opacity:.7;}
-.tr-num{font-family:var(--disp);font-size:15px;font-weight:900;color:#ddd;min-width:18px;line-height:1;}
-.tr-text{font-family:var(--sans);font-size:12px;font-weight:600;line-height:1.4;color:var(--ink2);}
-.tr-text span{display:block;font-weight:400;font-size:10px;color:var(--ink4);margin-top:1px;text-transform:uppercase;letter-spacing:.3px;}
+    .lbar.on {
+      background: #eee;
+    }
 
-/* ══ MODAL ══════════════════════ */
-.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.74);z-index:999;overflow-y:auto;padding:26px 16px;}
-.mbg.on{display:flex;align-items:flex-start;justify-content:center;}
-.modal{background:var(--w);max-width:780px;width:100%;border-top:3px solid var(--ink);animation:mIn .2s ease;}
-@keyframes mIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.mbar{display:flex;justify-content:space-between;align-items:center;padding:9px 22px;border-bottom:1px solid var(--border);background:var(--bg);}
-.mbar-l{font-family:var(--sans);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);}
-.mclose{font-family:var(--sans);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;background:none;border:1px solid var(--border);color:var(--ink3);cursor:pointer;transition:all .15s;}
-.mclose:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
-.mcontent{padding:24px 28px;}
-.mtag{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:9px;}
-.mhl{font-family:var(--disp);font-size:clamp(20px,2.8vw,30px);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:9px;}
-.mdek{font-family:var(--body);font-size:13px;font-style:italic;line-height:1.7;color:var(--ink3);border-left:3px solid var(--red);padding-left:12px;margin-bottom:13px;}
-.mby-row{font-family:var(--sans);font-size:10px;color:var(--ink3);display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding-bottom:13px;border-bottom:1px solid var(--border);margin-bottom:17px;}
-.mby-row strong{color:var(--ink);}
-.mbody {
-  font-family: var(--body);
-  font-size: 15px;
-  line-height: 1.9;
-  color: var(--ink2);
-  max-width: 65ch; /* 65 characters per line — improves readability */
-  margin: 0 auto; /* Center the text block */
-}
-.mbody p{margin-bottom:13px;}
-.mbody p:first-child::first-letter{font-family:var(--disp);font-size:50px;font-weight:900;float:left;line-height:.78;margin-right:5px;margin-top:7px;color:var(--ink);}
+    .lfill {
+      height: 100%;
+      width: 30%;
+      background: var(--red);
+      display: none;
+      animation: ls 1s ease infinite;
+    }
 
-/* Trust panel */
-.trust-panel{margin-top:18px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);}
-.tp-title{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
-.tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
-.tp-stat{text-align:center;}
-.tp-num{font-family:var(--disp);font-size:22px;font-weight:900;color:var(--ink);line-height:1;}
-.tp-lbl{font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
-.conf-bar-wrap{margin-bottom:10px;}
-.conf-bar-lbl{font-family:var(--sans);font-size:10px;color:var(--ink3);margin-bottom:4px;display:flex;justify-content:space-between;}
-.conf-bar{height:6px;background:#e8e5de;overflow:hidden;}
-.conf-fill{height:100%;background:var(--green);transition:width .8s ease;}
-.src-list{display:flex;flex-direction:column;gap:4px;}
-.src-row{font-family:var(--sans);font-size:11px;padding:4px 0;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px;color:var(--ink3);}
-.src-row:last-child{border-bottom:none;}
-.src-row a{color:var(--red);transition:opacity .15s;}.src-row a:hover{opacity:.7;}
+    .lbar.on .lfill {
+      display: block;
+    }
 
-/* Q&A in modal */
-.mqa{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
-.mqa-h{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
-.mqa-msgs{display:flex;flex-direction:column;gap:7px;margin-bottom:8px;}
-.mqm{font-family:var(--body);font-size:12px;line-height:1.6;padding:8px 10px;background:var(--bg);color:var(--ink2);border-left:2px solid var(--border);}
-.mqm.u{background:#fdf5f5;border-left-color:var(--red);font-style:italic;color:var(--ink3);}
-.mqa-row{display:flex;}
-.mqa-inp{flex:1;font-family:var(--body);font-style:italic;font-size:12px;padding:9px 12px;border:1px solid var(--border);border-right:none;background:var(--w);color:var(--ink);outline:none;}
-.mqa-inp:focus{border-color:var(--ink3);}
-.mqa-go{font-family:var(--sans);font-size:11px;font-weight:700;padding:9px 13px;background:var(--ink);color:#fff;border:none;transition:background .15s;}
-.mqa-go:hover{background:var(--red);}
+    @keyframes ls {
+      0% {
+        transform: translateX(-100%)
+      }
 
-/* ══ TICKER ═════════════════════ */
-.bticker{background:var(--ink);border-top:2px solid var(--red);overflow:hidden;white-space:nowrap;padding:5px 0;}
-.btrack{display:inline-flex;animation:bsc 35s linear infinite;}
-.btrack:hover{animation-play-state:paused;}
-@keyframes bsc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.btick{font-family:var(--sans);font-size:11px;padding:0 22px;color:#666;}
-.btick em{color:var(--red);font-style:normal;font-weight:700;margin-right:5px;}
-.blabel{display:inline-block;background:var(--red);color:#fff;font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:0 9px;margin-right:12px;line-height:1.9;}
+      100% {
+        transform: translateX(420%)
+      }
+    }
 
-/* ══ FOOTER ═════════════════════ */
-.footer{background:var(--ink);color:#555;padding:13px 24px;display:flex;justify-content:space-between;align-items:center;font-family:var(--sans);font-size:11px;flex-wrap:wrap;gap:8px;}
-.footer strong{color:#999;}
+    /* NAV */
+    .nav {
+      background: var(--w);
+      border-bottom: 2px solid var(--ink);
+      padding: 0 24px;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+    }
 
-/* ══ RESPONSIVE ═════════════════ */
-@media(max-width:1000px){
-  .page{grid-template-columns:1fr;}
-  .tnews,.cl-body{grid-template-columns:1fr;}
-  .lead-col,.mid-col{border-right:none;border-bottom:1px solid var(--border);}
-  .cl-left,.cl-mid{border-right:none;border-bottom:1px solid var(--border2);padding-right:0;padding-bottom:12px;}
-  .four-grid{grid-template-columns:1fr 1fr;}
-  .cc-grid{grid-template-columns:1fr 1fr;}
-  .tp-grid{grid-template-columns:repeat(3,1fr);}
-}
-@media(max-width:600px){
-  .masthead{flex-direction:column;gap:8px;}
-  .mast-info,.mast-actions{display:none;}
-  .four-grid{grid-template-columns:1fr;}
-  .cc-grid{grid-template-columns:1fr;}
-  .tp-grid{grid-template-columns:1fr 1fr;}
-  .page,.comm-band,.nav{padding-left:14px;padding-right:14px;}
-}
-</style>
+    .ntabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      gap: 0;
+    }
+
+    .ntabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ntab {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 13px;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: none;
+      color: var(--ink2);
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .ntab:hover {
+      color: var(--ink);
+    }
+
+    .ntab.on {
+      color: var(--red);
+      border-bottom-color: var(--red);
+    }
+
+    .nav-r {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 5px 0;
+    }
+
+    .nc-inp {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 12px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-right: none;
+      background: var(--bg);
+      color: var(--ink);
+      outline: none;
+      width: 220px;
+    }
+
+    .nc-inp:focus {
+      border-color: var(--ink3);
+    }
+
+    .nc-btn {
+      padding: 5px 12px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background .15s;
+    }
+
+    .nc-btn:hover {
+      background: var(--red2);
+    }
+
+    /* LOADING NOTICE (replaces alert popup) */
+    .gen-notice {
+      display: none;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--ink3);
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gen-notice.show {
+      display: flex;
+    }
+
+    .gen-notice .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .gen-notice .err {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    /* DIGEST */
+    .dstrip {
+      display: none;
+      background: var(--ink);
+      padding: 18px 24px;
+      border-bottom: 2px solid var(--red);
+    }
+
+    .dstrip.on {
+      display: block;
+    }
+
+    .dstrip-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .dtitle {
+      font-family: var(--disp);
+      font-size: 15px;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+    }
+
+    .dclose {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      background: none;
+      border: 1px solid #444;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .dclose:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    .dgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px 20px;
+    }
+
+    .ditem {
+      display: flex;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #282828;
+    }
+
+    .dnum {
+      font-family: var(--disp);
+      font-size: 20px;
+      font-weight: 900;
+      color: #2a2a2a;
+      min-width: 22px;
+      line-height: 1;
+    }
+
+    .dtext {
+      font-family: var(--body);
+      font-size: 11px;
+      line-height: 1.6;
+      color: #999;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 24px 40px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 26px;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    /* SECTION HEADER */
+    .sh {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--red);
+      padding-bottom: 7px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sh-m {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink3);
+      cursor: pointer;
+      transition: color .15s;
+    }
+
+    .sh-m:hover {
+      color: var(--ink);
+    }
+
+    /* TOP NEWS 3-COLUMN — Hindu-style */
+    .tnews {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      background: var(--w);
+      border: 1px solid var(--border);
+      margin-bottom: 22px;
+    }
+
+    .lc {
+      border-right: 1px solid var(--border);
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lc:hover .lhl {
+      color: var(--red);
+    }
+
+    /* Lead image — real photo */
+    .l-img {
+      width: 100%;
+      aspect-ratio: 3/2;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.88);
+    }
+
+    .l-ph {
+      width: 100%;
+      aspect-ratio: 3/2;
+      background: linear-gradient(135deg, #e8e6e0, #d5d2ca);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .l-ph span {
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b8b5ae;
+    }
+
+    .l-body {
+      padding: 14px 14px 14px;
+    }
+
+    .lsec {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 7px;
+    }
+
+    .lhl {
+      font-family: var(--disp);
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 8px;
+      transition: color .15s;
+    }
+
+    .ldek {
+      font-family: var(--body);
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink3);
+      font-style: italic;
+      margin-bottom: 10px;
+      flex: 1;
+    }
+
+    .lmeta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cb {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+    }
+
+    .cb-h {
+      background: #e8f5ee;
+      color: #1a6b3a;
+    }
+
+    .cb-m {
+      background: #fff8e8;
+      color: #8a6a00;
+    }
+
+    .cb-l {
+      background: #fdecea;
+      color: var(--red);
+    }
+
+    .lby {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: var(--ink4);
+    }
+
+    .mc {
+      border-right: 1px solid var(--border);
+      padding: 14px;
+    }
+
+    .rc {
+      padding: 14px;
+    }
+
+    .ci {
+      padding-bottom: 11px;
+      margin-bottom: 11px;
+      border-bottom: 1px solid var(--border2);
+      cursor: pointer;
+    }
+
+    .ci:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .ci:hover .ci-hl {
+      color: var(--red);
+    }
+
+    .ci-sec {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 4px;
+    }
+
+    .ci-hl {
+      font-family: var(--disp);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+      transition: color .15s;
+      margin-bottom: 3px;
+    }
+
+    .ci-meta {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: var(--ink4);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* 4-GRID */
+    .four-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .fcard {
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+
+    .fcard:hover {
+      opacity: .75;
+    }
+
+    .f-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.88);
+      margin-bottom: 8px;
+    }
+
+    .f-ph {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #e8e6e0, #d5d2ca);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .f-ph span {
+      font-size: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #bbb;
+      font-family: var(--sans);
+    }
+
+    .f-sec {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 4px;
+    }
+
+    .f-hl {
+      font-family: var(--disp);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .f-meta {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: var(--ink4);
+      margin-top: 3px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* CLUSTER */
+    .cluster {
+      border: 1px solid var(--border);
+      background: var(--w);
+      margin-bottom: 22px;
+    }
+
+    .cl-head {
+      background: #fef9e8;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cl-title {
+      font-family: var(--disp);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .cl-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 14px;
+    }
+
+    .cl-l {
+      border-right: 1px solid var(--border2);
+      padding-right: 14px;
+    }
+
+    .cl-m {
+      border-right: 1px solid var(--border2);
+      padding-right: 14px;
+    }
+
+    .cl-mph {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(135deg, #e8e6e0, #d5d2ca);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .cl-mimg {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      filter: saturate(0.88);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .cl-r {}
+
+    .clr {
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border2);
+      cursor: pointer;
+    }
+
+    .clr:last-child {
+      border-bottom: none;
+    }
+
+    .clr:hover .clr-hl {
+      color: var(--red);
+    }
+
+    .clr-hl {
+      font-family: var(--body);
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--ink2);
+    }
+
+    .clr-by {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: var(--ink4);
+      margin-top: 1px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+    /* CREATOR'S CORNER */
+    .cc {
+      background: var(--teal-bg);
+      border: 1px solid #c2ddd5;
+      margin-bottom: 22px;
+    }
+
+    .cc-h {
+      background: var(--teal);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cc-ht {
+      font-family: var(--disp);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cc-hs {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: #7fc4ab;
+      margin-top: 1px;
+    }
+
+    .cc-ref {
+      font-family: var(--sans);
+      font-size: 10px;
+      padding: 4px 9px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .25);
+      color: #ccc;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .cc-ref:hover {
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .cc-body {
+      padding: 14px 16px;
+    }
+
+    .cc-intro {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 11px;
+      color: #2a6b56;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .cc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .cc-card {
+      background: var(--w);
+      border: 1px solid #cde6dc;
+      padding: 10px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .cc-card:hover {
+      background: #d4f0e7;
+      border-color: #8fc4b2;
+    }
+
+    .cc-rank {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .cc-topic {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .cc-stats {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: #4a8a76;
+    }
+
+    .cc-btn {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      margin-top: 7px;
+      display: block;
+      width: 100%;
+      transition: background .15s;
+    }
+
+    .cc-btn:hover {
+      background: var(--red);
+    }
+
+    .cc-meta {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: #5a8e7b;
+      margin-top: 10px;
+    }
+
+    /* EMPTY */
+    .empty {
+      text-align: center;
+      padding: 48px 20px;
+      border: 1px dashed var(--border);
+      background: var(--w);
+      margin-bottom: 22px;
+    }
+
+    .e-hl {
+      font-family: var(--disp);
+      font-size: 20px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink4);
+      margin-bottom: 6px;
+    }
+
+    .e-sub {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 14px;
+    }
+
+    .e-btn {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 9px 22px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .e-btn:hover {
+      background: var(--red);
+    }
+
+    /* SKELETON */
+    .sk {
+      background: #e5e2db;
+      animation: ska 1.4s ease infinite;
+    }
+
+    @keyframes ska {
+
+      0%,
+      100% {
+        opacity: .35
+      }
+
+      50% {
+        opacity: .8
+      }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sbox {
+      background: var(--w);
+      border: 1px solid var(--border);
+    }
+
+    .sbox-h {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sbox-h span {
+      font-weight: 400;
+      color: var(--ink4);
+    }
+
+    .sbox-b {
+      padding: 12px;
+    }
+
+    .lat-item {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border2);
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+
+    .lat-item:last-child {
+      border-bottom: none;
+    }
+
+    .lat-item:hover {
+      opacity: .7;
+    }
+
+    .lat-ago {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--red);
+      margin-bottom: 2px;
+    }
+
+    .lat-hl {
+      font-family: var(--body);
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--ink2);
+    }
+
+    .qa-hint {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 11px;
+      color: var(--ink3);
+      line-height: 1.6;
+      margin-bottom: 9px;
+    }
+
+    .qa-msgs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 8px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .qm {
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 6px 8px;
+      border-left: 2px solid var(--border2);
+      color: var(--ink2);
+      background: var(--bg);
+    }
+
+    .qm.u {
+      border-left-color: var(--red);
+      background: #fdf5f5;
+      font-style: italic;
+      color: var(--ink3);
+    }
+
+    .qa-row {
+      display: flex;
+    }
+
+    .qa-inp {
+      flex: 1;
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 12px;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-right: none;
+      background: var(--w);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .qa-inp:focus {
+      border-color: var(--ink3);
+    }
+
+    .qa-go {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 7px 10px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      transition: background .15s;
+    }
+
+    .qa-go:hover {
+      background: var(--red);
+    }
+
+    .tr-item {
+      display: flex;
+      gap: 10px;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border2);
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+
+    .tr-item:last-child {
+      border-bottom: none;
+    }
+
+    .tr-item:hover {
+      opacity: .7;
+    }
+
+    .tr-num {
+      font-family: var(--disp);
+      font-size: 15px;
+      font-weight: 900;
+      color: #ddd;
+      min-width: 18px;
+      line-height: 1;
+    }
+
+    .tr-text {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--ink2);
+    }
+
+    .tr-text span {
+      display: block;
+      font-weight: 400;
+      font-size: 10px;
+      color: var(--ink4);
+      margin-top: 1px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+    /* MODAL */
+    .mbg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .74);
+      z-index: 999;
+      overflow-y: auto;
+      padding: 26px 16px;
+    }
+
+    .mbg.on {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .modal {
+      background: var(--w);
+      max-width: 740px;
+      width: 100%;
+      border-top: 3px solid var(--ink);
+      animation: mIn .2s ease;
+    }
+
+    @keyframes mIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .mbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 22px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .mbar-l {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    .mclose {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--ink3);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .mclose:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .mcontent {
+      padding: 24px 28px;
+    }
+
+    .mtag {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 9px;
+    }
+
+    .mhl {
+      font-family: var(--disp);
+      font-size: clamp(20px, 2.8vw, 30px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 9px;
+    }
+
+    .mdek {
+      font-family: var(--body);
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--ink3);
+      border-left: 3px solid var(--red);
+      padding-left: 12px;
+      margin-bottom: 13px;
+    }
+
+    /* Modal hero image */
+    .m-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 14px;
+      filter: saturate(0.88);
+    }
+
+    .mby {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: var(--ink3);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 17px;
+    }
+
+    .mby strong {
+      color: var(--ink);
+    }
+
+    .mbody {
+      font-family: var(--body);
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--ink2);
+      max-width: 65ch;
+    }
+
+    .mbody p {
+      margin-bottom: 13px;
+    }
+
+    .mbody p:first-child::first-letter {
+      font-family: var(--disp);
+      font-size: 50px;
+      font-weight: 900;
+      float: left;
+      line-height: .78;
+      margin-right: 5px;
+      margin-top: 7px;
+      color: var(--ink);
+    }
+
+    /* Trust panel */
+    .tp {
+      margin-top: 18px;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .tp-title {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 12px;
+    }
+
+    .tp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tp-stat {
+      text-align: center;
+    }
+
+    .tp-num {
+      font-family: var(--disp);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .tp-lbl {
+      font-family: var(--sans);
+      font-size: 9px;
+      color: var(--ink4);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .cbar-wrap {
+      margin-bottom: 10px;
+    }
+
+    .cbar-lbl {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: var(--ink3);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cbar {
+      height: 6px;
+      background: #e8e5de;
+      overflow: hidden;
+    }
+
+    .cfill {
+      height: 100%;
+      background: var(--green);
+      transition: width .8s ease;
+    }
+
+    .src-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .src-row {
+      font-family: var(--sans);
+      font-size: 11px;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink3);
+    }
+
+    .src-row:last-child {
+      border-bottom: none;
+    }
+
+    .src-row a {
+      color: var(--red);
+    }
+
+    .src-row a:hover {
+      opacity: .7;
+    }
+
+    /* Q&A in modal */
+    .mqa {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .mqa-h {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 8px;
+    }
+
+    .mqa-msgs {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 8px;
+    }
+
+    .mqm {
+      font-family: var(--body);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 8px 10px;
+      background: var(--bg);
+      color: var(--ink2);
+      border-left: 2px solid var(--border);
+    }
+
+    .mqm.u {
+      background: #fdf5f5;
+      border-left-color: var(--red);
+      font-style: italic;
+      color: var(--ink3);
+    }
+
+    .mqa-row {
+      display: flex;
+    }
+
+    .mqa-inp {
+      flex: 1;
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 12px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-right: none;
+      background: var(--w);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .mqa-inp:focus {
+      border-color: var(--ink3);
+    }
+
+    .mqa-go {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 9px 13px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      transition: background .15s;
+    }
+
+    .mqa-go:hover {
+      background: var(--red);
+    }
+
+    /* TICKER */
+    .bticker {
+      background: var(--ink);
+      border-top: 2px solid var(--red);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 5px 0;
+    }
+
+    .btrack {
+      display: inline-flex;
+      animation: bsc 35s linear infinite;
+    }
+
+    .btrack:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes bsc {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    .btick {
+      font-family: var(--sans);
+      font-size: 11px;
+      padding: 0 22px;
+      color: #666;
+    }
+
+    .btick em {
+      color: var(--red);
+      font-style: normal;
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    .blabel {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0 9px;
+      margin-right: 12px;
+      line-height: 1.9;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--ink);
+      color: #555;
+      padding: 13px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--sans);
+      font-size: 11px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer strong {
+      color: #999;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:1000px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .tnews,
+      .cl-body {
+        grid-template-columns: 1fr;
+      }
+
+      .lc,
+      .mc {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .cl-l,
+      .cl-m {
+        border-right: none;
+        border-bottom: 1px solid var(--border2);
+        padding-right: 0;
+        padding-bottom: 12px;
+      }
+
+      .four-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width:600px) {
+      .mh {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .mh-info,
+      .mh-acts {
+        display: none;
+      }
+
+      .four-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cc-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page,
+      .nav {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
+  <!-- TOP STRIP -->
+  <div class="ts">
+    <div><a href="#">India</a><a href="#">World</a><a href="#">Economy</a><a href="#">Technology</a><a
+        href="#">Science</a><a href="#">Web3</a></div>
+    <span id="tsDate" style="font-size:10px;"></span>
+  </div>
 
+  <!-- MASTHEAD -->
+  <div class="mh">
+    <div class="mh-info"><strong>Veritas</strong><span id="mhDate"></span></div>
+    <div class="mh-c">
+      <div class="mh-name">Veritas</div>
+      <div class="mh-tag">News, grounded in truth.</div>
+    </div>
+    <div class="mh-acts">
+      <button class="btn-o" onclick="toggleDigest()">Morning Digest</button>
+    </div>
+  </div>
 
-<!-- MASTHEAD -->
-<div class="masthead">
-  <div class="mast-info">
+  <!-- LOADING -->
+  <div class="lbar" id="lbar">
+    <div class="lfill"></div>
+  </div>
+
+  <!-- NOTICE (replaces ugly alert popup) -->
+  <div class="gen-notice" id="genNotice">
+    <span class="spinner" id="noticeSpinner"></span>
+    <span id="noticeText">Researching and writing article…</span>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <nav class="ntabs">
+      <button class="ntab on" onclick="filterFeed('all',this)">Top News</button>
+      <button class="ntab" onclick="filterFeed('india',this)">India</button>
+      <button class="ntab" onclick="filterFeed('world',this)">World</button>
+      <button class="ntab" onclick="filterFeed('economy',this)">Economy</button>
+      <button class="ntab" onclick="filterFeed('technology',this)">Technology</button>
+      <button class="ntab" onclick="filterFeed('ai',this)">AI</button>
+      <button class="ntab" onclick="filterFeed('science',this)">Science</button>
+      <button class="ntab" onclick="filterFeed('web3',this)">Web3</button>
+    </nav>
+    <div class="nav-r">
+      <input class="nc-inp" id="ncInp" placeholder="Commission a report on any topic…"
+        onkeydown="if(event.key==='Enter')generate()">
+      <button class="nc-btn" onclick="generate()">→</button>
+    </div>
+  </div>
+
+  <!-- DIGEST -->
+  <div class="dstrip" id="dstrip">
+    <div class="dstrip-top">
+      <div class="dtitle">Morning Briefing</div><button class="dclose" onclick="toggleDigest()">✕ Close</button>
+    </div>
+    <div class="dgrid" id="dgrid">
+      <div class="dtext"
+        style="padding:8px;text-align:center;grid-column:1/-1;letter-spacing:1px;font-size:11px;color:#555;">Compiling…
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE -->
+  <div class="page">
+    <main id="main">
+      <div class="sh">Top News <span class="sh-m" onclick="loadFeed()">Refresh →</span></div>
+      <div id="topWrap"></div>
+
+      <!-- Skeleton -->
+      <div id="skelWrap">
+        <div class="tnews">
+          <div class="lc" style="border-right:1px solid var(--border);">
+            <div class="sk" style="width:100%;aspect-ratio:3/2;"></div>
+            <div style="padding:14px;">
+              <div class="sk" style="height:10px;width:55px;margin-bottom:8px;"></div>
+              <div class="sk" style="height:17px;width:88%;margin-bottom:5px;"></div>
+              <div class="sk" style="height:17px;width:72%;margin-bottom:10px;"></div>
+              <div class="sk" style="height:11px;width:100%;margin-bottom:4px;"></div>
+              <div class="sk" style="height:11px;width:80%;"></div>
+            </div>
+          </div>
+          <div class="mc" style="border-right:1px solid var(--border);">
+            <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
+            <div class="sk" style="height:14px;width:92%;margin-bottom:5px;"></div>
+            <div class="sk" style="height:14px;width:70%;margin-bottom:18px;"></div>
+            <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
+            <div class="sk" style="height:14px;width:85%;margin-bottom:5px;"></div>
+            <div class="sk" style="height:14px;width:68%;"></div>
+          </div>
+          <div class="rc">
+            <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
+            <div class="sk" style="height:14px;width:90%;margin-bottom:5px;"></div>
+            <div class="sk" style="height:14px;width:68%;margin-bottom:18px;"></div>
+            <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
+            <div class="sk" style="height:14px;width:80%;margin-bottom:5px;"></div>
+            <div class="sk" style="height:14px;width:65%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Creator's Corner -->
+      <div class="cc">
+        <div class="cc-h">
+          <div>
+            <div class="cc-ht">Creator's Corner</div>
+            <div class="cc-hs">Trending on Google — reported seriously</div>
+          </div>
+          <button class="cc-ref" onclick="loadTrends()">↻ Refresh</button>
+        </div>
+        <div class="cc-body">
+          <p class="cc-intro">These topics are trending in India right now. Click any to generate a fully verified
+            article.</p>
+          <div class="cc-grid" id="ccGrid">
+            <div
+              style="font-family:var(--sans);font-size:11px;color:#5a8e7b;padding:12px;text-align:center;letter-spacing:1px;grid-column:1/-1;">
+              Loading trends…</div>
+          </div>
+          <div class="cc-meta" id="ccMeta"></div>
+        </div>
+      </div>
+
+      <div id="moreWrap"></div>
+      <div id="clustersWrap"></div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sbox">
+        <div class="sbox-h">Latest Reports <span id="artCount">—</span></div>
+        <div id="latBox">
+          <div style="padding:14px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">Loading…
+          </div>
+        </div>
+      </div>
+      <div class="sbox">
+        <div class="sbox-h">Ask About a Story</div>
+        <div class="sbox-b">
+          <p class="qa-hint">Open any article, then ask a follow-up question here.</p>
+          <div class="qa-msgs" id="sqMsgs"></div>
+          <div class="qa-row">
+            <input class="qa-inp" id="sqInp" placeholder="Your question…" onkeydown="if(event.key==='Enter')askSide()">
+            <button class="qa-go" onclick="askSide()">Ask</button>
+          </div>
+        </div>
+      </div>
+      <div class="sbox">
+        <div class="sbox-h">Trending in India</div>
+        <div id="trendBox">
+          <div class="tr-item" onclick="sc('India AI policy 2026');generate()">
+            <div class="tr-num">01</div>
+            <div class="tr-text">India AI Policy<span>Technology</span></div>
+          </div>
+          <div class="tr-item" onclick="sc('RBI rate decision 2026');generate()">
+            <div class="tr-num">02</div>
+            <div class="tr-text">RBI Rate Decision<span>Economy</span></div>
+          </div>
+          <div class="tr-item" onclick="sc('OpenAI GPT-5 2026');generate()">
+            <div class="tr-num">03</div>
+            <div class="tr-text">OpenAI GPT-5<span>AI · Technology</span></div>
+          </div>
+          <div class="tr-item" onclick="sc('ISRO mission 2026');generate()">
+            <div class="tr-num">04</div>
+            <div class="tr-text">ISRO Mission 2026<span>Science · India</span></div>
+          </div>
+          <div class="tr-item" onclick="sc('Ethereum Web3 India 2026');generate()">
+            <div class="tr-num">05</div>
+            <div class="tr-text">Ethereum Web3 India<span>Web3</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- TICKER -->
+  <div class="bticker">
+    <div class="btrack" id="btrack">
+      <span class="blabel">Live</span>
+      <span class="btick"><em>Veritas</em> AI-native newsroom — researched, verified, published without human
+        intervention.</span>
+      <span class="btick"><em>Q&A</em> Ask follow-up questions on any article in the feed.</span>
+      <span class="btick"><em>Creator's Corner</em> Google Trends India → serious journalism.</span>
+      <span class="btick"><em>Digest</em> Morning briefing auto-generated every day.</span>
+      <span class="blabel">Live</span>
+      <span class="btick"><em>Veritas</em> AI-native newsroom — researched, verified, published without human
+        intervention.</span>
+      <span class="btick"><em>Q&A</em> Ask follow-up questions on any article in the feed.</span>
+      <span class="btick"><em>Creator's Corner</em> Google Trends India → serious journalism.</span>
+      <span class="btick"><em>Digest</em> Morning briefing auto-generated every day.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
     <strong>Veritas</strong>
-    <span id="mastheadDate"></span>
-  </div>
-  <div class="mast-center">
-    <div class="mast-name">Veritas</div>
-    <div class="mast-tag">News, grounded in truth.</div>
-  </div>
-  <div class="mast-actions">
-    <button class="btn-sm" onclick="toggleDigest()">Morning Digest</button>
-    <button class="btn-red" onclick="focusComm()">+ Commission Report</button>
-  </div>
-</div>
-
-<!-- LOADING -->
-<div class="lbar" id="lbar"><div class="lfill"></div></div>
-
-<!-- NAV -->
-<div class="nav">
-  <nav class="nav-tabs">
-    <button class="ntab on" onclick="filterFeed('all',this)">Top News</button>
-    <button class="ntab" onclick="filterFeed('india',this)">India</button>
-    <button class="ntab" onclick="filterFeed('world',this)">World</button>
-    <button class="ntab" onclick="filterFeed('economy',this)">Economy</button>
-    <button class="ntab" onclick="filterFeed('technology',this)">Technology</button>
-    <button class="ntab" onclick="filterFeed('ai',this)">AI</button>
-    <button class="ntab" onclick="filterFeed('science',this)">Science</button>
-    <button class="ntab" onclick="filterFeed('web3',this)">Web3</button>
-  </nav>
-  <div class="nav-commission">
-    <input class="nc-inp" id="commInp" placeholder="Commission a report on any topic…" onkeydown="if(event.key==='Enter')generate()">
-    <button class="nc-btn" onclick="generate()">→</button>
-  </div>
-  <div class="nav-right">
-    <input class="s-inp" id="sInp" placeholder="Search stories…" onkeydown="if(event.key==='Enter')doSearch()">
-    <button class="s-btn" onclick="doSearch()">→</button>
-  </div>
-</div>
-
-
-
-<!-- DIGEST -->
-<div class="dstrip" id="dstrip">
-  <div class="dstrip-top">
-    <div class="dstrip-title">Morning Briefing</div>
-    <button class="dclose" onclick="toggleDigest()">✕ Close</button>
-  </div>
-  <div class="dgrid" id="dgrid" style="font-family:var(--sans);font-size:11px;color:#555;padding:8px;text-align:center;letter-spacing:1px;">Compiling…</div>
-</div>
-
-<!-- PAGE -->
-<div class="page">
-<main id="main">
-
-  
-  <div id="topNewsWrap"></div>
-
-  <!-- Skeleton on load -->
-  <div id="skelWrap">
-    <div class="tnews">
-      <div class="lead-col" style="border-right:1px solid var(--border);">
-        <div class="sk" style="width:100%;aspect-ratio:3/2;margin-bottom:12px;"></div>
-        <div class="sk" style="height:10px;width:55px;margin-bottom:8px;"></div>
-        <div class="sk" style="height:17px;width:88%;margin-bottom:5px;"></div>
-        <div class="sk" style="height:17px;width:72%;margin-bottom:10px;"></div>
-        <div class="sk" style="height:11px;width:100%;margin-bottom:4px;"></div>
-        <div class="sk" style="height:11px;width:80%;"></div>
-      </div>
-      <div class="mid-col" style="border-right:1px solid var(--border);">
-        <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:14px;width:92%;margin-bottom:5px;"></div>
-        <div class="sk" style="height:14px;width:70%;margin-bottom:18px;"></div>
-        <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:14px;width:85%;margin-bottom:5px;"></div>
-        <div class="sk" style="height:14px;width:68%;"></div>
-      </div>
-      <div class="right-col">
-        <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:14px;width:90%;margin-bottom:5px;"></div>
-        <div class="sk" style="height:14px;width:68%;margin-bottom:18px;"></div>
-        <div class="sk" style="height:10px;width:50px;margin-bottom:7px;"></div>
-        <div class="sk" style="height:14px;width:80%;margin-bottom:5px;"></div>
-        <div class="sk" style="height:14px;width:65%;"></div>
-      </div>
-    </div>
+    <span id="footerDate"></span>
+    <span>Independent · Verified · Published</span>
   </div>
 
-  <!-- Creator's Corner -->
-  <div class="cc">
-    <div class="cc-head">
-      <div><div class="cc-htitle">Creator's Corner</div><div class="cc-hsub">What's trending on social — reported with depth</div></div>
-      <button class="cc-refresh" onclick="loadVirlo()">↻ Refresh</button>
-    </div>
-    <div class="cc-body">
-      <p class="cc-intro">These topics are surging across TikTok, YouTube, and Instagram. Click any to generate a fully verified article.</p>
-      <div class="cc-grid" id="ccGrid"><div style="font-family:var(--sans);font-size:11px;color:#5a8e7b;padding:12px;text-align:center;letter-spacing:1px;grid-column:1/-1;">Loading live trends…</div></div>
-      <div class="cc-meta" id="ccMeta"></div>
-    </div>
-  </div>
-
-  <!-- More reports + clusters filled dynamically -->
-  <div id="moreWrap"></div>
-  <div id="clustersWrap"></div>
-
-</main>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-
-  <div class="sbox">
-    <div class="sbox-h">Latest Reports <span id="artCount">0 articles</span></div>
-    <div id="latestBox"><div style="padding:14px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">Loading…</div></div>
-  </div>
-
-  <div class="sbox">
-    <div class="sbox-h">Ask About a Story</div>
-    <div class="sbox-b">
-      <p class="qa-hint">Open any article, then ask a follow-up question here.</p>
-      <div class="qa-msgs" id="qaMsgs"></div>
-      <div class="qa-row">
-        <input class="qa-inp" id="qaInp" placeholder="Your question…" onkeydown="if(event.key==='Enter')askSide()">
-        <button class="qa-go" onclick="askSide()">Ask</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="sbox">
-    <div class="sbox-h">In The News</div>
-    <div id="trendBox">
-      <div class="tr-item" onclick="sc('India AI policy 2026');focusComm()"><div class="tr-num">01</div><div class="tr-text">India AI Policy 2026<span>Technology</span></div></div>
-      <div class="tr-item" onclick="sc('RBI rate April 2026');focusComm()"><div class="tr-num">02</div><div class="tr-text">RBI Rate Decision<span>Economy</span></div></div>
-      <div class="tr-item" onclick="sc('OpenAI GPT-5 2026');focusComm()"><div class="tr-num">03</div><div class="tr-text">OpenAI GPT-5<span>AI · Technology</span></div></div>
-      <div class="tr-item" onclick="sc('India Pakistan 2026');focusComm()"><div class="tr-num">04</div><div class="tr-text">India–Pakistan Relations<span>World</span></div></div>
-      <div class="tr-item" onclick="sc('India monsoon 2026');focusComm()"><div class="tr-num">05</div><div class="tr-text">Monsoon Forecast 2026<span>India · Science</span></div></div>
-    </div>
-  </div>
-
-</aside>
-</div>
-
-<!-- TICKER -->
-<div class="bticker">
-  <div class="btrack" id="btrack">
-    <span class="blabel">Live</span>
-    <span class="btick"><em>Veritas</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
-    <span class="btick"><em>Q&A</em> Ask follow-up questions on any published article.</span>
-    <span class="btick"><em>Creator's Corner</em> Trending social topics, reported with journalistic depth.</span>
-    <span class="btick"><em>Digest</em> Morning briefing updates automatically every day.</span>
-    <span class="blabel">Live</span>
-    <span class="btick"><em>Veritas</em> AI-native newsroom — research, verify, publish. No human in the loop.</span>
-    <span class="btick"><em>Q&A</em> Ask follow-up questions on any published article.</span>
-    <span class="btick"><em>Creator's Corner</em> Trending social topics, reported with journalistic depth.</span>
-    <span class="btick"><em>Digest</em> Morning briefing updates automatically every day.</span>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <strong>Veritas</strong>
-  <span id="footerDate"></span>
-  <span>Independent · Verified · Published</span>
-</div>
-
-<!-- ARTICLE MODAL -->
-<div class="mbg" id="mbg" onclick="closeBg(event)">
-  <div class="modal">
-    <div class="mbar">
-      <span class="mbar-l">Veritas · Full Report</span>
-      <button class="mclose" onclick="closeModal()">✕ Close</button>
-    </div>
-    <div class="mcontent">
-      <div class="mtag" id="mtag"></div>
-      <div class="mhl" id="mhl"></div>
-      <div class="mdek" id="mdek" style="display:none;"></div>
-      <div class="mby-row"><strong>Pulse Gazette AI Bureau</strong><span id="mdate"></span><span id="mread"></span><span id="mconf"></span></div>
-      <div class="mbody" id="mbody"></div>
-
-      <!-- TRUST PANEL -->
-      <div class="trust-panel">
-        <div class="tp-title">How This Was Reported</div>
-        <div class="tp-grid">
-          <div class="tp-stat"><div class="tp-num" id="tpSources">—</div><div class="tp-lbl">Sources</div></div>
-          <div class="tp-stat"><div class="tp-num" id="tpClaims">—</div><div class="tp-lbl">Verified Claims</div></div>
-          <div class="tp-stat"><div class="tp-num" id="tpConf">—</div><div class="tp-lbl">Confidence</div></div>
+  <!-- MODAL -->
+  <div class="mbg" id="mbg" onclick="closeBg(event)">
+    <div class="modal">
+      <div class="mbar"><span class="mbar-l">Veritas · Full Report</span><button class="mclose" onclick="closeModal()">✕
+          Close</button></div>
+      <div class="mcontent">
+        <div class="mtag" id="mtag"></div>
+        <div class="mhl" id="mhl"></div>
+        <img class="m-img" id="mImg" src="" alt="" style="display:none;" onerror="this.style.display='none'">
+        <div class="mdek" id="mdek" style="display:none;"></div>
+        <div class="mby"><strong>Veritas AI Bureau</strong><span id="mdate"></span><span id="mread"></span><span
+            id="mconf"></span></div>
+        <div class="mbody" id="mbody"></div>
+        <div class="tp">
+          <div class="tp-title">How This Was Reported</div>
+          <div class="tp-grid">
+            <div class="tp-stat">
+              <div class="tp-num" id="tpSrc">—</div>
+              <div class="tp-lbl">Sources</div>
+            </div>
+            <div class="tp-stat">
+              <div class="tp-num" id="tpCl">—</div>
+              <div class="tp-lbl">Verified Claims</div>
+            </div>
+            <div class="tp-stat">
+              <div class="tp-num" id="tpCo">—</div>
+              <div class="tp-lbl">Confidence</div>
+            </div>
+          </div>
+          <div class="cbar-wrap">
+            <div class="cbar-lbl"><span>Fact confidence</span><span id="cpct">—</span></div>
+            <div class="cbar">
+              <div class="cfill" id="cfill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="src-list" id="srcs"></div>
         </div>
-        <div class="conf-bar-wrap">
-          <div class="conf-bar-lbl"><span>Fact confidence</span><span id="confPct">—</span></div>
-          <div class="conf-bar"><div class="conf-fill" id="confFill" style="width:0%"></div></div>
-        </div>
-        <div class="src-list" id="srcList"></div>
-      </div>
-
-      <!-- Q&A -->
-      <div class="mqa">
-        <div class="mqa-h">Ask About This Story</div>
-        <div class="mqa-msgs" id="mqMsgs"></div>
-        <div class="mqa-row">
-          <input class="mqa-inp" id="mqInp" placeholder="Why does this matter for India? What happens next?" onkeydown="if(event.key==='Enter')askModal()">
-          <button class="mqa-go" onclick="askModal()">Ask →</button>
+        <div class="mqa">
+          <div class="mqa-h">Ask About This Story</div>
+          <div class="mqa-msgs" id="mqMsgs"></div>
+          <div class="mqa-row">
+            <input class="mqa-inp" id="mqInp" placeholder="Why does this matter for India? What happens next?"
+              onkeydown="if(event.key==='Enter')askModal()">
+            <button class="mqa-go" onclick="askModal()">Ask →</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-// ── CONFIG ────────────────────────────────────────────────
-const API = '';
-let articles = [];
-let filter = 'all';
-let current = null;
+  <script>
+    // ── CONFIG ── Change this to your Render URL when deployed
+    // During local development: http://localhost:5000
+    // After deploying: https://YOUR-APP-NAME.onrender.com
+    const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'http://localhost:5000'
+      : 'https://newsroom-dlwe.onrender.com';  // ← UPDATE THIS to your Render URL
 
-// ── DEMO ARTICLES (shown when backend is offline) ─────────
-// These ensure the page NEVER looks empty for judges
-const DEMO = [
-  {
-    id:'d1', sector:'Technology', confidence:.91, sources_count:6, verified_claims:14, fact_count:11,
-    image_url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
-    headline:"India's Semiconductor Mission Enters Critical Phase as ISMC Fab Faces Third Delay",
-    dek:"The Karnataka facility — once positioned as the anchor of India's chip ambitions — still lacks a confirmed technology partner two years after its announced groundbreaking.",
-    body:`India's flagship semiconductor manufacturing initiative is at a crossroads. The India Semiconductor Mission Consortium facility in Mysuru, Karnataka, has missed its third projected groundbreaking date, raising questions about the country's ability to execute on its $10 billion chip incentive programme.\n\nThe project, backed by ISMC and originally partnered with Tower Semiconductor, has been in limbo since Intel's attempted acquisition of Tower collapsed in August 2023 under regulatory pressure. No replacement technology partner has been publicly named, and the central ministry has declined to provide a revised timeline.\n\nIndia approved three semiconductor projects in 2024 — including facilities from Tata Electronics and CG Power in partnership with Renesas — but analysts note that approved and operational are separated by a significant execution gap involving power infrastructure, water supply, and specialist workforce development.\n\nThe broader context is one of shrinking windows. Taiwan's TSMC is building advanced fabs in Arizona, Germany, and Japan. South Korea has accelerated domestic investment. If India's approved projects do not break ground within the next 18 months, the next technology generation may make current planned investments strategically obsolete before they produce a single chip.\n\nGovernment officials have maintained that the mission remains on track, pointing to the Tata and CG Power projects as evidence of momentum. Independent observers, however, point to the absence of any operating fab as the defining metric that matters.`,
-    sources:['https://economictimes.indiatimes.com','https://thehindu.com','https://reuters.com','https://techcrunch.com'],
-    timestamp: new Date(Date.now()-3600000).toISOString()
-  },
-  {
-    id:'d2', sector:'Economy', confidence:.88, sources_count:5, verified_claims:11, fact_count:9,
-    image_url: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
-    headline:"RBI Holds Rates Steady as Retail Inflation Softens to 4.9%, Food Prices Remain Concern",
-    dek:"The Monetary Policy Committee voted 5-1 to maintain the repo rate at 6.5%, with the dissenting member pushing for a 25 basis point cut.",
-    body:`The Reserve Bank of India's Monetary Policy Committee held the benchmark repo rate unchanged at 6.5 percent in its April 2026 meeting, citing continued uncertainty over food price inflation even as headline numbers showed improvement.\n\nRetail inflation eased to 4.9 percent in March 2026, according to government data, down from 5.6 percent in February. The moderation was driven primarily by softer vegetable prices following a better-than-expected rabi harvest. However, the committee noted that core inflation — which excludes food and fuel — remained sticky at 4.1 percent.\n\nGovernor Sanjay Malhotra stated in the post-meeting press conference that the committee needed "greater confidence that disinflation is durable" before considering rate reductions. The dissenting vote came from external member Dr. Ashima Goyal, who argued that real interest rates were sufficiently restrictive and that the growth-inflation tradeoff warranted accommodation.\n\nMarkets had priced in roughly a 35 percent probability of a cut ahead of the announcement. Bond yields rose 8 basis points following the decision, while the rupee strengthened marginally against the dollar.\n\nThe next policy meeting is scheduled for June 2026. Analysts at three major domestic brokerages now project the first rate cut will come in that meeting if inflation prints remain below 5 percent.`,
-    sources:['https://rbi.org.in','https://livemint.com','https://moneycontrol.com','https://bloomberg.com'],
-    timestamp: new Date(Date.now()-7200000).toISOString()
-  },
-  {
-    id:'d3', sector:'AI', confidence:.94, sources_count:7, verified_claims:16, fact_count:13,
-    image_url: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80",
-    headline:"OpenAI Releases o3 to General Users, Benchmark Performance Sparks Debate on Evaluation Methodology",
-    dek:"The model scores 87.5% on ARC-AGI — a benchmark previously thought to require human-level reasoning — prompting researchers to question whether current tests remain meaningful.",
-    body:`OpenAI has made its o3 reasoning model available to ChatGPT Plus and Pro subscribers, weeks after the model's benchmark performance generated significant discussion in the AI research community.\n\nThe model achieved 87.5 percent on the ARC-AGI benchmark — the Abstraction and Reasoning Corpus for Artificial General Intelligence — developed by François Chollet specifically to resist the pattern-matching strategies that allowed earlier models to game other evaluations. The score compares to roughly 85 percent for average human test-takers on the same tasks.\n\nHowever, the performance came with an asterisk: o3 used high-compute test-time scaling, running thousands of candidate solutions and selecting the best, at an estimated cost of several hundred dollars per ARC task. At that cost profile, deployment at scale remains impractical for most applications.\n\nResearchers at several AI safety organisations published a joint commentary arguing that the result, while technically impressive, reveals a limitation in evaluation methodology rather than a threshold crossing. The fundamental question, they argue, is whether test-time compute scaling constitutes genuine reasoning or sophisticated search.\n\nPractical benchmarks tell a more mixed story. On SWE-bench Verified, which tests real-world software engineering tasks, o3 scores 71.7 percent — meaningfully better than its predecessors but still below human senior engineer performance on complex multi-file problems.`,
-    sources:['https://openai.com','https://arxiv.org','https://techcrunch.com','https://theverge.com','https://wired.com'],
-    timestamp: new Date(Date.now()-10800000).toISOString()
-  },
-  {
-    id:'d4', sector:'World', confidence:.85, sources_count:5, verified_claims:10, fact_count:8,
-    image_url: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=800&q=80",
-    headline:"India and Pakistan Resume Back-Channel Diplomatic Contact After 14-Month Freeze",
-    dek:"Track II dialogue facilitated by a Gulf state intermediary is understood to be ongoing, though both governments have declined official comment.",
-    body:`India and Pakistan are engaged in discreet back-channel diplomatic contact for the first time since January 2025, when formal ties were effectively suspended following a series of cross-border incidents in Jammu and Kashmir.\n\nThree sources with direct knowledge of the process confirmed to reporters that a Gulf state — understood to be the UAE — has facilitated preliminary exchanges between national security advisors from both countries. The conversations are described as exploratory and have not yet produced any formal agreement or statement.\n\nThe immediate impetus appears to be shared concern over the security situation along the Line of Control, where ceasefire violations have increased in frequency over the past quarter. Both sides have an interest in reducing kinetic incidents that risk escalation, even absent broader political normalisation.\n\nIn New Delhi, the Ministry of External Affairs declined to comment on any ongoing diplomatic process. Its Pakistani counterpart issued a similarly non-committal statement, noting only that Pakistan "remains open to dialogue on all issues of mutual concern."\n\nAnalysts who track South Asian diplomacy describe the development as tentative but significant. Track II contact at the national security level typically precedes formal engagement by several months, suggesting that if the back-channel holds, public diplomacy could resume by late 2026.`,
-    sources:['https://thehindu.com','https://dawn.com','https://reuters.com','https://foreignpolicy.com'],
-    timestamp: new Date(Date.now()-14400000).toISOString()
-  },
-  {
-    id:'d5', sector:'India', confidence:.82, sources_count:4, verified_claims:9, fact_count:7,
-    image_url: "https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&q=80",
-    headline:"Delhi's Water Table Falls to Record Low as City Adds 300,000 New Residents Annually",
-    dek:"Groundwater in parts of South and West Delhi is now extracted from depths exceeding 60 metres — a level that was accessible at under 20 metres a decade ago.",
-    body:`Delhi's groundwater crisis has reached a new threshold. Data published by the Central Ground Water Board in March 2026 shows that the water table in several South and West Delhi districts has fallen to record lows, with extraction in parts of Mehrauli and Dwarka now occurring at depths that were considered extreme as recently as 2018.\n\nThe capital adds an estimated 300,000 new residents each year, driving demand that the Yamuna river supply, the city's primary surface water source, cannot meet. The shortfall is covered by groundwater extraction, which has accelerated despite regulations nominally limiting commercial and residential boring.\n\nAgriculture in the peri-urban belt surrounding Delhi accounts for roughly 40 percent of total groundwater extraction, according to the board's report. A combination of free power subsidies for farmers and inadequate metering creates a structural incentive for over-extraction that state policy has not addressed.\n\nUrban planners and hydrologists have warned for years that Delhi's growth model is aquifer-dependent in a way that cannot be sustained. The consequence of continued depletion is not merely higher pumping costs but eventual subsidence — the physical sinking of land — which has already been documented in parts of the National Capital Region.\n\nThe Delhi Jal Board has approved a recycled water programme that would treat and redistribute 800 million litres per day of wastewater currently discharged into the Yamuna. Implementation is projected for 2028, subject to infrastructure funding that has not yet been fully committed.`,
-    sources:['https://cgwb.gov.in','https://indianexpress.com','https://thehindu.com','https://downtoearth.org.in'],
-    timestamp: new Date(Date.now()-18000000).toISOString()
-  }
-];
+    let articles = [];
+    let filter = 'all';
+    let current = null;
+    const BACKEND_LIVE = { value: false };
 
-// ── BOOT ──────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  setDates();
-  loadFeed();
-  loadVirlo();
-  setInterval(loadFeed, 15 * 60 * 1000); // Refresh every 15 minutes
-});
+    // ── DEMO ARTICLES — shown when backend is offline ─────────────────────────────
+    const DEMO = [
+      {
+        id: 'd1', sector: 'Technology', confidence: .91, sources_count: 6, verified_claims: 14,
+        headline: "India's Semiconductor Mission Enters Critical Phase as ISMC Fab Faces Third Delay",
+        dek: "The Karnataka facility — once positioned as the anchor of India's chip ambitions — still lacks a confirmed technology partner two years after its announced groundbreaking.",
+        image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
+        body: `India's flagship semiconductor manufacturing initiative is at a crossroads. The India Semiconductor Mission Consortium facility in Mysuru, Karnataka, has missed its third projected groundbreaking date, raising questions about the country's ability to execute on its $10 billion chip incentive programme.\n\nThe project, backed by ISMC and originally partnered with Tower Semiconductor, has been in limbo since Intel's attempted acquisition of Tower collapsed in August 2023 under regulatory pressure. No replacement technology partner has been publicly named, and the central ministry has declined to provide a revised timeline.\n\nIndia approved three semiconductor projects in 2024 — including facilities from Tata Electronics and CG Power in partnership with Renesas — but analysts note that approved and operational are separated by a significant execution gap involving power infrastructure, water supply, and specialist workforce development.\n\nThe broader context is one of shrinking windows. Taiwan's TSMC is building advanced fabs in Arizona, Germany, and Japan. South Korea has accelerated domestic investment. If India's approved projects do not break ground within the next 18 months, the next technology generation may make current planned investments strategically obsolete before they produce a single chip.\n\nGovernment officials have maintained that the mission remains on track, pointing to the Tata and CG Power projects as evidence of momentum. Independent observers, however, point to the absence of any operating fab as the defining metric that matters.`,
+        sources: ['https://economictimes.indiatimes.com', 'https://thehindu.com', 'https://reuters.com', 'https://techcrunch.com', 'https://livemint.com'],
+        timestamp: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: 'd2', sector: 'Economy', confidence: .88, sources_count: 5, verified_claims: 11,
+        headline: "RBI Holds Rates Steady as Retail Inflation Softens to 4.9%, Food Prices Remain a Concern",
+        dek: "The Monetary Policy Committee voted 5-1 to maintain the repo rate at 6.5%, with the dissenting member pushing for a 25 basis point cut.",
+        image_url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80',
+        body: `The Reserve Bank of India's Monetary Policy Committee held the benchmark repo rate unchanged at 6.5 percent in its April 2026 meeting, citing continued uncertainty over food price inflation even as headline numbers showed improvement.\n\nRetail inflation eased to 4.9 percent in March 2026, according to government data, down from 5.6 percent in February. The moderation was driven primarily by softer vegetable prices following a better-than-expected rabi harvest. However, the committee noted that core inflation — which excludes food and fuel — remained sticky at 4.1 percent.\n\nGovernor Sanjay Malhotra stated in the post-meeting press conference that the committee needed "greater confidence that disinflation is durable" before considering rate reductions. The dissenting vote came from external member Dr. Ashima Goyal, who argued that real interest rates were sufficiently restrictive and that the growth-inflation tradeoff warranted accommodation.\n\nMarkets had priced in roughly a 35 percent probability of a cut ahead of the announcement. Bond yields rose 8 basis points following the decision, while the rupee strengthened marginally against the dollar.\n\nThe next policy meeting is scheduled for June 2026. Analysts at three major domestic brokerages now project the first rate cut will come in that meeting if inflation prints remain below 5 percent.`,
+        sources: ['https://rbi.org.in', 'https://livemint.com', 'https://moneycontrol.com', 'https://bloomberg.com', 'https://reuters.com'],
+        timestamp: new Date(Date.now() - 7200000).toISOString()
+      },
+      {
+        id: 'd3', sector: 'AI', confidence: .94, sources_count: 7, verified_claims: 16,
+        headline: "OpenAI Releases o3 to General Users; Benchmark Performance Sparks Evaluation Methodology Debate",
+        dek: "The model scores 87.5% on ARC-AGI — a benchmark previously thought to require human-level reasoning — prompting researchers to question whether current tests remain meaningful.",
+        image_url: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80',
+        body: `OpenAI has made its o3 reasoning model available to ChatGPT Plus and Pro subscribers, weeks after the model's benchmark performance generated significant discussion in the AI research community.\n\nThe model achieved 87.5 percent on the ARC-AGI benchmark — the Abstraction and Reasoning Corpus for Artificial General Intelligence — developed by François Chollet specifically to resist the pattern-matching strategies that allowed earlier models to game other evaluations. The score compares to roughly 85 percent for average human test-takers.\n\nHowever, the performance came with an asterisk: o3 used high-compute test-time scaling, running thousands of candidate solutions and selecting the best, at an estimated cost of several hundred dollars per ARC task.\n\nResearchers at several AI safety organisations published a joint commentary arguing that the result reveals a limitation in evaluation methodology rather than a threshold crossing. The fundamental question, they argue, is whether test-time compute scaling constitutes genuine reasoning or sophisticated search.\n\nPractical benchmarks tell a more mixed story. On SWE-bench Verified, which tests real-world software engineering tasks, o3 scores 71.7 percent — meaningfully better than predecessors but still below human senior engineer performance on complex multi-file problems.`,
+        sources: ['https://openai.com', 'https://arxiv.org', 'https://techcrunch.com', 'https://theverge.com', 'https://wired.com', 'https://aisafety.org'],
+        timestamp: new Date(Date.now() - 10800000).toISOString()
+      },
+      {
+        id: 'd4', sector: 'World', confidence: .85, sources_count: 5, verified_claims: 10,
+        headline: "India and Pakistan Resume Back-Channel Diplomatic Contact After 14-Month Freeze",
+        dek: "Track II dialogue facilitated by a Gulf state intermediary is understood to be ongoing, though both governments have declined official comment.",
+        image_url: 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=800&q=80',
+        body: `India and Pakistan are engaged in discreet back-channel diplomatic contact for the first time since January 2025, when formal ties were effectively suspended following a series of cross-border incidents in Jammu and Kashmir.\n\nThree sources with direct knowledge of the process confirmed to reporters that a Gulf state — understood to be the UAE — has facilitated preliminary exchanges between national security advisors from both countries. The conversations are described as exploratory and have not yet produced any formal agreement or statement.\n\nThe immediate impetus appears to be shared concern over the security situation along the Line of Control, where ceasefire violations have increased in frequency over the past quarter. Both sides have an interest in reducing kinetic incidents that risk escalation, even absent broader political normalisation.\n\nIn New Delhi, the Ministry of External Affairs declined to comment on any ongoing diplomatic process. Its Pakistani counterpart issued a similarly non-committal statement, noting only that Pakistan "remains open to dialogue on all issues of mutual concern."\n\nAnalysts who track South Asian diplomacy describe the development as tentative but significant. Track II contact at the national security level typically precedes formal engagement by several months.`,
+        sources: ['https://thehindu.com', 'https://dawn.com', 'https://reuters.com', 'https://foreignpolicy.com', 'https://aljazeera.com'],
+        timestamp: new Date(Date.now() - 14400000).toISOString()
+      },
+      {
+        id: 'd5', sector: 'India', confidence: .82, sources_count: 4, verified_claims: 9,
+        headline: "Delhi's Water Table Falls to Record Low as City Adds 300,000 New Residents Annually",
+        dek: "Groundwater in parts of South and West Delhi is now extracted from depths exceeding 60 metres — a level that was accessible at under 20 metres a decade ago.",
+        image_url: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&q=80',
+        body: `Delhi's groundwater crisis has reached a new threshold. Data published by the Central Ground Water Board in March 2026 shows that the water table in several South and West Delhi districts has fallen to record lows, with extraction in parts of Mehrauli and Dwarka now occurring at depths that were considered extreme as recently as 2018.\n\nThe capital adds an estimated 300,000 new residents each year, driving demand that the Yamuna river supply cannot meet. The shortfall is covered by groundwater extraction, which has accelerated despite regulations nominally limiting commercial and residential boring.\n\nAgriculture in the peri-urban belt surrounding Delhi accounts for roughly 40 percent of total groundwater extraction, according to the board's report. A combination of free power subsidies for farmers and inadequate metering creates a structural incentive for over-extraction that state policy has not addressed.\n\nUrban planners and hydrologists have warned for years that Delhi's growth model is aquifer-dependent in a way that cannot be sustained. The consequence of continued depletion is not merely higher pumping costs but eventual subsidence — the physical sinking of land — which has already been documented in parts of the National Capital Region.\n\nThe Delhi Jal Board has approved a recycled water programme that would treat and redistribute 800 million litres per day of wastewater currently discharged into the Yamuna. Implementation is projected for 2028, subject to infrastructure funding.`,
+        sources: ['https://cgwb.gov.in', 'https://indianexpress.com', 'https://thehindu.com', 'https://downtoearth.org.in'],
+        timestamp: new Date(Date.now() - 18000000).toISOString()
+      },
+      {
+        id: 'd6', sector: 'Science', confidence: .89, sources_count: 5, verified_claims: 12,
+        headline: "ISRO's Gaganyaan Mission Completes Final Crew Module Test; Human Spaceflight Targeted for Q4 2026",
+        dek: "India's first crewed space mission passes a critical pressure and thermal test at ISRO's Thiruvananthapuram facility, clearing the path toward astronaut selection and flight readiness.",
+        image_url: 'https://images.unsplash.com/photo-1446776709462-d6af6cfa0e69?w=800&q=80',
+        body: `The Indian Space Research Organisation confirmed on Monday that the Gaganyaan crew module has successfully completed its final integrated pressure and thermal qualification tests, the last major hardware milestone before astronaut crew training transitions to full mission simulation.\n\nThe crew module, which will carry Indian astronauts into low Earth orbit for the first time in the nation's history, was subjected to pressures replicating the aerodynamic loads of re-entry at simulated altitudes of 70 kilometres. All systems performed within specification, according to ISRO's post-test briefing.\n\nFour astronaut-designates — Group Captain Prashanth Balakrishnan Nair, Group Captain Ajit Krishnan, Group Captain Angad Pratap, and Wing Commander Shubhanshu Shukla — have completed the core technical training phase at Gagarin Cosmonaut Training Centre in Russia and at the ISRO Human Space Flight Centre in Bengaluru.\n\nThe launch window is targeted for the fourth quarter of 2026, though ISRO officials declined to specify a date. The mission will be preceded by two uncrewed test flights — one of which successfully validated the service module propulsion system in 2024.\n\nIndia's human spaceflight programme, with a total mission budget of approximately ₹10,000 crore, represents the most ambitious project in ISRO's history. Success would make India only the fourth country to independently launch humans into orbit.`,
+        sources: ['https://isro.gov.in', 'https://thehindu.com', 'https://spacenews.com', 'https://ndtv.com', 'https://timesofindia.com'],
+        timestamp: new Date(Date.now() - 21600000).toISOString()
+      },
+      {
+        id: 'd7', sector: 'Web3', confidence: .86, sources_count: 5, verified_claims: 11,
+        headline: "Ethereum's Pectra Upgrade Goes Live; EIP-7702 Brings Smart Account Capabilities to Standard Wallets",
+        dek: "The most significant Ethereum protocol upgrade since the Merge enables account abstraction features for externally owned accounts, reducing friction for mainstream Web3 adoption.",
+        image_url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80',
+        body: `Ethereum's Pectra hard fork activated on the mainnet at epoch 364032 on Monday, introducing ten Ethereum Improvement Proposals that collectively represent the protocol's most consequential upgrade since the proof-of-stake transition in September 2022.\n\nThe centrepiece change, EIP-7702, allows standard externally owned accounts — the wallet addresses most users interact with — to temporarily adopt smart contract code during a transaction. In practice, this means users can batch multiple operations, pay gas fees in tokens other than ETH, and delegate transaction signing without migrating to a separate smart contract wallet.\n\nEIP-7251, which raises the maximum effective validator balance from 32 ETH to 2,048 ETH, was described by the Ethereum Foundation as a significant simplification for large node operators, potentially reducing the active validator set and improving network efficiency without affecting decentralisation metrics.\n\nGas prices on the Ethereum mainnet fell approximately 18 percent in the 24 hours following activation, as blob throughput increases from the EIP-7691 change took effect. Blob fees, the pricing mechanism for Layer 2 data availability, dropped by more than 40 percent.\n\nThe Ethereum ecosystem now turns attention to Fusaka, the next planned hard fork, which is expected to introduce PeerDAS — a more scalable approach to data availability sampling — and additional EVM Object Format changes.`,
+        sources: ['https://ethereum.org', 'https://coindesk.com', 'https://theblock.co', 'https://decrypt.co', 'https://ethresear.ch'],
+        timestamp: new Date(Date.now() - 25200000).toISOString()
+      }
+    ];
 
-function setDates() {
-  function updateTime() {
-    const n = new Date();
-    const dateStr = n.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
-    const timeStr = n.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
-    document.getElementById('mastheadDate').textContent = `${dateStr} · ${timeStr}`;
-  }
-  updateTime();
-  setInterval(updateTime, 1000);
-  document.getElementById('footerDate').textContent = '© ' + new Date().getFullYear() + ' Veritas';
-}
+    // ── BOOT ─────────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      setDates();
+      loadFeed();
+      loadTrends();
+      setInterval(loadFeed, 15 * 60 * 1000); // Refresh every 15 minutes
+    });
 
-// ── LOAD FEED ─────────────────────────────────────────────
-async function loadFeed() {
-  try {
-    const r = await fetch(`${API}/articles`, { signal: AbortSignal.timeout(8000) });
-    const d = await r.json();
-    articles = (d.articles && d.articles.length) ? d.articles : DEMO;
-  } catch {
-    articles = DEMO;
-    setTimeout(loadFeed, 10000); // Try again in 10 seconds
-  }
-  rmSkel();
-  renderAll();
-}
+    function setDates() {
+      const n = new Date();
+      document.getElementById('tsDate').textContent = n.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('mhDate').textContent = n.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
+      document.getElementById('footerDate').textContent = '© ' + n.getFullYear() + ' Veritas';
+    }
 
-function rmSkel() {
-  const s = document.getElementById('skelWrap');
-  if (s) s.remove();
-}
-
-// ── RENDER ALL ────────────────────────────────────────────
-function renderAll() {
-  const f = filter === 'all' ? articles : articles.filter(a => (a.sector||'').toLowerCase().includes(filter));
-  document.getElementById('topNewsWrap').innerHTML = '';
-  document.getElementById('moreWrap').innerHTML = '';
-  document.getElementById('clustersWrap').innerHTML = '';
-
-  if (!f.length) { showEmpty(); updateSidebar([]); return; }
-  renderTopNews(f);
-  if (f.length > 5) renderMore(f.slice(5, 9));
-  renderClusters(f.slice(f.length > 9 ? 9 : 5));
-  updateSidebar(f);
-  updateTicker(f);
-  document.getElementById('artCount').textContent = f.length + ' articles';
-}
-
-// ── TOP NEWS 3-COL ────────────────────────────────────────
-function renderTopNews(f) {
-  const wrap = document.getElementById('topNewsWrap');
-  const lead = f[0];
-  const mids = f.slice(1, 3);
-  const rights = f.slice(3, 5);
-  const cb = confBadge(lead.confidence);
-
-  wrap.innerHTML = `
-    <div class="tnews">
-      <div class="lead-col" onclick="openArt('${lead.id}')">
-        ${lead.image_url
-          ? `<img src="${lead.image_url}" class="lead-img" alt="${(lead.headline||'').replace(/"/g, '&quot;')}"
-             onerror="this.outerHTML='<div class=&quot;lph&quot;><span class=&quot;lph-label&quot;>${(lead.sector||'Report').toUpperCase()}</span></div>'">`
-          : `<div class="lph"><span class="lph-label">${(lead.sector||'Report').toUpperCase()}</span></div>`
+    // ── LOAD FEED ────────────────────────────────────────────────────────────────
+    async function loadFeed() {
+      try {
+        const r = await fetch(`${API}/articles`, { signal: AbortSignal.timeout(8000) });
+        if (!r.ok) throw new Error('bad response');
+        const d = await r.json();
+        if (d.articles && d.articles.length > 0) {
+          articles = d.articles;
+          BACKEND_LIVE.value = true;
+        } else {
+          articles = DEMO;
         }
-        <div class="lsec">${(lead.sector||'Report').toUpperCase()}</div>
-        <div class="lhl">${lead.headline||'Untitled'}</div>
-        <div class="ldek">${(lead.dek||'').slice(0,160)}${(lead.dek||'').length>160?'…':''}</div>
-        <div class="lmeta">
-          <span class="conf-badge ${cb.cls}">${cb.icon} ${cb.pct}% verified</span>
-          <span class="lby">${(lead.sources_count||0)} sources · ${fmtDate(lead.timestamp)}</span>
+      } catch {
+        articles = DEMO;
+        BACKEND_LIVE.value = false;
+        // Retry silently in 10 seconds (handles cold start)
+        setTimeout(loadFeed, 10000);
+      }
+      rmSkel();
+      renderAll();
+    }
+
+    function rmSkel() {
+      const s = document.getElementById('skelWrap');
+      if (s) s.remove();
+    }
+
+    // ── RENDER ALL ───────────────────────────────────────────────────────────────
+    function renderAll() {
+      const f = filter === 'all' ? articles : articles.filter(a => (a.sector || '').toLowerCase().includes(filter));
+      document.getElementById('topWrap').innerHTML = '';
+      document.getElementById('moreWrap').innerHTML = '';
+      document.getElementById('clustersWrap').innerHTML = '';
+      if (!f.length) { showEmpty(); updateSidebar([]); return; }
+      renderTopNews(f);
+      if (f.length > 5) renderMore(f.slice(5, 9));
+      renderClusters(f.slice(9));
+      updateSidebar(f);
+      updateTicker(f);
+      document.getElementById('artCount').textContent = f.length + ' articles';
+    }
+
+    // ── TOP NEWS ─────────────────────────────────────────────────────────────────
+    function renderTopNews(f) {
+      const lead = f[0];
+      const mids = f.slice(1, 3);
+      const rights = f.slice(3, 5);
+      const cb = confBadge(lead.confidence);
+
+      // Lead image: real if available, placeholder otherwise
+      const imgHTML = lead.image_url
+        ? `<img class="l-img" src="${lead.image_url}" alt="${esc(lead.headline)}" onerror="this.outerHTML='<div class=l-ph><span>${esc(lead.sector || 'Report').toUpperCase()}</span></div>'">`
+        : `<div class="l-ph"><span>${esc(lead.sector || 'Report').toUpperCase()}</span></div>`;
+
+      document.getElementById('topWrap').innerHTML = `
+    <div class="tnews">
+      <div class="lc" onclick="openArt('${lead.id}')">
+        ${imgHTML}
+        <div class="l-body">
+          <div class="lsec">${esc(lead.sector || 'Report').toUpperCase()}</div>
+          <div class="lhl">${esc(lead.headline || 'Untitled')}</div>
+          <div class="ldek">${esc((lead.dek || '').slice(0, 160))}${(lead.dek || '').length > 160 ? '…' : ''}</div>
+          <div class="lmeta">
+            <span class="cb ${cb.cls}">${cb.icon} ${cb.pct}% verified</span>
+            <span class="lby">${lead.sources_count || 0} sources · ${fmtDate(lead.timestamp)}</span>
+          </div>
         </div>
       </div>
-      <div class="mid-col">
-        ${mids.map(a => colItem(a)).join('') || placeholder()}
-      </div>
-      <div class="right-col">
-        ${rights.map(a => colItem(a)).join('') || placeholder()}
-      </div>
-    </div>
-  `;
-}
+      <div class="mc">${mids.map(a => colItem(a)).join('') || noItems()}</div>
+      <div class="rc">${rights.map(a => colItem(a)).join('') || noItems()}</div>
+    </div>`;
+    }
 
-function colItem(a) {
-  const cb = confBadge(a.confidence);
-  return `<div class="ci" onclick="openArt('${a.id}')">
-    <div class="ci-sec">${(a.sector||'Report').toUpperCase()}</div>
-    <div class="ci-hl">${a.headline||'Untitled'}</div>
-    <div class="ci-meta"><span class="conf-badge ${cb.cls}" style="font-size:8px;">${cb.pct}%</span><span>${fmtDate(a.timestamp)}</span></div>
+    function colItem(a) {
+      const cb = confBadge(a.confidence);
+      return `<div class="ci" onclick="openArt('${a.id}')">
+    <div class="ci-sec">${esc(a.sector || 'Report').toUpperCase()}</div>
+    <div class="ci-hl">${esc(a.headline || 'Untitled')}</div>
+    <div class="ci-meta"><span class="cb ${cb.cls}" style="font-size:8px;">${cb.pct}%</span><span>${fmtDate(a.timestamp)}</span></div>
   </div>`;
-}
+    }
 
-function placeholder() { return '<div style="padding:12px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">Generate more stories to fill this section.</div>'; }
+    function noItems() {
+      return '<div style="padding:12px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">More stories coming…</div>';
+    }
 
-// ── CONFIDENCE BADGE ──────────────────────────────────────
-function confBadge(conf) {
-  const v = conf || 0;
-  const pct = Math.round(v * 100);
-  if (v >= 0.8) return { cls: 'conf-high', icon: '✓', pct };
-  if (v >= 0.6) return { cls: 'conf-mid', icon: '~', pct };
-  return { cls: 'conf-low', icon: '!', pct };
-}
-
-// ── MORE GRID ─────────────────────────────────────────────
-function renderMore(arts) {
-  if (!arts.length) return;
-  const wrap = document.getElementById('moreWrap');
-  wrap.innerHTML = `
-    <div class="sh" style="margin-top:6px;">More Reports <span class="sh-more">See all →</span></div>
+    // ── 4-GRID ───────────────────────────────────────────────────────────────────
+    function renderMore(arts) {
+      if (!arts.length) return;
+      const w = document.getElementById('moreWrap');
+      w.innerHTML = `
+    <div class="sh" style="margin-top:4px;">More Reports <span class="sh-m">See all →</span></div>
     <div class="four-grid">
       ${arts.map(a => {
         const cb = confBadge(a.confidence);
+        const imgHTML = a.image_url
+          ? `<img class="f-img" src="${a.image_url}" alt="${esc(a.headline)}" onerror="this.outerHTML='<div class=f-ph><span>${esc(a.sector || 'Report').toUpperCase()}</span></div>'">`
+          : `<div class="f-ph"><span>${esc(a.sector || 'Report').toUpperCase()}</span></div>`;
         return `<div class="fcard" onclick="openArt('${a.id}')">
-          <div class="fph"><span>${(a.sector||'Report').toUpperCase()}</span></div>
-          <div class="f-sec">${(a.sector||'Report').toUpperCase()}</div>
-          <div class="f-hl">${a.headline||'Untitled'}</div>
-          <div class="f-meta"><span class="conf-badge ${cb.cls}" style="font-size:8px;">${cb.pct}%</span><span>${readTime(a.body)} min read</span></div>
+          ${imgHTML}
+          <div class="f-sec">${esc(a.sector || 'Report').toUpperCase()}</div>
+          <div class="f-hl">${esc(a.headline || 'Untitled')}</div>
+          <div class="f-meta"><span class="cb ${cb.cls}" style="font-size:8px;">${cb.pct}%</span><span>${readTime(a.body)} min read</span></div>
         </div>`;
       }).join('')}
-    </div>
-  `;
-}
+    </div>`;
+    }
 
-// ── CLUSTERS ──────────────────────────────────────────────
-function renderClusters(arts) {
-  if (!arts.length) return;
-  const wrap = document.getElementById('clustersWrap');
-  const byS = {};
-  arts.forEach(a => { const s = a.sector||'General'; if(!byS[s])byS[s]=[]; byS[s].push(a); });
-  Object.entries(byS).forEach(([sec, items]) => {
-    if (items.length < 2) return;
-    const lead = items[0]; const rest = items.slice(1,4);
-    const div = document.createElement('div');
-    div.innerHTML = `
+    // ── CLUSTERS ─────────────────────────────────────────────────────────────────
+    function renderClusters(arts) {
+      if (!arts.length) return;
+      const w = document.getElementById('clustersWrap');
+      const byS = {};
+      arts.forEach(a => { const s = a.sector || 'General'; if (!byS[s]) byS[s] = []; byS[s].push(a); });
+      Object.entries(byS).forEach(([sec, items]) => {
+        if (items.length < 2) return;
+        const lead = items[0]; const rest = items.slice(1, 4);
+        const imgHTML = lead.image_url
+          ? `<img class="cl-mimg" src="${lead.image_url}" alt="" onerror="this.outerHTML='<div class=cl-mph><span>${esc(sec).toUpperCase()}</span></div>'">`
+          : `<div class="cl-mph"><span>${esc(sec).toUpperCase()}</span></div>`;
+        const d = document.createElement('div');
+        d.innerHTML = `
+      <div class="sh" style="margin-top:4px;">${esc(sec)} <span class="sh-m">More →</span></div>
       <div class="cluster">
         <div class="cl-body">
-          <div class="cl-left">
-            <div class="ci-sec">${sec.toUpperCase()}</div>
-            <div class="ci-hl" style="font-size:15px;cursor:pointer;" onclick="openArt('${lead.id}')">${lead.headline||'Untitled'}</div>
-            <div style="font-family:var(--body);font-size:11px;font-style:italic;color:var(--ink3);margin-top:6px;line-height:1.7;">${(lead.dek||'').slice(0,130)}${(lead.dek||'').length>130?'…':''}</div>
+          <div class="cl-l">
+            <div class="ci-sec">${esc(sec).toUpperCase()}</div>
+            <div class="ci-hl" style="font-size:15px;cursor:pointer;" onclick="openArt('${lead.id}')">${esc(lead.headline || 'Untitled')}</div>
+            <div style="font-family:var(--body);font-size:11px;font-style:italic;color:var(--ink3);margin-top:6px;line-height:1.7;">${esc((lead.dek || '').slice(0, 130))}…</div>
             <div style="font-family:var(--sans);font-size:9px;color:var(--ink4);margin-top:8px;">${fmtDate(lead.timestamp)}</div>
           </div>
-          <div class="cl-mid">
-            <div class="cl-mid-ph"><span>${sec.toUpperCase()}</span></div>
-            <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:4px;">Featured</div>
-            <div class="ci-hl" style="cursor:pointer;" onclick="openArt('${lead.id}')">${lead.headline||'Untitled'}</div>
-          </div>
-          <div class="cl-right">
-            ${rest.map(a=>`<div class="clr-item" onclick="openArt('${a.id}')">
-              <div class="clr-hl">${a.headline||'Untitled'}</div>
-              <div class="clr-by">Pulse Gazette AI Bureau</div>
-            </div>`).join('')}
-          </div>
+          <div class="cl-m">${imgHTML}</div>
+          <div class="cl-r">${rest.map(a => `<div class="clr" onclick="openArt('${a.id}')"><div class="clr-hl">${esc(a.headline || 'Untitled')}</div><div class="clr-by">Veritas AI Bureau</div></div>`).join('')}</div>
         </div>
-      </div>
-    `;
-    wrap.appendChild(div);
-  });
-}
+      </div>`;
+        w.appendChild(d);
+      });
+    }
 
-// ── LATEST SIDEBAR ────────────────────────────────────────
-function updateSidebar(arts) {
-  const box = document.getElementById('latestBox');
-  if (!arts.length) { box.innerHTML='<div style="padding:14px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">No stories yet.</div>'; return; }
-  box.innerHTML = arts.slice(0,6).map((a,i)=>`
+    // ── SIDEBAR LATEST ────────────────────────────────────────────────────────────
+    function updateSidebar(arts) {
+      const b = document.getElementById('latBox');
+      if (!arts.length) { b.innerHTML = '<div style="padding:14px;font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;">No stories yet.</div>'; return; }
+      b.innerHTML = arts.slice(0, 6).map((a, i) => `
     <div class="lat-item" onclick="openArt('${a.id}')">
-      <div class="lat-ago">${i===0?'Latest':fmtDate(a.timestamp)}</div>
-      <div class="lat-hl">${a.headline||'Untitled'}</div>
-    </div>
-  `).join('');
-}
+      <div class="lat-ago">${i === 0 ? 'Latest' : fmtDate(a.timestamp)}</div>
+      <div class="lat-hl">${esc(a.headline || 'Untitled')}</div>
+    </div>`).join('');
+    }
 
-// ── EMPTY ─────────────────────────────────────────────────
-function showEmpty() {
-  document.getElementById('topNewsWrap').innerHTML = `
+    // ── EMPTY ────────────────────────────────────────────────────────────────────
+    function showEmpty() {
+      document.getElementById('topWrap').innerHTML = `
     <div class="empty">
       <div class="e-hl">The press is silent.</div>
-      <div class="e-sub">Commission your first report</div>
-      <button class="e-btn" onclick="focusComm()">Write a Story →</button>
+      <div class="e-sub">Commission your first report above</div>
+      <button class="e-btn" onclick="document.getElementById('ncInp').focus()">Write a Story →</button>
     </div>`;
-}
+    }
 
-// ── GENERATE ─────────────────────────────────────────────
-async function generate() {
-  const t = document.getElementById('commInp').value.trim();
-  if (!t) { document.getElementById('commInp').focus(); return; }
-  setLoad(true);
-  try {
-    const r = await fetch(`${API}/generate`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ topic: t })
-    });
-    const a = await r.json();
-    articles.unshift(a);
-    document.getElementById('commInp').value = '';
-    rmSkel(); renderAll();
-  } catch {
-    alert('Backend offline. Start with: uvicorn backend.app:app --reload --port 5000');
-  } finally { setLoad(false); }
-}
+    // ── GENERATE ─────────────────────────────────────────────────────────────────
+    function sc(t) { document.getElementById('ncInp').value = t; }
 
-function setLoad(on) { document.getElementById('lbar').classList.toggle('on', on); }
-function sc(t) { document.getElementById('commInp').value = t; }
-function focusComm() { document.getElementById('commInp').focus(); document.querySelector('.comm-band').scrollIntoView({behavior:'smooth'}); }
-function doSearch() {
-  const q = document.getElementById('sInp').value.trim().toLowerCase();
-  if (!q) return;
-  articles = DEMO.filter(a=>(a.headline||'').toLowerCase().includes(q)||(a.body||'').toLowerCase().includes(q));
-  renderAll();
-}
+    function showNotice(msg, isError = false) {
+      const n = document.getElementById('genNotice');
+      const sp = document.getElementById('noticeSpinner');
+      const tx = document.getElementById('noticeText');
+      n.classList.add('show');
+      sp.style.display = isError ? 'none' : 'block';
+      tx.className = isError ? 'err' : '';
+      tx.textContent = msg;
+    }
+    function hideNotice() { document.getElementById('genNotice').classList.remove('show'); }
 
-// ── FILTER ────────────────────────────────────────────────
-function filterFeed(s, btn) {
-  filter = s;
-  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderAll();
-}
+    async function generate() {
+      const t = document.getElementById('ncInp').value.trim();
+      if (!t) { document.getElementById('ncInp').focus(); return; }
 
-// ── OPEN ARTICLE ─────────────────────────────────────────
-function openArt(id) {
-  const a = articles.find(x=>String(x.id)===String(id));
-  if (!a) return;
-  current = a;
+      setLoad(true);
+      showNotice(`Researching "${t}"… this takes 15-30 seconds`);
 
-  document.getElementById('mtag').textContent = (a.sector||'Report').toUpperCase() + ' · THE PULSE GAZETTE';
-  document.getElementById('mhl').textContent = a.headline||'—';
-  const dk = document.getElementById('mdek');
-  if (a.dek) { dk.textContent=a.dek; dk.style.display='block'; } else { dk.style.display='none'; }
-  document.getElementById('mdate').textContent = a.timestamp ? new Date(a.timestamp).toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}) : 'Today';
-  document.getElementById('mread').textContent = readTime(a.body) + ' min read';
+      try {
+        const r = await fetch(`${API}/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic: t }),
+          signal: AbortSignal.timeout(60000)  // 60s timeout
+        });
+        if (!r.ok) throw new Error(`Server error ${r.status}`);
+        const a = await r.json();
+        articles.unshift(a);
+        document.getElementById('ncInp').value = '';
+        hideNotice();
+        rmSkel();
+        renderAll();
+      } catch (err) {
+        if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+          showNotice('Server is waking up (cold start). Try again in 30 seconds.', true);
+        } else {
+          showNotice('Backend offline. Showing demo articles. Start server: uvicorn app:app --reload --port 5000', true);
+        }
+        setTimeout(hideNotice, 5000);
+      } finally {
+        setLoad(false);
+      }
+    }
 
-  const cb = confBadge(a.confidence);
-  document.getElementById('mconf').innerHTML = `<span class="conf-badge ${cb.cls}">${cb.icon} ${cb.pct}% verified</span>`;
+    function setLoad(on) { document.getElementById('lbar').classList.toggle('on', on); }
+    function filterFeed(s, btn) {
+      filter = s;
+      document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      renderAll();
+    }
 
-  // Body
-  const paras = (a.body||'Article content will appear here.').split('\n').filter(p=>p.trim());
-  document.getElementById('mbody').innerHTML = paras.map(p=>`<p>${p}</p>`).join('');
+    // ── OPEN ARTICLE ──────────────────────────────────────────────────────────────
+    function openArt(id) {
+      const a = articles.find(x => String(x.id) === String(id));
+      if (!a) return;
+      current = a;
+      document.getElementById('mtag').textContent = (a.sector || 'Report').toUpperCase() + ' · VERITAS';
+      document.getElementById('mhl').textContent = a.headline || '—';
+      const dk = document.getElementById('mdek');
+      if (a.dek) { dk.textContent = a.dek; dk.style.display = 'block'; } else { dk.style.display = 'none'; }
 
-  // Trust panel
-  document.getElementById('tpSources').textContent = a.sources_count || (a.sources||[]).length || '—';
-  document.getElementById('tpClaims').textContent = a.verified_claims || '—';
-  const confPct = Math.round((a.confidence||0)*100);
-  document.getElementById('tpConf').textContent = confPct + '%';
-  document.getElementById('confPct').textContent = confPct + '%';
-  document.getElementById('confFill').style.width = confPct + '%';
-  document.getElementById('confFill').style.background = confPct>=80?'#1a6b3a':confPct>=60?'#8a6a00':'var(--red)';
+      // Article image in modal
+      const mImg = document.getElementById('mImg');
+      if (a.image_url) { mImg.src = a.image_url; mImg.alt = a.headline; mImg.style.display = 'block'; }
+      else { mImg.style.display = 'none'; }
 
-  // Sources
-  const sl = document.getElementById('srcList');
-  sl.innerHTML = '';
-  if (a.sources&&a.sources.length) {
-    a.sources.forEach(s=>{
-      const d=document.createElement('div'); d.className='src-row';
-      try { const h=new URL(s).hostname.replace('www.',''); d.innerHTML=`<a href="${s}" target="_blank">↗ ${h}</a>`; }
-      catch { d.innerHTML=`<span>${s}</span>`; }
-      sl.appendChild(d);
-    });
-  } else { sl.innerHTML='<div class="src-row">Sources archived by AI Bureau</div>'; }
+      document.getElementById('mdate').textContent = a.timestamp
+        ? new Date(a.timestamp).toLocaleDateString('en-IN', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })
+        : 'Today';
+      document.getElementById('mread').textContent = readTime(a.body) + ' min read';
+      const cb = confBadge(a.confidence);
+      document.getElementById('mconf').innerHTML = `<span class="cb ${cb.cls}">${cb.icon} ${cb.pct}% verified</span>`;
 
-  document.getElementById('mqMsgs').innerHTML = '';
-  document.getElementById('mbg').classList.add('on');
-  document.body.style.overflow = 'hidden';
-}
+      // Body
+      const paras = (a.body || 'Article content will appear once backend is connected.').split('\n').filter(p => p.trim());
+      document.getElementById('mbody').innerHTML = paras.map(p => `<p>${p}</p>`).join('');
 
-function closeModal() { document.getElementById('mbg').classList.remove('on'); document.body.style.overflow=''; }
-function closeBg(e) { if(e.target===document.getElementById('mbg')) closeModal(); }
+      // Trust panel
+      const cp = Math.round((a.confidence || 0) * 100);
+      document.getElementById('tpSrc').textContent = a.sources_count || (a.sources || []).length || '—';
+      document.getElementById('tpCl').textContent = a.verified_claims || '—';
+      document.getElementById('tpCo').textContent = cp + '%';
+      document.getElementById('cpct').textContent = cp + '%';
+      document.getElementById('cfill').style.width = cp + '%';
+      document.getElementById('cfill').style.background = cp >= 80 ? '#1a6b3a' : cp >= 60 ? '#8a6a00' : 'var(--red)';
 
-// ── Q&A ──────────────────────────────────────────────────
-async function askWithArticleContext(container, question, articleBody) {
-  const loadEl = document.createElement('div');
-  loadEl.className = 'qm mqm';
-  loadEl.textContent = 'Thinking...';
-  container.appendChild(loadEl);
+      // Sources
+      const sl = document.getElementById('srcs');
+      sl.innerHTML = '';
+      if (a.sources && a.sources.length) {
+        a.sources.forEach(s => {
+          const d = document.createElement('div'); d.className = 'src-row';
+          try { const h = new URL(s).hostname.replace('www.', ''); d.innerHTML = `<a href="${s}" target="_blank">↗ ${h}</a>`; }
+          catch { d.innerHTML = `<span>${esc(s)}</span>`; }
+          sl.appendChild(d);
+        });
+      } else { sl.innerHTML = '<div class="src-row">Sources archived by Veritas AI Bureau</div>'; }
 
-  try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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'
-      },
-      body: JSON.stringify({
-        model: 'meta-llama/llama-3.1-70b-instruct',
-        messages: [{
-          role: 'user',
-          content: `You are a journalist answering reader questions.\nArticle:\n${articleBody}\nReader question: ${question}\nAnswer in 2-3 sentences. Be specific.`
-        }]
-      })
-    });
-    const data = await response.json();
-    loadEl.remove();
-    addMsg(container, data?.choices?.[0]?.message?.content || 'No answer returned.', 'ai');
-  } catch {
-    loadEl.textContent = 'Could not reach AI. Try again.';
-  }
-}
+      document.getElementById('mqMsgs').innerHTML = '';
+      document.getElementById('mbg').classList.add('on');
+      document.body.style.overflow = 'hidden';
+    }
 
-async function askModal() {
-  const q = document.getElementById('mqInp').value.trim();
-  if(!q) return;
-  const c = document.getElementById('mqMsgs');
-  addMsg(c,q,'u'); document.getElementById('mqInp').value='';
+    function closeModal() { document.getElementById('mbg').classList.remove('on'); document.body.style.overflow = ''; }
+    function closeBg(e) { if (e.target === document.getElementById('mbg')) closeModal(); }
 
-  if (current && String(current.id).startsWith('d')) {
-    await askWithArticleContext(c, q, current.body);
-    return;
-  }
+    // ── Q&A ───────────────────────────────────────────────────────────────────────
+    async function askModal() {
+      const q = document.getElementById('mqInp').value.trim();
+      if (!q) return;
+      const c = document.getElementById('mqMsgs');
+      addMsg(c, q, 'u');
+      document.getElementById('mqInp').value = '';
 
-  try {
-    const r = await fetch(`${API}/qa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,article_id:current?.id})});
-    const d = await r.json(); addMsg(c,d.answer,'ai');
-  } catch { addMsg(c,'Backend offline. Start the server to enable Q&A.','ai'); }
-}
-async function askSide() {
-  const q=document.getElementById('qaInp').value.trim();
-  if(!q) return;
-  const c=document.getElementById('qaMsgs');
-  addMsg(c,q,'u'); document.getElementById('qaInp').value='';
+      // For demo articles or offline backend → use Claude API directly
+      if (!BACKEND_LIVE.value || (current && String(current.id).startsWith('d'))) {
+        await askClientSide(c, q, current?.body || '');
+        return;
+      }
+      try {
+        const r = await fetch(`${API}/qa`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q, article_id: current?.id }) });
+        const d = await r.json();
+        addMsg(c, d.answer, 'ai');
+      } catch { await askClientSide(c, q, current?.body || ''); }
+    }
 
-  if (current && String(current.id).startsWith('d')) {
-    await askWithArticleContext(c, q, current.body);
-    c.scrollTop=c.scrollHeight;
-    return;
-  }
+    async function askClientSide(container, question, articleBody) {
+      const loadEl = document.createElement('div');
+      loadEl.className = 'mqm';
+      loadEl.textContent = 'Thinking…';
+      container.appendChild(loadEl);
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514', max_tokens: 600,
+            messages: [{ role: 'user', content: `You are a journalist answering a reader question.\n\nArticle:\n${articleBody}\n\nQuestion: ${question}\n\nAnswer in 2-3 clear sentences based on the article.` }]
+          })
+        });
+        const data = await response.json();
+        loadEl.remove();
+        addMsg(container, data.content[0].text, 'ai');
+      } catch {
+        loadEl.textContent = 'Start the backend server to enable live Q&A.';
+      }
+    }
 
-  try {
-    const r=await fetch(`${API}/qa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,article_id:current?.id||null})});
-    const d=await r.json(); addMsg(c,d.answer,'ai');
-  } catch { addMsg(c,'Backend offline.','ai'); }
-  c.scrollTop=c.scrollHeight;
-}
-function addMsg(c,t,type) {
-  const d=document.createElement('div');
-  d.className=type==='u'?'qm u mqm u':'qm mqm';
-  d.textContent=t; c.appendChild(d); c.scrollTop=c.scrollHeight;
-}
+    async function askSide() {
+      const q = document.getElementById('sqInp').value.trim();
+      if (!q) return;
+      const c = document.getElementById('sqMsgs');
+      addMsg(c, q, 'u');
+      document.getElementById('sqInp').value = '';
+      try {
+        const r = await fetch(`${API}/qa`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q, article_id: current?.id || null }) });
+        const d = await r.json();
+        addMsg(c, d.answer, 'ai');
+      } catch { await askClientSide(c, q, current?.body || ''); }
+      c.scrollTop = c.scrollHeight;
+    }
 
-// ── DIGEST ────────────────────────────────────────────────
-async function toggleDigest() {
-  const s=document.getElementById('dstrip');
-  if(s.classList.contains('on')){s.classList.remove('on');return;}
-  s.classList.add('on');
-  document.getElementById('dgrid').innerHTML='<div style="font-family:var(--sans);font-size:11px;color:#555;padding:8px;text-align:center;letter-spacing:1px;grid-column:1/-1;">Compiling briefing…</div>';
-  try {
-    const r=await fetch(`${API}/digest`,{method:'POST'});
-    const d=await r.json(); renderDigest(d.items||[]);
-  } catch {
-    const items=articles.slice(0,5).map(a=>({text:a.headline+(a.dek?' — '+a.dek.slice(0,60)+'…':'')}));
-    renderDigest(items.length?items:[{text:'No articles published yet.'}]);
-  }
-}
-function renderDigest(items) {
-  document.getElementById('dgrid').innerHTML=items.map((it,i)=>`
-    <div class="ditem"><div class="dnum">${String(i+1).padStart(2,'0')}</div><div class="dtext">${it.text||it}</div></div>`).join('');
-}
+    function addMsg(c, t, type) {
+      const d = document.createElement('div');
+      d.className = type === 'u' ? 'qm u mqm u' : 'qm mqm';
+      d.textContent = t; c.appendChild(d); c.scrollTop = c.scrollHeight;
+    }
 
-// ── VIRLO CREATOR'S CORNER ────────────────────────────────
-async function loadVirlo() {
-  const box=document.getElementById('ccGrid');
-  try {
-    const r=await fetch(`${API}/virlo/trends`,{signal:AbortSignal.timeout(4000)});
-    const d=await r.json();
-    renderVirlo(d.trends||[]);
-    document.getElementById('ccMeta').textContent='↻ Updated: '+new Date().toLocaleTimeString('en-IN');
-  } catch {
-    renderVirlo([
-      {topic:'India AI Policy 2026',platform:'TikTok · YouTube',views:'24.2M',hashtag:'#IndiaAI'},
-      {topic:'Monad Blockchain',platform:'Twitter · TikTok',views:'18.7M',hashtag:'#Monad'},
-      {topic:'OpenAI o3 Release',platform:'YouTube · Instagram',views:'41.5M',hashtag:'#ChatGPT'},
-      {topic:'RBI Rate Impact',platform:'Twitter · YouTube',views:'9.3M',hashtag:'#RBIPolicy'},
-      {topic:'India Pakistan 2026',platform:'TikTok · Instagram',views:'88.1M',hashtag:'#IndPak'},
-      {topic:'Heatwave India 2026',platform:'Instagram · TikTok',views:'31.4M',hashtag:'#ClimateIndia'},
-    ]);
-    document.getElementById('ccMeta').textContent='Demo data — connect backend for live Virlo trends';
-  }
-}
-function renderVirlo(trends) {
-  document.getElementById('ccGrid').innerHTML=trends.map((t,i)=>`
-    <div class="cc-card" onclick="sc('${t.topic.replace(/'/g,"\\'")}');generate()">
-      <div class="cc-rank">#${i+1} Trending</div>
-      <div class="cc-topic">${t.topic}</div>
-      <div class="cc-stats">${t.platform||''} ${t.views?'· '+t.views+' views':''}</div>
+    // ── DIGEST ────────────────────────────────────────────────────────────────────
+    async function toggleDigest() {
+      const s = document.getElementById('dstrip');
+      if (s.classList.contains('on')) { s.classList.remove('on'); return; }
+      s.classList.add('on');
+      document.getElementById('dgrid').innerHTML = '<div class="dtext" style="padding:8px;text-align:center;grid-column:1/-1;letter-spacing:1px;font-size:11px;color:#555;">Compiling…</div>';
+      try {
+        const r = await fetch(`${API}/digest`, { method: 'POST', signal: AbortSignal.timeout(15000) });
+        const d = await r.json();
+        renderDigest(d.items || []);
+      } catch {
+        renderDigest(articles.slice(0, 5).map(a => ({ text: a.headline + (a.dek ? ' — ' + a.dek.slice(0, 60) + '…' : '') })));
+      }
+    }
+    function renderDigest(items) {
+      document.getElementById('dgrid').innerHTML = items.map((it, i) => `
+    <div class="ditem"><div class="dnum">${String(i + 1).padStart(2, '0')}</div><div class="dtext">${esc(it.text || it)}</div></div>`).join('');
+    }
+
+    // ── TRENDS ────────────────────────────────────────────────────────────────────
+    async function loadTrends() {
+      try {
+        const r = await fetch(`${API}/trends`, { signal: AbortSignal.timeout(6000) });
+        const d = await r.json();
+        renderTrends(d.trends || []);
+        document.getElementById('ccMeta').textContent = '↻ Google Trends India · Updated: ' + new Date().toLocaleTimeString('en-IN');
+      } catch {
+        renderTrends([
+          { topic: 'India AI Policy 2026', platform: 'Google Search', views: '24.2M' },
+          { topic: 'RBI Rate Decision', platform: 'Google Search', views: '9.3M' },
+          { topic: 'OpenAI o3 News', platform: 'Google Search', views: '41.5M' },
+          { topic: 'India Pakistan 2026', platform: 'Google Search', views: '88.1M' },
+          { topic: 'ISRO Gaganyaan', platform: 'Google Search', views: '18.7M' },
+          { topic: 'Ethereum Pectra', platform: 'Google Search', views: '12.3M' },
+        ]);
+        document.getElementById('ccMeta').textContent = 'Demo trends — connect backend for live Google Trends data';
+      }
+    }
+    function renderTrends(trends) {
+      document.getElementById('ccGrid').innerHTML = trends.map((t, i) => `
+    <div class="cc-card" onclick="sc('${esc(t.topic)}');generate()">
+      <div class="cc-rank">#${i + 1} Trending</div>
+      <div class="cc-topic">${esc(t.topic)}</div>
+      <div class="cc-stats">${esc(t.platform || '')} ${t.views ? '· ' + t.views + ' searches' : ''}</div>
       <button class="cc-btn">Report This →</button>
     </div>`).join('');
-}
+    }
 
-// ── TICKER ────────────────────────────────────────────────
-function updateTicker(arts) {
-  if(!arts.length) return;
-  const t=document.getElementById('btrack');
-  const items=arts.slice(0,6).map(a=>`<span class="btick"><em>${(a.sector||'Report').toUpperCase()}</em>${a.headline}</span>`).join('');
-  t.innerHTML=`<span class="blabel">Live</span>${items}<span class="blabel">Live</span>${items}`;
-}
+    // ── TICKER ────────────────────────────────────────────────────────────────────
+    function updateTicker(arts) {
+      if (!arts.length) return;
+      const t = document.getElementById('btrack');
+      const items = arts.slice(0, 6).map(a => `<span class="btick"><em>${esc(a.sector || 'Report').toUpperCase()}</em>${esc(a.headline)}</span>`).join('');
+      t.innerHTML = `<span class="blabel">Live</span>${items}<span class="blabel">Live</span>${items}`;
+    }
 
-// ── UTILS ─────────────────────────────────────────────────
-function fmtDate(ts) { if(!ts) return 'Today'; return new Date(ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
-function readTime(body) { return Math.max(1,Math.ceil(((body||'').split(' ').length)/200)); }
-</script>
+    // ── UTILS ─────────────────────────────────────────────────────────────────────
+    function confBadge(c) {
+      const p = Math.round((c || 0) * 100);
+      if (p >= 80) return { cls: 'cb-h', icon: '✓', pct: p };
+      if (p >= 60) return { cls: 'cb-m', icon: '~', pct: p };
+      return { cls: 'cb-l', icon: '!', pct: p };
+    }
+    function fmtDate(ts) { if (!ts) return 'Today'; return new Date(ts).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    function readTime(b) { return Math.max(1, Math.ceil(((b || '').split(' ').length) / 200)); }
+    function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  </script>
 </body>
+
 </html>

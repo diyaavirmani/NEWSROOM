@@ -15,26 +15,17 @@ GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 tavily_client = TavilyClient(api_key=TAVILY_API_KEY)
 
 
-def _build_gemini_client():
-    client_options = None
-    if GOOGLE_API_KEY:
-        client_options = ClientOptions(api_key=GOOGLE_API_KEY)
-    return gal.TextServiceClient(client_options=client_options)
-
+import google.generativeai as genai
 
 def _run_gemini(prompt: str, max_output_tokens: int = 512):
-    client = _build_gemini_client()
-    request = gal.GenerateTextRequest(
-        model='text-bison-001',
-        prompt=gal_types.TextPrompt(text=prompt),
-        temperature=0.0,
-        max_output_tokens=max_output_tokens,
-    )
-    response = client.generate_text(request=request)
-    candidates = getattr(response, 'candidates', [])
-    if not candidates:
+    if not GOOGLE_API_KEY:
+        raise RuntimeError("GOOGLE_API_KEY is not set")
+    genai.configure(api_key=GOOGLE_API_KEY)
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    response = model.generate_content(prompt)
+    if not response.text:
         raise RuntimeError('Gemini did not return a response')
-    return candidates[0].output
+    return response.text
 
 
 def _safe_json_load(text: str):
