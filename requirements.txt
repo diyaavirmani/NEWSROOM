@@ -1,11 +1,10 @@
-flask
 python-dotenv
 tavily-python
 requests
 fastapi
-uvicorn
+uvicorn[standard]
 python-multipart
 apscheduler
 google-generativeai==0.8.6
-groq
 openai
+pytrends
