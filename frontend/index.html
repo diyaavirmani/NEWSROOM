@@ -95,12 +95,12 @@ button{cursor:pointer;font-family:var(--sans);}
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  border-bottom: 2px solid #555;
+  border-bottom: 1px solid #e0e0e0;
   background: var(--w);
 }
 .nav-links { display: flex; border-bottom: none; }
 .nav-item {
-  padding: 16px 18px;
+  padding: 16px 18px 16px;
   font-family: var(--sans);
   font-size: 15px;
   font-weight: 600;
@@ -109,15 +109,13 @@ button{cursor:pointer;font-family:var(--sans);}
   background: none;
   position: relative;
   transition: color 0.2s;
+  border-bottom: 3px solid transparent;
 }
 .nav-item:hover { color: var(--red); }
-.nav-item.active { color: var(--red); }
-.nav-item.active::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--red);
+.nav-item.active { 
+  color: var(--red); 
+  border-bottom: 3px solid var(--red); 
+  padding-bottom: 13px; 
 }
 
 .nav-search { display: flex; align-items: center; margin: 8px 0; }
@@ -218,6 +216,7 @@ main { min-width: 0; }
   line-height: 1.6;
   color: var(--ink3);
   margin-bottom: 14px;
+  font-style: italic;
 }
 .meta {
   display: flex;
@@ -445,6 +444,54 @@ const API = (window.location.hostname==='localhost'||window.location.hostname===
   ? 'http://localhost:5000'
   : 'https://newsroom-dlwe.onrender.com';
 
+const DEMO_ARTICLES = [
+  {
+    id: "demo_1",
+    sector: "Technology",
+    headline: "India's Semiconductor Mission Enters Critical Phase as ISMC Fab Faces Third Delay",
+    dek: "The Karnataka facility — once positioned as the anchor of India's chip ambitions — still lacks a confirmed technology partner two years after its initial proposal. Stakeholders warn that further delays may impact the broader ecosystem's growth.",
+    confidence: 0.95,
+    timestamp: "2026-04-06T10:04:00Z",
+    image_url: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+    body: "The overarching vision of establishing domestic semiconductor manufacturing capabilities in India faces a new test. Sources close to the ISMC consortium indicate that their proposed fab in Karnataka is evaluating new technology partners, extending the project's timeline.\\n\\nAnalysts believe this pause is necessary to secure advanced node technology."
+  },
+  {
+    id: "demo_2",
+    sector: "Economy",
+    headline: "RBI Holds Rates Steady as Retail Inflation Softens to 4.9%, Food Prices Remain a Concern",
+    confidence: 0.88,
+    timestamp: "2026-04-06T09:00:00Z"
+  },
+  {
+    id: "demo_3",
+    sector: "World",
+    headline: "India and Pakistan Resume Back-Channel Diplomatic Contact After 14-Month Freeze",
+    confidence: 0.85,
+    timestamp: "2026-04-06T08:30:00Z"
+  },
+  {
+    id: "demo_4",
+    sector: "AI",
+    headline: "OpenAI Releases o3 to General Users; Benchmark Performance Sparks Evaluation Methodology Debate",
+    confidence: 0.94,
+    timestamp: "2026-04-06T08:00:00Z"
+  },
+  {
+    id: "demo_5",
+    sector: "India",
+    headline: "Delhi's Water Table Falls to Record Low as City Adds 300,000 New Residents Annually",
+    confidence: 0.82,
+    timestamp: "2026-04-06T07:15:00Z"
+  },
+  {
+    id: "demo_6",
+    sector: "Science",
+    headline: "ISRO's Gaganyaan Mission Completes Final Crew Module Test; Human Spaceflight Targeted for Q4 2026",
+    confidence: 0.98,
+    timestamp: "2026-04-06T06:00:00Z"
+  }
+];
+
 let articles=[], filt='all', current=null;
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -469,9 +516,18 @@ async function loadFeed(){
     const r=await fetch(`${API}/articles`,{signal:AbortSignal.timeout(8000)});
     if(r.ok){
       const d=await r.json();
-      if(d.articles&&d.articles.length>0) articles=d.articles;
+      if(d.articles&&d.articles.length>0) {
+        articles=d.articles;
+      } else {
+        articles=DEMO_ARTICLES;
+      }
+    } else {
+      articles=DEMO_ARTICLES;
     }
-  }catch(e){console.log('Error',e);}
+  }catch(e){
+    console.log('Error',e);
+    articles=DEMO_ARTICLES;
+  }
   renderAll();
 }
 
